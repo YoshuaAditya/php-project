@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<?php 
+<?php
 SESSION_START();
 include("processing/connection/koneksi.php");
 include("processing/fungsi.php");
@@ -46,7 +46,7 @@ if ($transaksi == "1"){
     <!-- Page Wrapper -->
     <div id="wrapper">
 
-        <?php 
+        <?php
             include("sidebar.php");
         ?>
 
@@ -56,13 +56,13 @@ if ($transaksi == "1"){
             <!-- Main Content -->
             <div id="content">
 
-            <?php 
+            <?php
             include("header.php");
         ?>
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-               
+
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">Tambah <?php echo $judul; ?></h1>
                     <!-- DataTales Example -->
@@ -70,7 +70,7 @@ if ($transaksi == "1"){
                         <div class="card-body">
                             <div class="table-responsive">
                                 <form id="form_send" action='processing/prosesTransaksiKCI.php?prs=2&trx=<?php echo $transaksi;?>&proses=<?php echo $proses; ?>' method ='post'  enctype="multipart/form-data">
-                                    
+
                                 <label for="exampleInputEmail1">Jenis Transaksi</label>
                                     <Select class="form-control" name='jenis_transaksi' id="jenis_transaksi" >
                                         <?php
@@ -79,7 +79,7 @@ if ($transaksi == "1"){
                                             while($output = mysqli_fetch_assoc($run)){
                                                 $id = $output['id_jenis'];
                                                 $nama = $output['nama_jenis'];
-                                            
+
                                         ?>
                                             <option value=<?php echo $id;?> () > <?php echo $nama; ?> </option>
                                         <?php
@@ -88,22 +88,10 @@ if ($transaksi == "1"){
                                             ?>
                                     </select><br>
 
-                                    <label for="exampleInputEmail1">Nama Barang</label>
-                                    <input type='text'class="form-control" placeholder='gaji, pinjaman, etc' name='nama' required> <br>
-
-                                    <label for="exampleInputEmail1">Kuantitas Barang</label> <br>
-                                    <input type='text' class="form-control"  name='qty' ><br> 
-
-                                    <label for="exampleInputEmail1">Nama Satuan</label> <br>
-                                    <input type='text' class="form-control" placeholder='Liter, Kg, etc' name='satuan' required><br>
-
-                                    <label for="exampleInputEmail1">Total Uang</label> <br>
-                                    <input type='text' class="form-control" placeholder='100000' name='uang' required><br>
-
-                                    <label for="exampleInputEmail1">Keterangan</label> <br>
-                                    <input type='textarea' class="form-control" name='keterangan' ><br>
-                                    
-                                    <input type='submit' class="btn btn-primary" value='submit'>
+                                    <!-- template form -->
+                                    <?php
+                                        include("form_template.php");
+                                    ?>
 
 
                                 </form>
@@ -157,6 +145,15 @@ if ($transaksi == "1"){
 
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
+
+    <!-- JS filtering input to numbers -->
+    <script src="js/filterInput.js"></script>
+    <script>
+    setInputFilter(document.getElementById("uang"), function(value) {
+      return /^-?\d*$/.test(value); });
+    setInputFilter(document.getElementById("qty"), function(value) {
+      return /^-?\d*$/.test(value); });
+    </script>
 
 
 
