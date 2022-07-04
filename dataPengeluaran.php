@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<?php 
+<?php
 SESSION_START();
 include("processing/connection/koneksi.php");
 include("processing/fungsi.php");
@@ -38,7 +38,7 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
     <!-- Page Wrapper -->
     <div id="wrapper">
 
-        <?php 
+        <?php
             include("sidebar.php");
         ?>
 
@@ -48,7 +48,7 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
             <!-- Main Content -->
             <div id="content">
 
-            <?php 
+            <?php
             include("header.php");
         ?>
 
@@ -60,7 +60,7 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                     <?php
                         if (empty($_GET['alert'])) {
                             echo "";
-                        } 
+                        }
 
                         elseif ($_GET['alert'] == 1) {
                             echo "<div class='alert alert-danger alert-dismissable'>
@@ -98,14 +98,15 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                                             <th style="width:200px">Nama Proyek</th>
                                             <th style="width:200px">Kuantitas</th>
                                             <th style="width:200px">Pengeluaran</th>
-                                            <th style="width:200px">Pemasukan</th>   
+                                            <th style="width:200px">Pemasukan</th>
                                             <th style="width:200px">Saldo Sebelum Transaksi</th>
+                                            <th style="width:200px">Saldo Akhir</th>
                                             <th style="width:200px">Tanggal Transaksi</th>
                                             <th style="width:200px">Keterangan</th>
                                         </tr>
                                     </thead>
-        
-                                      
+
+
                                 </table>
                             </div>
                         </div>
@@ -146,7 +147,7 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <div class="modal-body">
-        <form id="form_send" action='processing/prosesEditKategori.php' method ='post'  enctype="multipart/form-data">	
+        <form id="form_send" action='processing/prosesEditKategori.php' method ='post'  enctype="multipart/form-data">
           <input type='hidden' name='id' id="id">
           <label for="exampleInputEmail1">Nama Kategori</label>
           <input type='text'class="form-control" name='nama_category' id="nama_category" > <br>
@@ -154,7 +155,7 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
           <label for="exampleInputEmail1">Status Kategori</label>
           <Select class="form-control" name="status_category" id="status_category" >
           <option value='1'> Aktif </option>
-          <option value='0'> Tidak Aktif</option> 
+          <option value='0'> Tidak Aktif</option>
           </select><br>
           <input type='submit' class="btn btn-primary" value='submit'>
 
@@ -185,7 +186,7 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
 
 <script>
     $(function(){
-       
+
         $('#user').DataTable({
             "processing": true,
             "serverSide": true,
@@ -197,7 +198,6 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
             "columns": [
                 { "data": "id_transaksi" },
                 { "data": "nama_perusahaan" },
-
                 { "data": "nama_jenis" },
                 { "data": "nama_transaksi" },
                 { "data": "nama_proyek"},
@@ -205,30 +205,31 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                 { "data": "pengeluaran" },
                 { "data": "pemasukan" },
                 { "data": "saldo_before_transakction"},
+                { "data": "saldo_akhir"},
                 { "data": "tanggal_transaksi" },
                 { "data": "keterangan_transaksi"},
-            ]  
+            ]
         });
     });
- 
-    function Edit(btn){ 
-        $("#edit").modal('show'); 
+
+    function Edit(btn){
+        $("#edit").modal('show');
             var id = $(btn).data('id_category');
             var nama_category = $(btn).data('nama_category');
             var status_category = $(btn).data('status_category');
-            
+
 
             $("#id").val(id);
             $("#nama_category").val(nama_category);
             $("#status_category").val(status_category);
   ;
-    } 
- 
-       
+    }
 
 
 
- 
+
+
+
 </script>
 </body>
 

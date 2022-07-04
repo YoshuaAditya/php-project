@@ -96,9 +96,6 @@ if ($transaksi == "1"){
                                         include("form_template.php");
                                     ?>
 
-                                    <input type='submit' class="btn btn-primary" value='submit'>
-
-
                                 </form>
                             </div>
                         </div>
