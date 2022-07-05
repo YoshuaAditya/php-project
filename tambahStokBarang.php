@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<?php 
+<?php
 SESSION_START();
 include("processing/connection/koneksi.php");
 include("processing/fungsi.php");
@@ -16,7 +16,7 @@ checkSession();
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Tambah Akses Menu</title>
+    <title>Tambah Stok Barang</title>
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -37,7 +37,7 @@ checkSession();
     <!-- Page Wrapper -->
     <div id="wrapper">
 
-        <?php 
+        <?php
             include("sidebar.php");
         ?>
 
@@ -47,29 +47,29 @@ checkSession();
             <!-- Main Content -->
             <div id="content">
 
-            <?php 
+            <?php
             include("header.php");
         ?>
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-               
+
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Tambah Akses Menu</h1>
+                    <h1 class="h3 mb-2 text-gray-800">Tambah Stok Barang</h1>
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-body">
                             <div class="table-responsive">
-                                <form id="form_send" action='processing/prosesTambahAkses.php' method ='post'  enctype="multipart/form-data">	
-                                    <label for="exampleInputEmail1">Nama Kategori</label>
-                                    <Select class="form-control" name='fk_id_category' id="fk_id_category" >
+                                <form id="form_send" action='processing/prosesTambahStokBarang.php' method ='post'  enctype="multipart/form-data">
+                                    <label for="exampleInputEmail1">Nama Lokasi</label>
+                                    <Select class="form-control" name='fk_id_lokasi' id="fk_id_lokasi" >
                                         <?php
-                                            $query = "SELECT * FROM kategori_menu where status_category ='1'";
+                                            $query = "SELECT * FROM lokasi where status_lokasi ='1'";
                                             $run = mysqli_query($connect, $query);
                                             while($output = mysqli_fetch_assoc($run)){
-                                                $id = $output['id_category'];
-                                                $nama = $output['nama_category'];
-                                            
+                                                $id = $output['id_lokasi'];
+                                                $nama = $output['nama_lokasi'];
+
                                         ?>
                                             <option value=<?php echo $id;?> () > <?php echo $nama; ?> </option>
                                         <?php
@@ -78,43 +78,16 @@ checkSession();
                                             ?>
                                     </select> <br>
 
-                                    <label for="exampleInputEmail1">Nama Menu</label> <br>
-                                    <Select class="form-control" name='fk_id_menu' id="fk_id_menu" >
-                                        <?php
-                                            $query = "SELECT * FROM menu where status_menu ='1'";
-                                            $run = mysqli_query($connect, $query);
-                                            while($output = mysqli_fetch_assoc($run)){
-                                                $id = $output['id_menu'];
-                                                $nama = $output['nama_menu'];
-                                            
-                                        ?>
-                                            <option value=<?php echo $id;?> () > <?php echo $nama; ?> </option>
-                                        <?php
-                                            }
+                                    <label for="exampleInputEmail1">Nama Barang</label> <br>
+                                    <input type='text'class="form-control"  name='nama_barang' id="nama_barang" > <br>
 
-                                            ?>
-                                    </select><br> 
-                                    <label for="exampleInputEmail1">Nama Akses Level</label> <br>
-                                    <Select class="form-control" name='fk_id_al' id="fk_id_al" >
-                                        <?php
-                                            $query = "SELECT * FROM access_level where status_al ='1'";
-                                            $run = mysqli_query($connect, $query);
-                                            while($output = mysqli_fetch_assoc($run)){
-                                                $id = $output['id_al'];
-                                                $nama = $output['nama_al'];
-                                            
-                                        ?>
-                                            <option value=<?php echo $id;?> () > <?php echo $nama; ?> </option>
-                                        <?php
-                                            }
+                                    <label for="exampleInputEmail1">Stock</label> <br>
+                                    <input type='text'class="form-control"  name='stock' id="stock" > <br>
 
-                                            ?>
-                                    </select><br>
-                                    
                                     <label for="exampleInputEmail1">Status</label>
                                     <Select class="form-control" name='status' id="status">
                                     <option value='1'> Aktif </option>
-                                    <option value='0'> Tidak Aktif</option> 
+                                    <option value='0'> Tidak Aktif</option>
                                     </select><br>
                                     <input type='submit' class="btn btn-primary" value='submit'>
 
@@ -171,6 +144,12 @@ checkSession();
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
 
+    <!-- JS filtering input to numbers -->
+    <script src="js/filterInput.js"></script>
+    <script>
+    setInputFilter(document.getElementById("stock"), function(value) {
+      return /^-?\d*$/.test(value); });
+    </script>
 
 
 </body>

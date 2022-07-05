@@ -3,45 +3,45 @@
     if(!empty($_POST["id"])){
          $id = $_POST['id'];
     }
-    if(!empty($_POST["fk_id_category"])){
-        $fk_id_category = $_POST['fk_id_category'];
+    if(!empty($_POST["fk_id_lokasi"])){
+        $fk_id_lokasi = $_POST['fk_id_lokasi'];
     }
-    if(!empty($_POST["fk_id_menu"])){
-        $fk_id_menu = $_POST['fk_id_menu'];
+    if(!empty($_POST["nama_barang"])){
+        $nama_barang = $_POST['nama_barang'];
     }
-    if(!empty($_POST["fk_id_al"])){
-        $fk_id_al = $_POST['fk_id_al'];
+    if(!empty($_POST["stock"])){
+        $stock = $_POST['stock'];
     }
 
-     $status_access_menu = $_POST['status'];
-    
-    
+        echo $status_barang = $_POST['status'];
 
 
-  
-    if(!$fk_id_category || !$fk_id_menu || !$fk_id_al){
-        
-       header("location:../accessMenu.php?alert=1");
-        
+
+
+
+    if(!$fk_id_lokasi || !$nama_barang || !$stock){
+
+       header("location:../stokBarang.php?alert=1");
+
     }else {
-       echo $query = "UPDATE access_menu SET 
-        fk_id_category= '$fk_id_category' ,
-        fk_id_menu= '$fk_id_menu' , 
-        fk_id_al = '$fk_id_al',
-        status_access_menu= '$status_access_menu'  WHERE id_access_menu = '$id'";
+       echo $query = "UPDATE stock_barang SET
+        fk_id_lokasi= '$fk_id_lokasi' ,
+        nama_barang= '$nama_barang' ,
+        stock = '$stock',
+        status_barang= '$status_barang'  WHERE id_stock_barang = '$id'";
         $jalan = mysqli_query($connect,$query);
         if($jalan){
-            
-            header("location:../accessMenu.php?alert=2");
+
+            header("location:../stokBarang.php?alert=2");
 
         }
         else {
-            
-            header("location:../accessMenu.php?alert=3");
-            
+
+            header("location:../stokBarang.php?alert=3");
+
         }
     }
-    
-  
-        
+
+
+
 ?>

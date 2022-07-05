@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<?php 
+<?php
 SESSION_START();
 include("processing/connection/koneksi.php");
 include("processing/fungsi.php");
@@ -17,7 +17,7 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Data Akses Menu</title>
+    <title>Data Stok Barang</title>
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -38,7 +38,7 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
     <!-- Page Wrapper -->
     <div id="wrapper">
 
-        <?php 
+        <?php
             include("sidebar.php");
         ?>
 
@@ -48,19 +48,19 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
             <!-- Main Content -->
             <div id="content">
 
-            <?php 
+            <?php
             include("header.php");
         ?>
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                <a href="tambahAksesMenu.php"> <button style="float:right; background-color:#4295f5; color:white" class="btn btn-user">Tambah Data</button></a>
+                <a href="tambahStokBarang.php"> <button style="float:right; background-color:#4295f5; color:white" class="btn btn-user">Tambah Data</button></a>
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Data Akses Menu</h1>
+                    <h1 class="h3 mb-2 text-gray-800">Data Stok Barang</h1>
                     <?php
                         if (empty($_GET['alert'])) {
                             echo "";
-                        } 
+                        }
 
                         elseif ($_GET['alert'] == 1) {
                             echo "<div class='alert alert-danger alert-dismissable'>
@@ -92,15 +92,15 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Nama Menu</th>
-                                            <th>Nama Kategori</th>
-                                            <th>Nama Akses Level</th>
-                                            <th>Status Akses Menu</th>
+                                            <th>Nama Lokasi</th>
+                                            <th>Nama Barang</th>
+                                            <th>Stock</th>
+                                            <th>Status Barang</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-        
-                                      
+
+
                                 </table>
                             </div>
                         </div>
@@ -141,17 +141,17 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <div class="modal-body">
-        <form id="form_send" action='processing/prosesEditAccessMenu.php' method ='post'  enctype="multipart/form-data">	
+        <form id="form_send" action='processing/prosesEditStokBarang.php' method ='post'  enctype="multipart/form-data">
           <input type='hidden' name='id' id="id">
-          <label for="exampleInputEmail1">Nama Kategori</label>
-          <Select class="form-control" name='fk_id_category' id="fk_id_category" >
+          <label for="exampleInputEmail1">Nama Lokasi</label>
+          <Select class="form-control" name='fk_id_lokasi' id="fk_id_lokasi" >
               <?php
-                $query = "SELECT * FROM kategori_menu where status_category ='1'";
+                $query = "SELECT * FROM lokasi where status_lokasi ='1'";
                 $run = mysqli_query($connect, $query);
                 while($output = mysqli_fetch_assoc($run)){
-                    $id = $output['id_category'];
-                    $nama = $output['nama_category'];
-                
+                    $id = $output['id_lokasi'];
+                    $nama = $output['nama_lokasi'];
+
               ?>
                 <option value=<?php echo $id;?> () > <?php echo $nama; ?> </option>
             <?php
@@ -160,44 +160,16 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                 ?>
           </select><br>
 
-          <label for="exampleInputEmail1">Nama Menu</label> <br>
-          <Select class="form-control" name='fk_id_menu' id="fk_id_menu" >
-              <?php
-                $query = "SELECT * FROM menu where status_menu ='1'";
-                $run = mysqli_query($connect, $query);
-                while($output = mysqli_fetch_assoc($run)){
-                    $id = $output['id_menu'];
-                    $nama = $output['nama_menu'];
-                
-              ?>
-                <option value=<?php echo $id;?> () > <?php echo $nama; ?> </option>
-            <?php
-                }
+          <label for="exampleInputEmail1">Nama Barang</label> <br>
+          <input type='text'class="form-control"  name='nama_barang' id="nama_barang" > <br>
 
-                ?>
-          </select><br>
+          <label for="exampleInputEmail1">Stock</label> <br>
+          <input type='text'class="form-control"  name='stock' id="stock" > <br>
 
-          <label for="exampleInputEmail1">Nama Akses Level</label> <br>
-          <Select class="form-control" name='fk_id_al' id="fk_id_al" >
-              <?php
-                $query = "SELECT * FROM access_level where status_al ='1'";
-                $run = mysqli_query($connect, $query);
-                while($output = mysqli_fetch_assoc($run)){
-                    $id = $output['id_al'];
-                    $nama = $output['nama_al'];
-                
-              ?>
-                <option value=<?php echo $id;?> () > <?php echo $nama; ?> </option>
-            <?php
-                }
-
-                ?>
-          </select><br>
-        
           <label for="exampleInputEmail1">Status</label>
           <Select class="form-control" name="status" id="status" >
           <option value='1'> Aktif </option>
-          <option value='0'> Tidak Aktif</option> 
+          <option value='0'> Tidak Aktif</option>
           </select><br>
           <input type='submit' class="btn btn-primary" value='submit'>
 
@@ -228,46 +200,46 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
 
 <script>
     $(function(){
-       
+
         $('#user').DataTable({
             "processing": true,
             "serverSide": true,
             "ajax":{
-                    "url": "ajax/ajax_access_menu.php?action=accessMenu",
+                    "url": "ajax/ajax_stok_barang.php?action=stokBarang",
                     "dataType": "json",
                     "type": "POST"
                     },
             "columns": [
-                { "data": "id_access_menu" },
-                { "data": "nama_menu" },
-                { "data": "nama_category" },
-                { "data": "nama_al" },
-                { "data": "status_access_menu" },
+                { "data": "id_stock_barang" },
+                { "data": "nama_lokasi" },
+                { "data": "nama_barang" },
+                { "data": "stock" },
+                { "data": "status_barang" },
                 { "data": "aksi"},
-            ]  
+            ]
         });
     });
- 
-    function Edit(btn){ 
-        $("#edit").modal('show'); 
+
+    function Edit(btn){
+        $("#edit").modal('show');
             var id = $(btn).data('id');
-            var fk_id_category = $(btn).data('fk_id_category');
-            var fk_id_menu = $(btn).data('fk_id_menu');
-            var fk_id_al = $(btn).data('fk_id_al');
-            var status_access_menu = $(btn).data('status');
+            var fk_id_lokasi = $(btn).data('fk_id_lokasi');
+            var nama_barang = $(btn).data('nama_barang');
+            var stock = $(btn).data('stock');
+            var status_barang = $(btn).data('status');
 
             $("#id").val(id);
-            $("#fk_id_category").val(fk_id_category);
-            $("#fk_id_menu").val(fk_id_menu);
-            $("#fk_id_al").val(fk_id_al);
-            $("#status").val(status_access_menu);
-    } 
- 
-       
+            $("#fk_id_lokasi").val(fk_id_lokasi);
+            $("#nama_barang").val(nama_barang);
+            $("#stock").val(stock);
+            $("#status").val(status_barang);
+    }
 
 
 
- 
+
+
+
 </script>
 </body>
 
