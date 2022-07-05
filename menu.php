@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<?php 
+<?php
 SESSION_START();
 include("processing/connection/koneksi.php");
 include("processing/fungsi.php");
@@ -38,7 +38,7 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
     <!-- Page Wrapper -->
     <div id="wrapper">
 
-        <?php 
+        <?php
             include("sidebar.php");
         ?>
 
@@ -48,7 +48,7 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
             <!-- Main Content -->
             <div id="content">
 
-            <?php 
+            <?php
             include("header.php");
         ?>
 
@@ -60,7 +60,7 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                     <?php
                         if (empty($_GET['alert'])) {
                             echo "";
-                        } 
+                        }
 
                         elseif ($_GET['alert'] == 1) {
                             echo "<div class='alert alert-danger alert-dismissable'>
@@ -98,8 +98,8 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-        
-                                      
+
+
                                 </table>
                             </div>
                         </div>
@@ -140,18 +140,18 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <div class="modal-body">
-        <form id="form_send" action='processing/prosesEditMenu.php' method ='post'  enctype="multipart/form-data">	
+        <form id="form_send" action='processing/prosesEditMenu.php' method ='post'  enctype="multipart/form-data">
           <input type='hidden' name='id' id="id">
           <label for="exampleInputEmail1">Nama Menu</label>
           <input type='text'class="form-control" name='nama_menu' id="nama_menu" > <br>
 
           <label for="exampleInputEmail1">Alamat Menu</label> <br>
-          <input type='textarea' class="form-control" name='alamat_menu' id="alamat_menu" ><br> 
-        
+          <input type='textarea' class="form-control" name='alamat_menu' id="alamat_menu" ><br>
+
           <label for="exampleInputEmail1">Status</label>
           <Select class="form-control" name="status_menu" id="status_menu" >
           <option value='1'> Aktif </option>
-          <option value='0'> Tidak Aktif</option> 
+          <option value='0'> Tidak Aktif</option>
           </select><br>
           <input type='submit' class="btn btn-primary" value='submit'>
 
@@ -161,6 +161,28 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
       </div>
     </div>
   </div>
+  <div class="modal fade" id="delete" role="dialog">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+              <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+              </button>
+          </div>
+          <div class="modal-body">
+          Once you delete, it's not reversible and may impact the system.
+          </div>
+          <div class="modal-footer">
+            <form id="form_send" action='processing/prosesDeleteMenu.php' method ='post'  enctype="multipart/form-data">
+              <input type='hidden' name='id' id="id_delete">
+              <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+              <input type='submit' class="btn btn-primary" value='Submit'>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
@@ -182,7 +204,7 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
 
 <script>
     $(function(){
-       
+
         $('#user').DataTable({
             "processing": true,
             "serverSide": true,
@@ -197,30 +219,34 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                 { "data": "alamat_menu" },
                 { "data": "status_menu" },
                 { "data": "aksi"},
-            ]  
+            ]
         });
     });
- 
-    function Edit(btn){ 
-        $("#edit").modal('show'); 
+
+    function Edit(btn){
+        $("#edit").modal('show');
             var id = $(btn).data('id_menu');
             var nama_user = $(btn).data('nama_menu');
             var alamat_menu = $(btn).data('alamat_menu');
             var status_menu = $(btn).data('status_menu');
-            
+
 
             $("#id").val(id);
             $("#nama_menu").val(nama_user);
             $("#alamat_menu").val(alamat_menu);
             $("#status_menu").val(status_menu);
-  ;
-    } 
- 
-       
+    }
+    function Delete(btn){
+        $("#delete").modal('show');
+            var id = $(btn).data('id_menu');
+            $("#id_delete").val(id);
+    }
 
 
 
- 
+
+
+
 </script>
 </body>
 
