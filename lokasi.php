@@ -157,6 +157,9 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
       </div>
     </div>
   </div>
+  <?php
+       include("deleteModal.php");
+  ?>
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
@@ -205,6 +208,13 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
             $("#id").val(id);
             $("#nama_lokasi").val(nama_lokasi);
             $("#status").val(status_lokasi);
+    }
+    function Delete(btn){
+        $("#delete").modal('show');
+            var id = $(btn).data('id');
+            $("#id_delete").val(id);
+            var form_send_delete=document.getElementById('form_send_delete');
+            form_send_delete.action="processing/prosesDeleteLokasi.php";
     }
 
 

@@ -65,7 +65,9 @@ if($_GET['action'] == "stokBarang"){
                 data-fk_id_lokasi='".$r['fk_id_lokasi']."'
                 data-nama_barang='".$r['nama_barang']."'
                 data-stock='".$r['stock']."'
-                data-status='".$r['status_barang']."'> edit</button>";
+                data-status='".$r['status_barang']."'> edit</button>
+                <button type='submit' id='buttonDelete' onClick='Delete(this)' data-toggle='modal' data-target='#delete' class='btn btn-danger btn-flat btn_edit'
+                data-id='".$r['id_stock_barang']."'> delete</button>";
                 $data[] = $nestedData;
 
             }

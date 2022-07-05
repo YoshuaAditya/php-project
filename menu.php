@@ -161,28 +161,9 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
       </div>
     </div>
   </div>
-  <div class="modal fade" id="delete" role="dialog">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
-              <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">×</span>
-              </button>
-          </div>
-          <div class="modal-body">
-          Once you delete, it's not reversible and may impact the system.
-          </div>
-          <div class="modal-footer">
-            <form id="form_send" action='processing/prosesDeleteMenu.php' method ='post'  enctype="multipart/form-data">
-              <input type='hidden' name='id' id="id_delete">
-              <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-              <input type='submit' class="btn btn-primary" value='Submit'>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
+  <?php
+       include("deleteModal.php");
+  ?>
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
@@ -238,8 +219,10 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
     }
     function Delete(btn){
         $("#delete").modal('show');
-            var id = $(btn).data('id_menu');
+            var id = $(btn).data('id');
             $("#id_delete").val(id);
+            var form_send_delete=document.getElementById('form_send_delete');
+            form_send_delete.action="processing/prosesDeleteMenu.php";
     }
 
 
