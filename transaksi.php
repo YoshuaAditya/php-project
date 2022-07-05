@@ -6,6 +6,7 @@ include("processing/connection/koneksi.php");
 include("processing/fungsi.php");
 checkSession();
 $transaksi = $_GET['trx'] ;
+$perusahaan = $_GET['prs'] ;
 if ($transaksi == "1"){
     $judul = "Pengeluaran";
     $proses = "1";
@@ -65,11 +66,31 @@ if ($transaksi == "1"){
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">Tambah <?php echo $judul; ?></h1>
+                    <?php
+                        if (empty($_GET['alert'])) {
+                            echo "";
+                        }
+
+                        elseif ($_GET['alert'] == 1) {
+                            echo "<div class='alert alert-danger alert-dismissable'>
+                                    <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                                    <h4>  <i class='icon fa fa-times-circle'></i> Gagal Melakukan Transaksi!</h4>
+                                    Mohon dicek ulang data yang diisi!
+                                </div>";
+                        }
+                        elseif ($_GET['alert'] == 2) {
+                            echo "<div class='alert alert-success alert-dismissable'>
+                                    <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                                    <h4>  <i class='icon fa fa-check-circle'></i> Success!</h4>
+                                    Transaksi berhasil dilakukan.
+                                </div>";
+                        }
+                    ?>
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-body">
                             <div class="table-responsive">
-                                <form id="form_send" action='processing/prosesTransaksiKCI.php?prs=1&trx=<?php echo $transaksi;?>&proses=<?php echo $proses; ?>' method ='post'  enctype="multipart/form-data">
+                                <form id="form_send" action='processing/prosesTransaksi.php?prs=<?php echo $perusahaan;?>&trx=<?php echo $transaksi;?>&proses=<?php echo $proses; ?>' method ='post'  enctype="multipart/form-data">
 
                                     <label for="exampleInputEmail1">Jenis Transaksi</label>
                                     <Select class="form-control" name='jenis_transaksi' id="jenis_transaksi" >

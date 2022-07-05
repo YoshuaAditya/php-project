@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<?php 
+<?php
 SESSION_START();
 include("processing/connection/koneksi.php");
 include("processing/fungsi.php");
@@ -34,10 +34,10 @@ checkSession();
 
     <!-- Page Wrapper -->
     <div id="wrapper">
-        <?php 
+        <?php
             include("sidebar.php");
         ?>
-        
+
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
@@ -45,7 +45,7 @@ checkSession();
             <!-- Main Content -->
             <div id="content">
 
-                <?php 
+                <?php
                 include("header.php");
                 ?>
 
@@ -55,26 +55,19 @@ checkSession();
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-                      
+
                     </div>
 
                     <!-- Content Row -->
                     <div class="row">
 
                         <!-- Earnings (Monthly) Card Example -->
-                       
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        
 
                         <!-- Pending Requests Card Example -->
-                       
+
                     </div>
-                   
-                    
+
+
                 </div>
                 <!-- /.container-fluid -->
 

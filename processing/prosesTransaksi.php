@@ -51,7 +51,6 @@ if(!empty($_POST["uang"])){
 
 if($transaksi == "1" && $proses == "1"){
     // --------------------------------------------------- Ini untuk transaksi 1 Pengeluaran ----------------------------------------------------------------
-
     $query = "INSERT INTO transaksi(id_transaksi, fk_id_perusahaan, fk_id_saldo, fk_id_jenis_transaksi, nama_transaksi, nama_proyek, qty, satuan, pengeluaran, saldo_before_transaction, tanggal_transaksi, keterangan_transaksi, status_transaksi)";
     $query .= "VALUES('".$id."', '".$perusahaan."', '".$saldo."', '".$jenis."','".$nama_barang."','".$nama_proyek."','".$qty."','".$satuan."', '".$uang."','".$jumlahSaldo."',NOW(),'".$keterangan."','1')";
 
@@ -59,13 +58,15 @@ if($transaksi == "1" && $proses == "1"){
     if ($run){
       $newSaldo = $jumlahSaldo - $uang;
       if (updateSaldo($newSaldo, $saldo, $connect) == True){
-            header("location:../index.php");
+          $headerValue="location:../transaksi.php?alert=2&trx=1&prs=".$perusahaan;
+          header($headerValue);
          }else{
             deleteTransasksi($id, $connect);
          }
-      
+
     }else{
-       echo "gagal";
+       $headerValue="location:../transaksi.php?alert=1&trx=1&prs=".$perusahaan;
+       header($headerValue);
     }
 }else{
    // --------------------------------------------------- Ini untuk transaksi 2 Pemasukan ----------------------------------------------------------------
@@ -76,13 +77,15 @@ if($transaksi == "1" && $proses == "1"){
    if ($run){
       $newSaldo = $jumlahSaldo + $uang;
       if (updateSaldo($newSaldo, $saldo, $connect) == True){
-         header("location:../index.php");
+        $headerValue="location:../transaksi.php?alert=2&trx=2&prs=".$perusahaan;
+         header($headerValue);
       }else{
          deleteTransasksi($id, $connect);
       }
-   
+
    }else{
-        deleteTransasksi($id, $connect);
+      $headerValue="location:../transaksi.php?alert=1&trx=2&prs=".$perusahaan;
+      header($headerValue);
    }
 }
 
