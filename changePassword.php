@@ -39,13 +39,13 @@
                             <div class="col-lg-12">
                                 <div class="p-5">
                                     <div class="text-center">
-                                    
+
                                         <h1 class="h4 text-gray-900 mb-4">CV Kencana Indah Management System</h1>
 
                                         <?php
                                             if (empty($_GET['alert'])) {
                                                 echo "";
-                                            } 
+                                            }
 
                                             elseif ($_GET['alert'] == 1) {
                                                 echo "<div class='alert alert-danger alert-dismissable'>
@@ -54,39 +54,32 @@
                                                         Password Gagal di Ganti
                                                     </div>";
                                             }
-                                            elseif ($_GET['alert'] == 2) {
-                                                echo "<div class='alert alert-success alert-dismissable'>
-                                                        <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-                                                        <h4>  <i class='icon fa fa-check-circle'></i> Success!</h4>
-                                                        Anda telah berhasil logout.
-                                                    </div>";
-                                            }
                                         ?>
                                     </div>
                                     <form class="user" action="processing/prosesGantiPassword.php" method="POST">
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user"
                                                 id="exampleInputEmail" name = "pass1" aria-describedby="emailHelp"
-                                                placeholder="Enter Password...">
+                                                placeholder="Enter Old Password">
                                         </div>
                                         <div class="form-group">
                                             <input type="password" name="pass2" class="form-control form-control-user"
-                                                id="exampleInputPassword" placeholder="Re enter Password">
+                                                id="exampleInputPassword" placeholder="Enter New Password">
                                         </div>
 
                                         <button  class="btn btn-primary btn-user btn-block">
                                             Change Password
                                         </button>
                                         <br>
-                                       
+
                                         <hr>
-                                      
+
                                     </form>
                                     <a href ="index.php"><button  class="btn btn-primary btn-user btn-block">
                                             Back To Home
                                         </button></a>
                                     <hr>
-                                 
+
 
                                 </div>
                             </div>

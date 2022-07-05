@@ -39,13 +39,13 @@
                             <div class="col-lg-12">
                                 <div class="p-5">
                                     <div class="text-center">
-                                    
+
                                         <h1 class="h4 text-gray-900 mb-4">Laporan Management System</h1>
 
                                         <?php
                                             if (empty($_GET['alert'])) {
                                                 echo "";
-                                            } 
+                                            }
 
                                             elseif ($_GET['alert'] == 1) {
                                                 echo "<div class='alert alert-danger alert-dismissable'>
@@ -59,6 +59,13 @@
                                                         <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
                                                         <h4>  <i class='icon fa fa-check-circle'></i> Success!</h4>
                                                         Anda telah berhasil logout.
+                                                    </div>";
+                                            }
+                                            elseif ($_GET['alert'] == 3) {
+                                                echo "<div class='alert alert-success alert-dismissable'>
+                                                        <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                                                        <h4>  <i class='icon fa fa-check-circle'></i> Success!</h4>
+                                                        Anda telah berhasil mengganti password. Silahkan login ulang dengan password baru.
                                                     </div>";
                                             }
                                         ?>
@@ -78,10 +85,10 @@
                                             Login
                                         </button>
                                         <hr>
-                                      
+
                                     </form>
                                     <hr>
-                                 
+
 
                                 </div>
                             </div>
