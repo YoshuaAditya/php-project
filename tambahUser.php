@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<?php 
+<?php
 SESSION_START();
 include("processing/connection/koneksi.php");
 include("processing/fungsi.php");
@@ -37,7 +37,7 @@ checkSession();
     <!-- Page Wrapper -->
     <div id="wrapper">
 
-        <?php 
+        <?php
             include("sidebar.php");
         ?>
 
@@ -47,52 +47,49 @@ checkSession();
             <!-- Main Content -->
             <div id="content">
 
-            <?php 
+            <?php
             include("header.php");
         ?>
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-               
+
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">Tambah User</h1>
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-body">
                             <div class="table-responsive">
-                                <form id="form_send" action='processing/prosesTambahUser.php' method ='post'  enctype="multipart/form-data">	
-                                    <label for="exampleInputEmail1">Nama User</label>
-                                    <input type='text'class="form-control" name='nama' > <br>
-
+                                <form id="form_send" action='processing/prosesTambahUser.php' method ='post'  enctype="multipart/form-data">
                                     <label for="exampleInputEmail1">Username</label> <br>
-                                    <input type='textarea' class="form-control" name='username' ><br> 
+                                    <input type='textarea' class="form-control" name='username' ><br>
 
                                     <label for="exampleInputEmail1">Hak Akses</label> <br>
-                                    <Select class="form-control" name='nama_al' id="nama_al" >
+                                    <Select class="form-control" name='fk_id_al' id="fk_id_al" >
                                         <?php
                                         include("processing/connection/koneksi.php");
-                                            $query = "SELECT * FROM access_level where al_status ='1'";
+                                            $query = "SELECT * FROM access_level where status_al ='1'";
                                             $run = mysqli_query($connect, $query);
                                             while($output = mysqli_fetch_assoc($run)){
                                                 $id = $output['id_al'];
                                                 $nama = $output['nama_al'];
-                                            
+
                                         ?>
                                             <option value=<?php echo $id;?> () > <?php echo $nama; ?> </option>
                                         <?php
                                             }
 
                                             ?>
-                                    </select><br>  
+                                    </select><br>
 
                                     <label for="exampleInputEmail1">Password</label>
-                                    <input type='password' class="form-control" name='pass' ><br>
+                                    <input type='password' class="form-control" name='password' ><br>
 
-                                    
+
                                     <label for="exampleInputEmail1">Status</label>
                                     <Select class="form-control" name='status' id="status">
                                     <option value='1'> Aktif </option>
-                                    <option value='0'> Tidak Aktif</option> 
+                                    <option value='0'> Tidak Aktif</option>
                                     </select><br>
                                     <input type='submit' class="btn btn-primary" value='submit'>
 

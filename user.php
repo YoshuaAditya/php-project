@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<?php 
+<?php
 SESSION_START();
 include("processing/connection/koneksi.php");
 include("processing/fungsi.php");
@@ -38,7 +38,7 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
     <!-- Page Wrapper -->
     <div id="wrapper">
 
-        <?php 
+        <?php
             include("sidebar.php");
         ?>
 
@@ -48,9 +48,9 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
             <!-- Main Content -->
             <div id="content">
 
-            <?php 
+            <?php
             include("header.php");
-        ?>
+            ?>
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
@@ -60,7 +60,7 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                     <?php
                         if (empty($_GET['alert'])) {
                             echo "";
-                        } 
+                        }
 
                         elseif ($_GET['alert'] == 1) {
                             echo "<div class='alert alert-danger alert-dismissable'>
@@ -91,17 +91,13 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                                 <table class="table table-bordered" id="user" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Nomor</th>
+                                            <th>ID</th>
                                             <th>Username</th>
-                                            <th>Nama User</th>
                                             <th>Akses Level</th>
-                                            <th>Tanggal Join</th>
                                             <th>Status User</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-        
-                                      
                                 </table>
                             </div>
                         </div>
@@ -142,24 +138,21 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <div class="modal-body">
-        <form id="form_send" action='processing/prosesEditUser.php' method ='post'  enctype="multipart/form-data">	
+        <form id="form_send" action='processing/prosesEditUser.php' method ='post'  enctype="multipart/form-data">
           <input type='hidden' name='id' id="id">
-          <label for="exampleInputEmail1">Nama User</label>
-          <input type='text'class="form-control" name='nama' id="nama" > <br>
 
           <label for="exampleInputEmail1">Username</label> <br>
-          <input type='textarea' class="form-control" name='username' id="username" ><br> 
+          <input type='textarea' class="form-control" name='username' id="username" required><br>
 
           <label for="exampleInputEmail1">Access Level</label>
-
-          <Select class="form-control" name='nama_al' id="nama_al" >
+          <Select class="form-control" name='fk_id_al' id="fk_id_al" required>
               <?php
-                $query = "SELECT * FROM access_level where al_status ='1'";
+                $query = "SELECT * FROM access_level where status_al ='1'";
                 $run = mysqli_query($connect, $query);
                 while($output = mysqli_fetch_assoc($run)){
                     $id = $output['id_al'];
                     $nama = $output['nama_al'];
-                
+
               ?>
                 <option value=<?php echo $id;?> () > <?php echo $nama; ?> </option>
             <?php
@@ -167,11 +160,11 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
 
                 ?>
           </select><br>
-        
+
           <label for="exampleInputEmail1">Status</label>
           <Select class="form-control" name="status" id="status" >
           <option value='1'> Aktif </option>
-          <option value='0'> Tidak Aktif</option> 
+          <option value='0'> Tidak Aktif</option>
           </select><br>
           <input type='submit' class="btn btn-primary" value='submit'>
 
@@ -181,6 +174,9 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
       </div>
     </div>
   </div>
+  <?php
+      include("deleteModal.php");
+  ?>
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
@@ -202,7 +198,7 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
 
 <script>
     $(function(){
-       
+
         $('#user').DataTable({
             "processing": true,
             "serverSide": true,
@@ -214,43 +210,37 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
             "columns": [
                 { "data": "id_user" },
                 { "data": "username" },
-                { "data": "nama_user" },
                 { "data": "nama_al" },
-                { "data": "user_join" },
                 { "data": "status_user" },
                 { "data": "aksi"},
-            ]  
+            ]
         });
     });
-    $(document).ready(function() {
-        $("#buttonEdit").click(function(event){
-     
-            console.log("asu");
-            
-        });
-    });
-    function Edit(btn){ 
-        $("#edit").modal('show'); 
+    function Edit(btn){
+        $("#edit").modal('show');
         var id = $(btn).data('id');
-            var nama_user = $(btn).data('nama');
             var username = $(btn).data('username');
-            var access = $(btn).data('id_al');
+            var access = $(btn).data('fk_id_al');
             var status = $(btn).data('status');
-            
 
             $("#id").val(id);
-            $("#nama").val(nama_user);
             $("#username").val(username);
-            $("#nama_al").val(access);
+            $("#fk_id_al").val(access);
             $("#status").val(status);
-  ;
-    } 
- 
-       
+    }
+    function Delete(btn){
+        $("#delete").modal('show');
+            var id = $(btn).data('id');
+            $("#id_delete").val(id);
+            var form_send_delete=document.getElementById('form_send_delete');
+            form_send_delete.action="processing/prosesDeleteUser.php";
+    }
 
 
 
- 
+
+
+
 </script>
 </body>
 
