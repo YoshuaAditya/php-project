@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 
-<?php 
+<?php
 SESSION_START();
 include("processing/connection/koneksi.php");
 include("processing/fungsi.php");
 checkSession();
+$perusahaan = $_GET['prs'] ;
 ?>
 <html lang="en">
 
@@ -37,7 +38,7 @@ checkSession();
     <!-- Page Wrapper -->
     <div id="wrapper">
 
-        <?php 
+        <?php
             include("sidebar.php");
         ?>
 
@@ -47,25 +48,25 @@ checkSession();
             <!-- Main Content -->
             <div id="content">
 
-            <?php 
+            <?php
             include("header.php");
         ?>
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-               
+
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">Laporan Pengeluaran</h1>
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-body">
                             <div class="table-responsive">
-                                <form id="form_send"  method ="post" action="processing/formatLaporanExcel.php" enctype="multipart/form-data">
-                                    
+                                <form id="form_send"  method ="post" action="processing/formatLaporanExcel.php?prs=<?php echo $perusahaan;?>" enctype="multipart/form-data">
+
                                     <label for="exampleInputEmail1">Tanggal Awal</label> <br>
-                                    <input class="form-control" type="date" name="bulanAwal" require/> <br>
+                                    <input class="form-control" type="date" name="bulanAwal" required/> <br>
                                     <label for="exampleInputEmail1">Tanggal Akhir</label> <br>
-                                    <input class="form-control" type="date" name="bulanAkhir" require/> <br>  
+                                    <input class="form-control" type="date" name="bulanAkhir" required/> <br>
                                     <input type='submit' class="btn btn-primary" value='submit'>
 
 
@@ -102,7 +103,7 @@ checkSession();
         include("logoutModal.php");
    ?>
 
-   
+
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>

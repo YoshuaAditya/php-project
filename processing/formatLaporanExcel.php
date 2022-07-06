@@ -4,7 +4,7 @@ SESSION_START();
 include("connection/koneksi.php");
 include("fungsi.php");
 //checkSession();
-
+$perusahaan = $_GET['prs'];
 if(!isset($_GET['bulanAwal'])){
     $awal = $_POST['bulanAwal'];
 }
@@ -31,7 +31,7 @@ if(!isset($_GET['bulanAkhir'])){
 	table td{
 		border: 1px solid #3c3c3c;
 		padding: 3px 8px;
- 
+
 	}
 	a{
 		background: blue;
@@ -48,7 +48,7 @@ if(!isset($_GET['bulanAkhir'])){
 	?>
 
 <center>
-    <h1>PT Kencana Indah</h1>
+    <h1><?php echo getPerusahaan($perusahaan,$connect); ?></h1>
     <h2>Laporan Pengeluaran Toko</h2>
     <?php
     if($awal != NULL && $akhir != NULL){
@@ -56,16 +56,15 @@ if(!isset($_GET['bulanAkhir'])){
     }
     ?>
 </center>
-    
- 
- 
+
+
+
 	<table border=1>
 		<tr>
             <th>Tanggal </th>
             <th>Qty</th>
             <th>Nama Pengeluaran/Pemasukan</th>
             <th>Satuan</th>
-            <th>Nama Project</th>
             <th>Harga</th>
             <th>Pengeluaran</th>
             <th>Pemasukan</th>
@@ -73,18 +72,23 @@ if(!isset($_GET['bulanAkhir'])){
             <th>Keterangan</th>
 		</tr>
       <?php
-        $query = "select tanggal_transaksi, qty, satuan, nama_transaksi, nama_proyek, pemasukan, pengeluaran, saldo_before_transaction, keterangan_transaksi from transaksi ";
-        $query .= "WHERE fk_id_perusahaan='1' AND tanggal_transaksi BETWEEN '".$awal."' AND '".$akhir."' ORDER BY tanggal_transaksi ASC";
-
+        $query = "select tanggal_transaksi, qty, satuan, nama_transaksi, pemasukan, pengeluaran, saldo_before_transaction, keterangan_transaksi from transaksi ";
+        $query .= "WHERE fk_id_perusahaan='".$perusahaan."' AND tanggal_transaksi BETWEEN '".$awal."' AND '".$akhir."' ORDER BY tanggal_transaksi ASC";
+        $previousDate="";
         $run = mysqli_query($connect, $query);
         while($o = mysqli_fetch_assoc($run)){
             $harga = $o['pengeluaran'] / $o['qty'];
             echo "<tr>";
-            echo "<td>".date("d- F - Y", strtotime($o['tanggal_transaksi']))."</td>";
+            if($previousDate!=strtotime($o['tanggal_transaksi'])){
+              $previousDate=strtotime($o['tanggal_transaksi']);
+              echo "<td>".date("d- F - Y", $previousDate)."</td>";
+            }
+            else{
+              echo "<td></td>";
+            }
             echo "<td>".$o['qty']."</td>";
             echo "<td>".$o['nama_transaksi']."</td>";
             echo "<td>".$o['satuan']."</td>";
-            echo "<td>".$o['nama_proyek']."</td>";
             echo "<td>".rupiah($harga)."</td>";
             echo "<td>".rupiah($o['pengeluaran'])."</td>";
             echo "<td>".rupiah($o['pemasukan'])."</td>";
@@ -98,8 +102,8 @@ if(!isset($_GET['bulanAkhir'])){
             echo "</tr>";
         }
       ?>
-   
-   
+
+
 </table>
 </body>
 </html>
