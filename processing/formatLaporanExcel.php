@@ -90,11 +90,13 @@ if(!isset($_GET['bulanAkhir'])){
             echo "<td>".$o['nama_transaksi']."</td>";
             echo "<td>".$o['satuan']."</td>";
             echo "<td>".rupiah($harga)."</td>";
-            echo "<td>".rupiah($o['pengeluaran'])."</td>";
-            echo "<td>".rupiah($o['pemasukan'])."</td>";
             if($o['pengeluaran'] == NULL){
+                echo "<td>-</td>";
+                echo "<td>".rupiah($o['pemasukan'])."</td>";
                 $saldo = $o['saldo_before_transaction'] + $o['pemasukan'];
             }else{
+                echo "<td>".rupiah($o['pengeluaran'])."</td>";
+                echo "<td>-</td>";
                 $saldo = $o['saldo_before_transaction'] - $o['pengeluaran'];
             }
             echo "<td>".rupiah($saldo)."</td>";
