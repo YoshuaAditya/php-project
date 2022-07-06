@@ -15,15 +15,15 @@ function checkPage($level, $lokasi, $koneksi){
     $count = mysqli_num_rows($run);
     if($count == 0){
        header("location:index.php");
-		
+
     }*/
 }
 
 function rupiah($angka){
-	
+
     $hasil_rupiah = "Rp " . number_format($angka,2,',','.');
     return $hasil_rupiah;
-  
+
 }
 
 function getPerusahaan($level, $koneksi){
@@ -56,8 +56,25 @@ function getJumlahSaldo($perusahaan, $koneksi){
     return $getData['saldo'];
 }
 
+function getIdStockBarang($id_lokasi, $nama_barang, $koneksi){
+    $query = "SELECT id_stock_barang,stock from stock_barang where fk_id_lokasi = '".$id_lokasi."' AND nama_barang = '".$nama_barang."'";
+    $run = mysqli_query ($koneksi, $query);
+    $getData = mysqli_fetch_assoc($run);
+    return $getData;
+}
+
 function updateSaldo($saldo, $idSaldo, $koneksi){
     $query = "Update saldo SET saldo = '".$saldo."' WHERE id_saldo = '".$idSaldo."'";
+    $run = mysqli_query ($koneksi, $query);
+    if ($run){
+        return True;
+    }else{
+        return False;
+    }
+}
+
+function updateStock($stock, $id_stock_barang, $koneksi){
+    $query = "Update stock_barang SET stock = '".$stock."' WHERE id_stock_barang = '".$id_stock_barang."'";
     $run = mysqli_query ($koneksi, $query);
     if ($run){
         return True;
@@ -75,4 +92,12 @@ function deleteTransasksi($id, $koneksi){
         return False;
     }
 }
-
+function deleteTransasksiBarang($id, $koneksi){
+   $query = "DELETE FROM transaksi_bbm where id_transaksi_bbm = '".$id."'";
+    $run = mysqli_query($koneksi, $query);
+    if($run){
+        return True;
+    }else{
+        return False;
+    }
+}

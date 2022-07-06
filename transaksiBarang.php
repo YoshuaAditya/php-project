@@ -6,11 +6,10 @@ include("processing/connection/koneksi.php");
 include("processing/fungsi.php");
 checkSession();
 $transaksi = $_GET['trx'] ;
-$perusahaan = $_GET['prs'] ;
 if ($transaksi == "1"){
-    $judul = "Pengeluaran";
+    $judul = "Pengeluaran Barang";
 }elseif ($transaksi == "2"){
-    $judul = "Pemasukan";
+    $judul = "Pemasukan Barang";
 }
 
 ?>
@@ -80,7 +79,21 @@ if ($transaksi == "1"){
                             echo "<div class='alert alert-success alert-dismissable'>
                                     <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
                                     <h4>  <i class='icon fa fa-check-circle'></i> Success!</h4>
-                                    Transaksi berhasil dilakukan.
+                                    Transaksi Barang berhasil dilakukan.
+                                </div>";
+                        }
+                        elseif ($_GET['alert'] == 3) {
+                            echo "<div class='alert alert-success alert-dismissable'>
+                                    <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                                    <h4>  <i class='icon fas fa-exclamation-triangle'></i> Error! Data tidak ditemukan.</h4>
+                                    Tidak ada data stok barang pada lokasi di database. Mohon kontak super admin untuk menambahkan stok dan lokasi tersebut.
+                                </div>";
+                        }
+                        elseif ($_GET['alert'] == 4) {
+                            echo "<div class='alert alert-success alert-dismissable'>
+                                    <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                                    <h4>  <i class='icon fas fa-exclamation-triangle'></i> Error! Stok tidak cukup.</h4>
+                                    Pengeluaran barang melebihi stok yang tersedia.
                                 </div>";
                         }
                     ?>
@@ -88,32 +101,49 @@ if ($transaksi == "1"){
                     <div class="card shadow mb-4">
                         <div class="card-body">
                             <div class="table-responsive">
-                                <form id="form_send" action='processing/prosesTransaksi.php?prs=<?php echo $perusahaan;?>&trx=<?php echo $transaksi;?>' method ='post'  enctype="multipart/form-data">
+                                <form id="form_send" action='processing/prosesTransaksiBarang.php?trx=<?php echo $transaksi;?>' method ='post'  enctype="multipart/form-data">
 
-                                    <label for="exampleInputEmail1">Jenis Transaksi</label>
-                                    <Select class="form-control" name='jenis_transaksi' id="jenis_transaksi" >
+                                    <label for="exampleInputEmail1">Nama Barang</label>
+                                    <Select class="form-control" name='nama_barang' id="nama_barang" required>
                                         <?php
-                                            $query = "SELECT * FROM jenis_transaksi where status_jenis ='1'";
+                                            $query = "SELECT DISTINCT nama_barang FROM stock_barang where status_barang ='1'";
                                             $run = mysqli_query($connect, $query);
                                             while($output = mysqli_fetch_assoc($run)){
-                                                $id = $output['id_jenis'];
-                                                $nama = $output['nama_jenis'];
+                                                $nama = $output['nama_barang'];
 
                                         ?>
-                                            <option value=<?php echo $id;?> () > <?php echo $nama; ?> </option>
+                                            <?php echo '<option value="'.$nama. '">';echo $nama; ?> </option>
                                         <?php
                                             }
 
                                             ?>
                                     </select><br>
 
-                                    <label for="exampleInputEmail1">Nama Proyek</label> <br>
-                                    <input type='text' class="form-control" placeholder='Proyek Tol ABC' name='proyek' required><br>
+                                    <label for="exampleInputEmail1">Lokasi</label>
+                                    <Select class="form-control" name='id_lokasi' id="id_lokasi" required>
+                                        <?php
+                                            $query = "SELECT id_lokasi,nama_lokasi FROM lokasi where status_lokasi ='1'";
+                                            $run = mysqli_query($connect, $query);
+                                            while($output = mysqli_fetch_assoc($run)){
+                                                $id = $output['id_lokasi'];
+                                                $nama = $output['nama_lokasi'];
 
-                                    <!-- template form -->
-                                    <?php
-                                        include("form_template.php");
-                                    ?>
+                                        ?>
+                                            <option value=<?php echo $id;?>> <?php echo $nama; ?> </option>
+                                        <?php
+                                            }
+
+                                            ?>
+                                    </select><br>
+
+                                    <label for="exampleInputEmail1">Kuantitas <?php echo $judul; ?></label> <br>
+                                    <input type='text' class="form-control" placeholder='100' name='qty' id='qty' required><br>
+
+                                    <label for="exampleInputEmail1">Keterangan</label> <br>
+                                    <input type='textarea' class="form-control" name='keterangan' ><br>
+
+                                    <input type='submit' class="btn btn-primary" value='submit'>
+
 
                                 </form>
                             </div>
@@ -170,8 +200,6 @@ if ($transaksi == "1"){
     <!-- JS filtering input to numbers -->
     <script src="js/filterInput.js"></script>
     <script>
-    setInputFilter(document.getElementById("uang"), function(value) {
-      return /^-?\d*$/.test(value); });
     setInputFilter(document.getElementById("qty"), function(value) {
       return /^-?\d*$/.test(value); });
     </script>

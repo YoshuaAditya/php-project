@@ -79,8 +79,8 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                         elseif ($_GET['alert'] == 3) {
                           echo "<div class='alert alert-info alert-dismissable'>
                                   <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-                                  <h4>  <i class='icon fa fa-check-circle'></i> Success!</h4>
-                                  Terjadi kesalahan pada server silahkan mencoba beberapa saat lagi!
+                                  <h4>  <i class='icon fas fa-exclamation-triangle'></i> Error!</h4>
+                                  Data yang dimasukkan sudah ada di database.
                               </div>";
                       }
                     ?>
