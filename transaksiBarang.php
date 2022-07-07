@@ -7,10 +7,15 @@ include("processing/fungsi.php");
 checkSession();
 $transaksi = $_GET['trx'] ;
 $perusahaan = $_GET['prs'] ;
+if ($perusahaan == "3"){
+    $barang = "Barang";
+}else{
+    $barang = "BBM";
+}
 if ($transaksi == "1"){
-    $judul = "Pengeluaran Barang";
+    $judul = "Pengeluaran ".$barang;
 }elseif ($transaksi == "2"){
-    $judul = "Pemasukan Barang";
+    $judul = "Pemasukan ".$barang;
 }
 
 ?>
@@ -111,7 +116,7 @@ if ($transaksi == "1"){
                             <div class="table-responsive">
                                 <form id="form_send" action='processing/prosesTransaksiBarang.php?prs=<?php echo $perusahaan;?>&trx=<?php echo $transaksi;?>' method ='post'  enctype="multipart/form-data">
 
-                                    <label for="exampleInputEmail1">Nama Barang</label>
+                                    <label for="exampleInputEmail1">Nama <?php echo $barang; ?></label>
                                     <Select class="form-control" name='nama_barang' id="nama_barang" required>
                                         <?php
                                             $query = "SELECT DISTINCT nama_barang FROM stock_barang where status_barang ='1' AND fk_id_perusahaan = ".$perusahaan;

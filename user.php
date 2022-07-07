@@ -79,10 +79,17 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                         elseif ($_GET['alert'] == 3) {
                           echo "<div class='alert alert-danger alert-dismissable'>
                                   <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-                                  <h4>  <i class='icon fa fa-check-circle'></i> Success!</h4>
+                                  <h4>  <i class='icon fa fa-check-circle'></i> Error!</h4>
                                   Terjadi kesalahan pada server silahkan mencoba beberapa saat lagi!
                               </div>";
-                      }
+                        }
+                        elseif ($_GET['alert'] == 4) {
+                          echo "<div class='alert alert-danger alert-dismissable'>
+                                  <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                                  <h4>  <i class='icon fa fa-check-circle'></i> Error! Password didn't match</h4>
+                                  Kedua password tidak cocok. Mohon dicek ulang input passwordnya.
+                              </div>";
+                        }
                     ?>
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">

@@ -62,7 +62,7 @@ checkSession();
                             <div class="table-responsive">
                                 <form id="form_send" action='processing/prosesTambahUser.php' method ='post'  enctype="multipart/form-data">
                                     <label for="exampleInputEmail1">Username</label> <br>
-                                    <input type='textarea' class="form-control" name='username' ><br>
+                                    <input type='textarea' class="form-control" name='username' required><br>
 
                                     <label for="exampleInputEmail1">Hak Akses</label> <br>
                                     <Select class="form-control" name='fk_id_al' id="fk_id_al" >
@@ -83,7 +83,10 @@ checkSession();
                                     </select><br>
 
                                     <label for="exampleInputEmail1">Password</label>
-                                    <input type='password' class="form-control" name='password' ><br>
+                                    <input type='password' class="form-control" name='password' required><br>
+
+                                    <label for="exampleInputEmail1">Reenter Password</label>
+                                    <input type='password' class="form-control" name='password2' required><br>
 
 
                                     <label for="exampleInputEmail1">Status</label>
