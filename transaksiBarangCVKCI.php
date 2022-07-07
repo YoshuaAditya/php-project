@@ -101,35 +101,26 @@ if ($transaksi == "1"){
                     <div class="card shadow mb-4">
                         <div class="card-body">
                             <div class="table-responsive">
-                                <form id="form_send" action='processing/prosesTransaksiBarang.php?trx=<?php echo $transaksi;?>' method ='post'  enctype="multipart/form-data">
+                                <form id="form_send" action='processing/prosesTransaksiBarangCVKCI.php?trx=<?php echo $transaksi;?>' method ='post'  enctype="multipart/form-data">
 
                                     <label for="exampleInputEmail1">Nama Barang</label>
                                     <Select class="form-control" name='nama_barang' id="nama_barang" required>
                                         <?php
-                                            $query = "SELECT DISTINCT nama_barang FROM stock_barang where status_barang ='1'";
+                                            $query = "SELECT nama_barang, fk_id_lokasi FROM stock_barang
+                                            inner join lokasi on lokasi.id_lokasi = stock_barang.fk_id_lokasi WHERE nama_lokasi = 'CV KCI'";
                                             $run = mysqli_query($connect, $query);
                                             while($output = mysqli_fetch_assoc($run)){
                                                 $nama = $output['nama_barang'];
-                                            echo '<option value="'.$nama. '">';echo $nama; ?> </option>
+
+                                        ?>
+                                            <?php echo '<option value="'.$nama. '">';echo $nama; ?> </option>
                                         <?php
                                             }
+
                                             ?>
                                     </select><br>
 
-                                    <label for="exampleInputEmail1" id="label_lokasi" >Lokasi</label>
-                                    <Select class="form-control" name='id_lokasi' id="id_lokasi" required>
-                                        <?php
-                                            $query = "SELECT id_lokasi,nama_lokasi FROM lokasi where status_lokasi ='1'";
-                                            $run = mysqli_query($connect, $query);
-                                            while($output = mysqli_fetch_assoc($run)){
-                                                $id = $output['id_lokasi'];
-                                                $nama = $output['nama_lokasi'];
-                                              ?>
-                                                  <option value=<?php echo $id;?>> <?php echo $nama; ?> </option>
-                                              <?php
-                                            }
-                                        ?>
-                                    </select><br />
+                                    <input type='text' name='id_lokasi' id="id_lokasi" value='CV KCI' required hidden>
 
                                     <label for="exampleInputEmail1">Kuantitas <?php echo $judul; ?></label> <br>
                                     <input type='text' class="form-control" placeholder='100' name='qty' id='qty' required><br>
