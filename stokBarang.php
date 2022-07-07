@@ -93,6 +93,7 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                                         <tr>
                                             <th>ID</th>
                                             <th>Nama Lokasi</th>
+                                            <th>Perusahaan</th>
                                             <th>Nama Barang</th>
                                             <th>Stock</th>
                                             <th>Status Barang</th>
@@ -160,6 +161,23 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                 ?>
           </select><br>
 
+          <label for="exampleInputEmail1">Perusahaan</label>
+          <Select class="form-control" name='fk_id_perusahaan' id="fk_id_perusahaan" >
+              <?php
+                  $query = "SELECT * FROM perusahaan where status_perusahaan ='1' AND id_perusahaan != '5'";
+                  $run = mysqli_query($connect, $query);
+                  while($output = mysqli_fetch_assoc($run)){
+                      $id = $output['id_perusahaan'];
+                      $nama = $output['nama_perusahaan'];
+
+              ?>
+                  <option value=<?php echo $id;?> () > <?php echo $nama; ?> </option>
+              <?php
+                  }
+
+                  ?>
+          </select> <br>
+
           <label for="exampleInputEmail1">Nama Barang</label> <br>
           <input type='text'class="form-control"  name='nama_barang' id="nama_barang" > <br>
 
@@ -212,6 +230,7 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
             "columns": [
                 { "data": "id_stock_barang" },
                 { "data": "nama_lokasi" },
+                { "data": "nama_perusahaan" },
                 { "data": "nama_barang" },
                 { "data": "stock" },
                 { "data": "status_barang" },
@@ -224,6 +243,7 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
         $("#edit").modal('show');
             var id = $(btn).data('id');
             var fk_id_lokasi = $(btn).data('fk_id_lokasi');
+            var fk_id_perusahaan = $(btn).data('fk_id_perusahaan');
             var nama_barang = $(btn).data('nama_barang');
             var stock = $(btn).data('stock');
             var status_barang = $(btn).data('status');

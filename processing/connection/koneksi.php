@@ -2,7 +2,7 @@
 $host = "localhost";
 $username = "root";
 $password = "";
-$db = "n1804666_laporanKeuangan";
+$db = "n1804666_laporankeuangan";
 
 
 

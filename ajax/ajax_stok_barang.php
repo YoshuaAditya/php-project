@@ -7,9 +7,10 @@ if($_GET['action'] == "stokBarang"){
       $columns = array(
                                0 =>'id_stock_barang',
                                1 =>'fk_id_lokasi',
-                               2=> 'nama_barang',
-                               3=> 'stock',
-                               4=> 'status_barang'
+                               2 =>'fk_id_perusahaan',
+                               3=> 'nama_barang',
+                               4=> 'stock',
+                               5=> 'status_barang'
                            );
 
       $querycount = $mysqli->query("SELECT count(id_stock_barang) as jumlah FROM stock_barang");
@@ -27,24 +28,27 @@ if($_GET['action'] == "stokBarang"){
         if(empty($_POST['search']['value']))
         {
 
-        $query = $mysqli->query("SELECT id_stock_barang, fk_id_lokasi, nama_barang, stock, status_barang, nama_lokasi FROM stock_barang
-         inner join lokasi on lokasi.id_lokasi = stock_barang.fk_id_lokasi order by $order $dir
+        $query = $mysqli->query("SELECT id_stock_barang, fk_id_lokasi, fk_id_perusahaan, nama_barang, stock, status_barang, nama_lokasi, nama_perusahaan FROM stock_barang
+         inner join lokasi on lokasi.id_lokasi = stock_barang.fk_id_lokasi
+         inner join perusahaan on perusahaan.id_perusahaan = stock_barang.fk_id_perusahaan order by $order $dir
                                                       LIMIT $limit
                                                       OFFSET $start");
         }
         else {
             $search = $_POST['search']['value'];
-            $query = $mysqli->query("SELECT id_stock_barang, fk_id_lokasi, nama_barang, stock, status_barang, nama_lokasi FROM stock_barang
-            inner join lokasi on lokasi.id_lokasi = stock_barang.fk_id_lokasi WHERE nama_barang LIKE '%$search%'
-            or nama_lokasi LIKE '%$search%'
+            $query = $mysqli->query("SELECT id_stock_barang, fk_id_lokasi, fk_id_perusahaan, nama_barang, stock, status_barang, nama_lokasi, nama_perusahaan FROM stock_barang
+            inner join lokasi on lokasi.id_lokasi = stock_barang.fk_id_lokasi
+            inner join perusahaan on perusahaan.id_perusahaan = stock_barang.fk_id_perusahaan WHERE nama_barang LIKE '%$search%'
+            or nama_lokasi LIKE '%$search%' or nama_perusahaan LIKE '%$search%'
             order by $order $dir
             LIMIT $limit
             OFFSET $start");
 
 
-           $querycount = $mysqli->query("SELECT count(id_stock_barang) as jumlah,fk_id_lokasi,nama_lokasi FROM stock_barang
-           inner join lokasi on lokasi.id_lokasi = stock_barang.fk_id_lokasi WHERE nama_barang LIKE '%$search%'
-           or nama_lokasi LIKE '%$search%'");
+           $querycount = $mysqli->query("SELECT count(id_stock_barang) as jumlah,fk_id_lokasi,fk_id_perusahaan,nama_lokasi,nama_perusahaan FROM stock_barang
+           inner join lokasi on lokasi.id_lokasi = stock_barang.fk_id_lokasi
+           inner join perusahaan on perusahaan.id_perusahaan = stock_barang.fk_id_perusahaan WHERE nama_barang LIKE '%$search%'
+           or nama_lokasi LIKE '%$search%' or nama_perusahaan LIKE '%$search%'");
          $datacount = $querycount->fetch_array();
            $totalFiltered = $datacount['jumlah'];
         }
@@ -58,6 +62,7 @@ if($_GET['action'] == "stokBarang"){
             {
                 $nestedData['id_stock_barang'] =  $r['id_stock_barang'];
                 $nestedData['nama_lokasi'] = $r['nama_lokasi'];
+                $nestedData['nama_perusahaan'] = $r['nama_perusahaan'];
                 $nestedData['nama_barang'] = $r['nama_barang'];
                 $nestedData['stock'] = $r['stock'];
                 $nestedData['status_barang'] = ($r['status_barang'] == "1")? "Aktif":"Tidak Aktif";
@@ -65,6 +70,7 @@ if($_GET['action'] == "stokBarang"){
                 "<button type='submit' id='buttonEdit' onClick='Edit(this)' data-toggle='modal' data-target='#edit' class='btn btn-primary btn-flat btn_edit'
                 data-id='".$r['id_stock_barang']."'
                 data-fk_id_lokasi='".$r['fk_id_lokasi']."'
+                data-fk_id_perusahaan='".$r['fk_id_perusahaan']."'
                 data-nama_barang='".$r['nama_barang']."'
                 data-stock='".$r['stock']."'
                 data-status='".$r['status_barang']."'> edit</button>";
