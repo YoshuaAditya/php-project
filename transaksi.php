@@ -91,7 +91,7 @@ if ($transaksi == "1"){
                                 <form id="form_send" action='processing/prosesTransaksi.php?prs=<?php echo $perusahaan;?>&trx=<?php echo $transaksi;?>' method ='post'  enctype="multipart/form-data">
 
                                     <label for="exampleInputEmail1">Jenis Transaksi</label>
-                                    <Select class="form-control" name='jenis_transaksi' id="jenis_transaksi" >
+                                    <Select class="form-control" name='jenis_transaksi' id="jenis_transaksi" required>
                                         <?php
                                             $query = "SELECT * FROM jenis_transaksi where status_jenis ='1'";
                                             $run = mysqli_query($connect, $query);

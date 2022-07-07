@@ -50,8 +50,15 @@
                                             elseif ($_GET['alert'] == 1) {
                                                 echo "<div class='alert alert-danger alert-dismissable'>
                                                         <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-                                                        <h4>  <i class='icon fa fa-times-circle'></i> Failed!</h4>
-                                                        Password Gagal di Ganti
+                                                        <h4>  <i class='icon fa fa-times-circle'></i> Failed! Old Password Error.</h4>
+                                                        Password Gagal di Ganti. Password lama tidak cocok.
+                                                    </div>";
+                                            }
+                                            elseif ($_GET['alert'] == 2) {
+                                                echo "<div class='alert alert-danger alert-dismissable'>
+                                                        <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                                                        <h4>  <i class='icon fa fa-times-circle'></i> Failed! New Password Error.</h4>
+                                                        Password baru tidak cocok. Mohon dicek ulang untuk input password baru.
                                                     </div>";
                                             }
                                         ?>
@@ -65,6 +72,10 @@
                                         <div class="form-group">
                                             <input type="password" name="pass2" class="form-control form-control-user"
                                                 id="exampleInputPassword" placeholder="Enter New Password">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" name="pass3" class="form-control form-control-user"
+                                                id="exampleInputPassword" placeholder="Reenter New Password">
                                         </div>
 
                                         <button  class="btn btn-primary btn-user btn-block">

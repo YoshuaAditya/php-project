@@ -12,7 +12,9 @@ if(!$_POST['pass1'] || !$_POST['pass2']){
     $hasil = mysqli_fetch_assoc($cek);
     $pass1  = md5($_POST['pass1']);
     $pass2 = md5($_POST['pass2']);
+    $pass3 = md5($_POST['pass3']);
     if($pass1 == $hasil['password_user']){
+      if($pass2 == $pass3){
         $query = "UPDATE user set password_user = '".$pass2."' WHERE id_user='".$_SESSION['id']."'";
         $run = mysqli_query($connect, $query);
         if($run){
@@ -21,6 +23,10 @@ if(!$_POST['pass1'] || !$_POST['pass2']){
         }else{
             header("location:../changePassword.php?alert=1");
         }
+      }
+      else{
+          header("location:../changePassword.php?alert=2");
+      }
     }else{
         header("location:../changePassword.php?alert=1");
     }
