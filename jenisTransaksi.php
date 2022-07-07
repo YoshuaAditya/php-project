@@ -17,7 +17,7 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Data Lokasi</title>
+    <title>Data Jenis transaksi</title>
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -54,9 +54,9 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                <a href="tambahLokasi.php"> <button style="float:right; background-color:#4295f5; color:white" class="btn btn-user">Tambah Data</button></a>
+                <a href="tambahJenisTransaksi.php"> <button style="float:right; background-color:#4295f5; color:white" class="btn btn-user">Tambah Data</button></a>
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Data Lokasi</h1>
+                    <h1 class="h3 mb-2 text-gray-800">Data jenis transaksi</h1>
                     <?php
                         if (empty($_GET['alert'])) {
                             echo "";
@@ -92,8 +92,8 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Nama Lokasi</th>
-                                            <th>Status Lokasi</th>
+                                            <th>Nama Jenis Transaksi</th>
+                                            <th>Status</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -139,13 +139,13 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <div class="modal-body">
-        <form id="form_send" action='processing/prosesEditLokasi.php' method ='post'  enctype="multipart/form-data">
+        <form id="form_send" action='processing/prosesEditJenis.php' method ='post'  enctype="multipart/form-data">
           <input type='hidden' name='id' id="id">
-          <label for="exampleInputEmail1">Nama Lokasi</label>
-          <input type='text'class="form-control"  name='nama_lokasi' id="nama_lokasi" > <br>
+          <label for="exampleInputEmail1">Nama Jenis Transaksi</label>
+          <input type='text'class="form-control"  name='nama_jenis' id="nama_jenis" > <br>
 
           <label for="exampleInputEmail1">Status</label>
-          <Select class="form-control" name="status" id="status" >
+          <Select class="form-control" name="status_jenis" id="status_jenis" >
           <option value='1'> Aktif </option>
           <option value='0'> Tidak Aktif</option>
           </select><br>
@@ -183,14 +183,14 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
             "processing": true,
             "serverSide": true,
             "ajax":{
-                    "url": "ajax/ajax_lokasi.php?action=lokasi",
+                    "url": "ajax/ajax_jenis.php?action=jenis",
                     "dataType": "json",
                     "type": "POST"
                     },
             "columns": [
-                { "data": "id_lokasi" },
-                { "data": "nama_lokasi" },
-                { "data": "status_lokasi" },
+                { "data": "id_jenis" },
+                { "data": "nama_jenis" },
+                { "data": "status_jenis" },
                 { "data": "aksi"},
             ]
         });
@@ -199,12 +199,12 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
     function Edit(btn){
         $("#edit").modal('show');
             var id = $(btn).data('id');
-            var nama_lokasi = $(btn).data('nama_lokasi');
-            var status_lokasi = $(btn).data('status');
+            var nama_jenis = $(btn).data('nama_jenis');
+            var status_jenis = $(btn).data('status_jenis');
 
             $("#id").val(id);
-            $("#nama_lokasi").val(nama_lokasi);
-            $("#status").val(status_lokasi);
+            $("#nama_jenis").val(nama_jenis);
+            $("#status_jenis").val(status_jenis);
     }
 
 
