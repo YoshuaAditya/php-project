@@ -56,8 +56,8 @@ function getJumlahSaldo($perusahaan, $koneksi){
     return $getData['saldo'];
 }
 
-function getIdStockBarang($id_lokasi, $nama_barang, $koneksi){
-    $query = "SELECT id_stock_barang,stock from stock_barang where fk_id_lokasi = '".$id_lokasi."' AND nama_barang = '".$nama_barang."'";
+function getIdStockBarang($id_lokasi, $nama_barang,$perusahaan, $koneksi){
+    $query = "SELECT id_stock_barang,stock from stock_barang where fk_id_lokasi = '".$id_lokasi."' AND nama_barang = '".$nama_barang."'  AND fk_id_perusahaan = '".$perusahaan."'";
     $run = mysqli_query ($koneksi, $query);
     $getData = mysqli_fetch_assoc($run);
     return $getData;

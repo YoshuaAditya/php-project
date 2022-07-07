@@ -17,7 +17,7 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Data Debit Kredit</title>
+    <title>Data Transaksi Barang</title>
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -55,7 +55,7 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Data Debit Kredit</h1>
+                    <h1 class="h3 mb-2 text-gray-800">Data Transaksi Barang</h1>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
@@ -65,16 +65,14 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                                     <thead>
                                         <tr>
                                             <th style="width:200px">ID</th>
+                                            <th style="width:200px">Barang</th>
                                             <th style="width:200px">Perusahaan</th>
-                                            <th style="width:200px">Jenis Transaksi</th>
-                                            <th style="width:200px">Nama Barang</th>
-                                            <th style="width:200px">Nama Proyek</th>
-                                            <th style="width:200px">Kuantitas</th>
-                                            <th style="width:200px">Pengeluaran</th>
-                                            <th style="width:200px">Pemasukan</th>
-                                            <th style="width:200px">Saldo Sebelum Transaksi</th>
-                                            <th style="width:200px">Saldo Akhir</th>
+                                            <th style="width:200px">Lokasi</th>
                                             <th style="width:200px">Tanggal Transaksi</th>
+                                            <th style="width:200px">Pengeluaran Stock</th>
+                                            <th style="width:200px">Pemasukan Stock</th>
+                                            <th style="width:200px">Stock Sebelumnya</th>
+                                            <th style="width:200px">Stock Akhir</th>
                                             <th style="width:200px">Keterangan</th>
                                         </tr>
                                     </thead>
@@ -138,22 +136,20 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
             "processing": true,
             "serverSide": true,
             "ajax":{
-                    "url": "ajax/ajax_transaksi.php?action=transaksi",
+                    "url": "ajax/ajax_transaksi_barang.php?action=transaksi",
                     "dataType": "json",
                     "type": "POST"
                     },
             "columns": [
-                { "data": "id_transaksi" },
+                { "data": "id_transaksi_bbm" },
+                { "data": "nama_barang"},
                 { "data": "nama_perusahaan" },
-                { "data": "nama_jenis" },
-                { "data": "nama_transaksi" },
-                { "data": "nama_proyek"},
-                { "data": "qty" },
-                { "data": "pengeluaran" },
-                { "data": "pemasukan" },
-                { "data": "saldo_before_transakction"},
-                { "data": "saldo_akhir"},
+                { "data": "nama_lokasi" },
                 { "data": "tanggal_transaksi" },
+                { "data": "pengeluaran_stock" },
+                { "data": "pemasukan_stock" },
+                { "data": "stock_sebelumnya"},
+                { "data": "stock_akhir"},
                 { "data": "keterangan_transaksi"},
             ]
         });

@@ -6,6 +6,7 @@ include("processing/connection/koneksi.php");
 include("processing/fungsi.php");
 checkSession();
 $transaksi = $_GET['trx'] ;
+$perusahaan = $_GET['prs'] ;
 if ($transaksi == "1"){
     $judul = "Pengeluaran Barang";
 }elseif ($transaksi == "2"){
@@ -101,12 +102,12 @@ if ($transaksi == "1"){
                     <div class="card shadow mb-4">
                         <div class="card-body">
                             <div class="table-responsive">
-                                <form id="form_send" action='processing/prosesTransaksiBarang.php?trx=<?php echo $transaksi;?>' method ='post'  enctype="multipart/form-data">
+                                <form id="form_send" action='processing/prosesTransaksiBarang.php?prs=<?php echo $perusahaan;?>&trx=<?php echo $transaksi;?>' method ='post'  enctype="multipart/form-data">
 
                                     <label for="exampleInputEmail1">Nama Barang</label>
                                     <Select class="form-control" name='nama_barang' id="nama_barang" required>
                                         <?php
-                                            $query = "SELECT DISTINCT nama_barang FROM stock_barang where status_barang ='1'";
+                                            $query = "SELECT DISTINCT nama_barang FROM stock_barang where status_barang ='1' AND fk_id_perusahaan = ".$perusahaan;
                                             $run = mysqli_query($connect, $query);
                                             while($output = mysqli_fetch_assoc($run)){
                                                 $nama = $output['nama_barang'];
