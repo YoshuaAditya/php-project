@@ -120,6 +120,17 @@ if ($transaksi == "1"){
                                     <label for="exampleInputEmail1" id="label_lokasi" >Lokasi</label>
                                     <Select class="form-control" name='id_lokasi' id="id_lokasi" required>
                                         <?php
+                                          if($perusahaan == '4'){
+                                            $query = "SELECT id_lokasi,nama_lokasi FROM lokasi where nama_lokasi ='CV KCI'";
+                                            $run = mysqli_query($connect, $query);
+                                            while($output = mysqli_fetch_assoc($run)){
+                                                $id = $output['id_lokasi'];
+                                            ?>
+                                            <option value=<?php echo $id;?>>CV KCI</option>
+                                            <?php
+                                            }
+                                          }
+                                          else{
                                             $query = "SELECT id_lokasi,nama_lokasi FROM lokasi where status_lokasi ='1'";
                                             $run = mysqli_query($connect, $query);
                                             while($output = mysqli_fetch_assoc($run)){
@@ -129,6 +140,7 @@ if ($transaksi == "1"){
                                                   <option value=<?php echo $id;?>> <?php echo $nama; ?> </option>
                                               <?php
                                             }
+                                          }
                                         ?>
                                     </select><br />
 
