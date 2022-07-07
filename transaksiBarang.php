@@ -84,14 +84,14 @@ if ($transaksi == "1"){
                                 </div>";
                         }
                         elseif ($_GET['alert'] == 3) {
-                            echo "<div class='alert alert-success alert-dismissable'>
+                            echo "<div class='alert alert-danger alert-dismissable'>
                                     <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
                                     <h4>  <i class='icon fas fa-exclamation-triangle'></i> Error! Data tidak ditemukan.</h4>
                                     Tidak ada data stok barang pada lokasi di database. Mohon kontak super admin untuk menambahkan stok dan lokasi tersebut.
                                 </div>";
                         }
                         elseif ($_GET['alert'] == 4) {
-                            echo "<div class='alert alert-success alert-dismissable'>
+                            echo "<div class='alert alert-danger alert-dismissable'>
                                     <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
                                     <h4>  <i class='icon fas fa-exclamation-triangle'></i> Error! Stok tidak cukup.</h4>
                                     Pengeluaran barang melebihi stok yang tersedia.

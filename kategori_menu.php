@@ -77,7 +77,7 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                                 </div>";
                         }
                         elseif ($_GET['alert'] == 3) {
-                          echo "<div class='alert alert-info alert-dismissable'>
+                          echo "<div class='alert alert-danger alert-dismissable'>
                                   <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
                                   <h4>  <i class='icon fas fa-exclamation-triangle'></i> Error!</h4>
                                   Terjadi kesalahan pada server silahkan mencoba beberapa saat lagi!

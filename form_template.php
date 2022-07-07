@@ -5,7 +5,7 @@
 <input type='text' class="form-control" placeholder='100' name='qty' id='qty' required><br>
 
 <label for="exampleInputEmail1">Nama Satuan</label> <br>
-<input type='text' class="form-control" placeholder='Liter, Kg, etc' name='satuan' required><br>
+<input type='text' class="form-control" placeholder='Liter, Kg, etc' name='satuan'><br>
 
 <label for="exampleInputEmail1">Total Uang</label> <br>
 <input type='text' class="form-control" placeholder='100000' name='uang' id='uang' required><br>
