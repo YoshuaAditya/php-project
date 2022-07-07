@@ -8,8 +8,8 @@ if($_SESSION['akses'] == '5'){
     $conditionAddition="";
 }else{
     $perusahaan = getIdPerusahaan($_SESSION['akses'],$connect);
-    $condition = "where fk_id_perusahaan = '".$perusahaan."' ";
-    $conditionAddition = "fk_id_perusahaan = '".$perusahaan."' AND ";
+    $condition = "WHERE id_perusahaan = '".$perusahaan."' ";
+    $conditionAddition = "id_perusahaan = '".$perusahaan."' AND ";
 }
 
 if($_GET['action'] == "transaksi"){
@@ -28,7 +28,9 @@ if($_GET['action'] == "transaksi"){
                         9  => 'keterangan_transaksi'
                     );
 
-      $querycount = $mysqli->query("SELECT count(id_transaksi_bbm) as jumlah FROM transaksi_bbm ".$condition);
+      $querycount = $mysqli->query("SELECT count(id_transaksi_bbm) as jumlah FROM transaksi_bbm
+      inner join stock_barang on stock_barang.id_stock_barang = transaksi_bbm.fk_id_stock_barang
+      inner join perusahaan on perusahaan.id_perusahaan = stock_barang.fk_id_perusahaan ".$condition);
       $datacount = $querycount->fetch_array();
 
         $totalData = $datacount['jumlah'];
@@ -57,8 +59,8 @@ if($_GET['action'] == "transaksi"){
              pemasukan_stock, stock_sebelumnya, keterangan_transaksi, nama_barang, nama_perusahaan, nama_lokasi from transaksi_bbm
                                        inner join stock_barang on stock_barang.id_stock_barang = transaksi_bbm.fk_id_stock_barang
                                        inner join perusahaan on perusahaan.id_perusahaan = stock_barang.fk_id_perusahaan
-                                       inner join lokasi on lokasi.id_lokasi = transaksi_bbm.fk_id_lokasi WHERE ".$conditionAddition." nama_barang LIKE '%$search%'
-                                                         or nama_lokasi LIKE '%$search%' or nama_perusahaan LIKE '%$search%'
+                                       inner join lokasi on lokasi.id_lokasi = transaksi_bbm.fk_id_lokasi WHERE ".$conditionAddition." (nama_barang LIKE '%$search%'
+                                                         or nama_lokasi LIKE '%$search%' or nama_perusahaan LIKE '%$search%')
                                                          order by $order $dir
                                                          LIMIT $limit
                                                          OFFSET $start");
@@ -67,8 +69,8 @@ if($_GET['action'] == "transaksi"){
            $querycount = $mysqli->query("SELECT count(id_transaksi_bbm) as jumlah, nama_barang, nama_lokasi, nama_perusahaan FROM transaksi_bbm
            inner join stock_barang on stock_barang.id_stock_barang = transaksi_bbm.fk_id_stock_barang
            inner join perusahaan on perusahaan.id_perusahaan = stock_barang.fk_id_perusahaan
-           inner join lokasi on lokasi.id_lokasi = transaksi_bbm.fk_id_lokasi WHERE ".$conditionAddition." nama_barang LIKE '%$search%'
-                             or nama_lokasi LIKE '%$search%' or nama_perusahaan LIKE '%$search%'");
+           inner join lokasi on lokasi.id_lokasi = transaksi_bbm.fk_id_lokasi WHERE ".$conditionAddition." (nama_barang LIKE '%$search%'
+                             or nama_lokasi LIKE '%$search%' or nama_perusahaan LIKE '%$search%')");
          $datacount = $querycount->fetch_array();
            $totalFiltered = $datacount['jumlah'];
         }

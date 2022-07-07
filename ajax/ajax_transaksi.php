@@ -57,15 +57,15 @@ if($_GET['action'] == "transaksi"){
             $query = $mysqli->query("SELECT id_transaksi, nama_perusahaan, nama_jenis, nama_transaksi, nama_proyek, qty, satuan, pemasukan, pengeluaran,
             saldo_before_transaction, tanggal_transaksi, keterangan_transaksi from transaksi
             inner join perusahaan on perusahaan.id_perusahaan = transaksi.fk_id_perusahaan
-            inner join jenis_transaksi on jenis_transaksi.id_jenis = transaksi.fk_id_jenis_transaksi WHERE ".$conditionAddition." nama_jenis LIKE '%$search%'
-                                                         or nama_transaksi LIKE '%$search%' or nama_proyek LIKE '%$search%'
+            inner join jenis_transaksi on jenis_transaksi.id_jenis = transaksi.fk_id_jenis_transaksi WHERE ".$conditionAddition." (nama_jenis LIKE '%$search%'
+                                                         or nama_transaksi LIKE '%$search%' or nama_proyek LIKE '%$search%')
                                                          order by $order $dir
                                                          LIMIT $limit
                                                          OFFSET $start");
 
 
-           $querycount = $mysqli->query("SELECT count(id_transaksi) as jumlah FROM transaksi WHERE ".$conditionAddition." nama_proyek LIKE '%$search%'
-                                                                        or nama_transaksi LIKE '%$search%'");
+           $querycount = $mysqli->query("SELECT count(id_transaksi) as jumlah FROM transaksi WHERE ".$conditionAddition." (nama_proyek LIKE '%$search%'
+                                                                        or nama_transaksi LIKE '%$search%')");
          $datacount = $querycount->fetch_array();
            $totalFiltered = $datacount['jumlah'];
         }
