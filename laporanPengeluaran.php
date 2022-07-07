@@ -64,9 +64,11 @@ $perusahaan = $_GET['prs'] ;
                                 <form id="form_send"  method ="post" action="processing/formatLaporanExcel.php?prs=<?php echo $perusahaan;?>" enctype="multipart/form-data">
 
                                     <label for="exampleInputEmail1">Tanggal Awal</label> <br>
-                                    <input class="form-control" type="date" name="bulanAwal" required/> <br>
+                                    <input class="form-control" type="text" id="awal" name="awal" required/> <br>
+                                    <input class="form-control" type="text" id="bulanAwal" name="bulanAwal" hidden/>
                                     <label for="exampleInputEmail1">Tanggal Akhir</label> <br>
-                                    <input class="form-control" type="date" name="bulanAkhir" required/> <br>
+                                    <input class="form-control" type="text" id="akhir" name="akhir" required/> <br>
+                                    <input class="form-control" type="text" id="bulanAkhir" name="bulanAkhir" hidden/>
                                     <input type='submit' class="btn btn-primary" value='submit'>
 
 
@@ -121,6 +123,15 @@ $perusahaan = $_GET['prs'] ;
 
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+    <script>
+    $( function() {
+      $( "#awal" ).datepicker({ dateFormat: 'd MM yy', altField: "#bulanAwal", altFormat: "yy-mm-dd"});
+
+      $( "#akhir" ).datepicker({ dateFormat: 'd MM yy', altField: "#bulanAkhir", altFormat: "yy-mm-dd"});
+    } );
+    </script>
 
 
 
