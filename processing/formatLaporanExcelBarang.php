@@ -13,6 +13,12 @@ if(!isset($_GET['bulanAkhir'])){
     $akhir = $_POST['bulanAkhir'];
 }
 
+$lokasi='';
+if(!empty($_POST['fk_id_lokasi'])){
+    $fk_id_lokasi = $_POST['fk_id_lokasi'];
+    $lokasi = 'AND transaksi_bbm.fk_id_lokasi = '.$fk_id_lokasi;
+}
+
 ?>
 <html>
 <head>
@@ -74,7 +80,7 @@ if(!isset($_GET['bulanAkhir'])){
         $query = "select tanggal_transaksi, nama_barang, nama_lokasi, pengeluaran_stock, pemasukan_stock, stock_sebelumnya, keterangan_transaksi from transaksi_bbm ";
         $query .= "inner join stock_barang on stock_barang.id_stock_barang = transaksi_bbm.fk_id_stock_barang ";
         $query .= "inner join lokasi on lokasi.id_lokasi = transaksi_bbm.fk_id_lokasi ";
-        $query .= "WHERE fk_id_perusahaan='".$perusahaan."' AND tanggal_transaksi BETWEEN '".$awal."' AND '".$akhir."' ORDER BY tanggal_transaksi ASC";
+        $query .= "WHERE fk_id_perusahaan=".$perusahaan." ".$lokasi." AND tanggal_transaksi BETWEEN '".$awal."' AND '".$akhir."' ORDER BY tanggal_transaksi ASC";
         $previousDate="";
         $run = mysqli_query($connect, $query);
         while($o = mysqli_fetch_assoc($run)){

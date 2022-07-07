@@ -6,6 +6,11 @@ include("processing/connection/koneksi.php");
 include("processing/fungsi.php");
 checkSession();
 $perusahaan = $_GET['prs'] ;
+if ($perusahaan == "3"){
+    $barang = "Barang";
+}else{
+    $barang = "BBM";
+}
 ?>
 <html lang="en">
 
@@ -17,7 +22,7 @@ $perusahaan = $_GET['prs'] ;
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Laporan Pengeluaran Barang</title>
+    <title>Laporan <?php echo $barang;?></title>
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -56,12 +61,30 @@ $perusahaan = $_GET['prs'] ;
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Laporan Pengeluaran Barang</h1>
+                    <h1 class="h3 mb-2 text-gray-800">Laporan <?php echo $barang;?></h1>
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-body">
                             <div class="table-responsive">
                                 <form id="form_send"  method ="post" action="processing/formatLaporanExcelBarang.php?prs=<?php echo $perusahaan;?>" enctype="multipart/form-data">
+
+                                  <label for="exampleInputEmail1">Lokasi</label>
+                                  <Select class="form-control" name="fk_id_lokasi" id="fk_id_lokasi" >
+                                    <option value="">Semua</option>
+                                      <?php
+                                          $query = "SELECT * FROM lokasi where status_lokasi ='1'";
+                                          $run = mysqli_query($connect, $query);
+                                          while($output = mysqli_fetch_assoc($run)){
+                                              $id = $output['id_lokasi'];
+                                              $nama = $output['nama_lokasi'];
+
+                                      ?>
+                                          <option value=<?php echo $id;?>> <?php echo $nama; ?> </option>
+                                      <?php
+                                          }
+
+                                          ?>
+                                  </select> <br>
 
                                     <label for="exampleInputEmail1">Tanggal Awal</label> <br>
                                     <input class="form-control" type="text" id="awal" name="awal" required/> <br>

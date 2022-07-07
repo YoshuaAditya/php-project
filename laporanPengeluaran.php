@@ -17,7 +17,7 @@ $perusahaan = $_GET['prs'] ;
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Laporan Pengeluaran</title>
+    <title>Laporan Transaksi</title>
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -56,7 +56,7 @@ $perusahaan = $_GET['prs'] ;
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Laporan Pengeluaran</h1>
+                    <h1 class="h3 mb-2 text-gray-800">Laporan Transaksi</h1>
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-body">
