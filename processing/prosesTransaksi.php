@@ -48,6 +48,13 @@ if(!empty($_POST["uang"])){
     $keterangan = "";
  }
 
+if($qty <= 0){
+ header("location:../transaksi.php?alert=3&trx=".$transaksi."&prs=".$prs);
+}
+elseif($uang <= 0){
+ header("location:../transaksi.php?alert=4&trx=".$transaksi."&prs=".$prs);
+}
+else{
 if($transaksi == "1"){
     // --------------------------------------------------- Ini untuk transaksi 1 Pengeluaran ----------------------------------------------------------------
     $query = "INSERT INTO transaksi(id_transaksi, fk_id_perusahaan, fk_id_saldo, fk_id_jenis_transaksi, nama_transaksi, nama_proyek, qty, satuan, pengeluaran, saldo_before_transaction, tanggal_transaksi, keterangan_transaksi, status_transaksi)";
@@ -86,6 +93,7 @@ if($transaksi == "1"){
       $headerValue="location:../transaksi.php?alert=1&trx=2&prs=".$perusahaan;
       header($headerValue);
    }
+ }
 }
 
 

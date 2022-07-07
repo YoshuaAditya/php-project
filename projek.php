@@ -5,14 +5,7 @@ SESSION_START();
 include("processing/connection/koneksi.php");
 include("processing/fungsi.php");
 checkSession();
-$transaksi = $_GET['trx'] ;
-$perusahaan = $_GET['prs'] ;
-if ($transaksi == "1"){
-    $judul = "Pengeluaran";
-}elseif ($transaksi == "2"){
-    $judul = "Pemasukan";
-}
-
+checkPage($_SESSION['akses'], basename(__FILE__), $connect);
 ?>
 <html lang="en">
 
@@ -24,7 +17,7 @@ if ($transaksi == "1"){
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Data <?php echo $judul; ?></title>
+    <title>Data Projek</title>
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -61,9 +54,9 @@ if ($transaksi == "1"){
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
+                <a href="tambahProjek.php"> <button style="float:right; background-color:#4295f5; color:white" class="btn btn-user">Tambah Data</button></a>
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Tambah <?php echo $judul; ?></h1>
+                    <h1 class="h3 mb-2 text-gray-800">Data Projek</h1>
                     <?php
                         if (empty($_GET['alert'])) {
                             echo "";
@@ -72,79 +65,41 @@ if ($transaksi == "1"){
                         elseif ($_GET['alert'] == 1) {
                             echo "<div class='alert alert-danger alert-dismissable'>
                                     <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-                                    <h4>  <i class='icon fa fa-times-circle'></i> Gagal Melakukan Transaksi!</h4>
-                                    Mohon dicek ulang data yang diisi!
+                                    <h4>  <i class='icon fa fa-times-circle'></i> Gagal Melakukan Registrasi!</h4>
+                                    Ada Data yang Kosong Mohon Mengisi Semua Data!
                                 </div>";
                         }
                         elseif ($_GET['alert'] == 2) {
                             echo "<div class='alert alert-success alert-dismissable'>
                                     <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
                                     <h4>  <i class='icon fa fa-check-circle'></i> Success!</h4>
-                                    Transaksi berhasil dilakukan.
+                                    Anda Telah Berhasil!
                                 </div>";
                         }
                         elseif ($_GET['alert'] == 3) {
                           echo "<div class='alert alert-danger alert-dismissable'>
                                   <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-                                  <h4>  <i class='icon fas fa-exclamation-triangle'></i> Error! Invalid Quantity.</h4>
-                                  Mohon memasukkan angka positif pada input kuantitas barang.
+                                  <h4>  <i class='icon fas fa-exclamation-triangle'></i> Error!</h4>
+                                  Terjadi kesalahan pada server silahkan mencoba beberapa saat lagi!
                               </div>";
-                        }
-                        elseif ($_GET['alert'] == 4) {
-                          echo "<div class='alert alert-danger alert-dismissable'>
-                                  <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-                                  <h4>  <i class='icon fas fa-exclamation-triangle'></i> Error! Invalid Number.</h4>
-                                  Mohon memasukkan angka positif pada input total uang.
-                              </div>";
-                        }
-
+                      }
                     ?>
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-body">
                             <div class="table-responsive">
-                                <form id="form_send" action='processing/prosesTransaksi.php?prs=<?php echo $perusahaan;?>&trx=<?php echo $transaksi;?>' method ='post'  enctype="multipart/form-data">
+                                <table class="table table-bordered" id="user" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Nama Projek</th>
+                                            <th>Status Projek</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
 
-                                    <label for="exampleInputEmail1">Jenis Transaksi</label>
-                                    <Select class="form-control" name='jenis_transaksi' id="jenis_transaksi" required>
-                                        <?php
-                                            $query = "SELECT * FROM jenis_transaksi where status_jenis ='1'";
-                                            $run = mysqli_query($connect, $query);
-                                            while($output = mysqli_fetch_assoc($run)){
-                                                $id = $output['id_jenis'];
-                                                $nama = $output['nama_jenis'];
 
-                                        ?>
-                                            <option value=<?php echo $id;?> () > <?php echo $nama; ?> </option>
-                                        <?php
-                                            }
-
-                                            ?>
-                                    </select><br>
-
-                                    <label for="exampleInputEmail1">Nama Projek</label> <br>
-                                    <Select class="form-control" name='projek' required>
-                                        <?php
-                                            $query = "SELECT * FROM projek where status_projek ='1'";
-                                            $run = mysqli_query($connect, $query);
-                                            while($output = mysqli_fetch_assoc($run)){
-                                                $id = $output['id_projek'];
-                                                $nama = $output['nama_projek'];
-
-                                        ?>
-                                            <option value=<?php echo $id;?> () > <?php echo $nama; ?> </option>
-                                        <?php
-                                            }
-
-                                            ?>
-                                    </select><br>
-
-                                    <!-- template form -->
-                                    <?php
-                                        include("form_template.php");
-                                    ?>
-
-                                </form>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -177,7 +132,31 @@ if ($transaksi == "1"){
         include("logoutModal.php");
    ?>
 
+<div class="modal fade" id="edit" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+        <form id="form_send" action='processing/prosesEditProjek.php' method ='post'  enctype="multipart/form-data">
+          <input type='hidden' name='id' id="id">
+          <label for="exampleInputEmail1">Nama Projek</label>
+          <input type='text'class="form-control"  name='nama_projek' id="nama_projek" > <br>
 
+          <label for="exampleInputEmail1">Status</label>
+          <Select class="form-control" name="status" id="status" >
+          <option value='1'> Aktif </option>
+          <option value='0'> Tidak Aktif</option>
+          </select><br>
+          <input type='submit' class="btn btn-primary" value='submit'>
+
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
@@ -196,16 +175,44 @@ if ($transaksi == "1"){
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
 
-    <!-- JS filtering input to numbers -->
-    <script src="js/filterInput.js"></script>
-    <script>
-    setInputFilter(document.getElementById("uang"), function(value) {
-      return /^-?\d*$/.test(value); });
-    setInputFilter(document.getElementById("qty"), function(value) {
-      return /^-?\d*$/.test(value); });
-    </script>
+
+<script>
+    $(function(){
+
+        $('#user').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax":{
+                    "url": "ajax/ajax_projek.php?action=projek",
+                    "dataType": "json",
+                    "type": "POST"
+                    },
+            "columns": [
+                { "data": "id_projek" },
+                { "data": "nama_projek" },
+                { "data": "status_projek" },
+                { "data": "aksi"},
+            ]
+        });
+    });
+
+    function Edit(btn){
+        $("#edit").modal('show');
+            var id = $(btn).data('id');
+            var nama_projek = $(btn).data('nama_projek');
+            var status_projek = $(btn).data('status');
+
+            $("#id").val(id);
+            $("#nama_projek").val(nama_projek);
+            $("#status").val(status_projek);
+    }
 
 
+
+
+
+
+</script>
 </body>
 
 </html>

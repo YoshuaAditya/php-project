@@ -97,6 +97,13 @@ if ($transaksi == "1"){
                                     Pengeluaran barang melebihi stok yang tersedia.
                                 </div>";
                         }
+                        elseif ($_GET['alert'] == 5) {
+                          echo "<div class='alert alert-danger alert-dismissable'>
+                                  <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                                  <h4>  <i class='icon fas fa-exclamation-triangle'></i> Error! Invalid Quantity.</h4>
+                                  Mohon memasukkan angka positif pada input kuantitas barang.
+                              </div>";
+                        }
                     ?>
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">

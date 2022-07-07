@@ -15,7 +15,7 @@ if($_GET['action'] == "accessMenu"){
                                7=> 'nama_al'
                            );
 
-      $querycount = $mysqli->query("SELECT count(id_access_menu) as jumlah FROM access_menu WHERE status_access_menu = '1'");
+      $querycount = $mysqli->query("SELECT count(id_access_menu) as jumlah FROM access_menu");
       $datacount = $querycount->fetch_array();
 
         $totalData = $datacount['jumlah'];

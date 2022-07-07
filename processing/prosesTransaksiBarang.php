@@ -30,6 +30,9 @@ $stock=$dataStock['stock'];
 if($id_stock_barang==0){
   header("location:../transaksiBarang.php?alert=3&trx=".$transaksi."&prs=".$prs);
 }
+elseif($qty <= 0){
+   header("location:../transaksiBarang.php?alert=5&trx=".$transaksi."&prs=".$prs);
+}
 else{
 if($transaksi == "1"){
     // --------------------------------------------------- Ini untuk transaksi 1 Pengeluaran ----------------------------------------------------------------

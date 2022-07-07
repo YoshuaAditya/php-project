@@ -1,5 +1,5 @@
 <label for="exampleInputEmail1">Nama Barang</label>
-<input type='text'class="form-control" placeholder='gaji, pinjaman, etc' name='nama' required> <br>
+<input type='text'class="form-control" placeholder='gaji, pinjaman, etc' name='nama'> <br>
 
 <label for="exampleInputEmail1">Kuantitas Barang</label> <br>
 <input type='text' class="form-control" placeholder='100' name='qty' id='qty' required><br>

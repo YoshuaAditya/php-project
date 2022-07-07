@@ -16,7 +16,7 @@ checkSession();
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Tambah Menu</title>
+    <title>Tambah Access Level</title>
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -55,17 +55,30 @@ checkSession();
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Tambah Menu</h1>
+                    <h1 class="h3 mb-2 text-gray-800">Tambah Access Level</h1>
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-body">
                             <div class="table-responsive">
-                                <form id="form_send" action='processing/prosesTambahMenu.php' method ='post'  enctype="multipart/form-data">
-                                    <label for="exampleInputEmail1">Nama Menu</label>
-                                    <input type='text'class="form-control" name='nama' required> <br>
+                                <form id="form_send" action='processing/prosesTambahAccessLevel.php' method ='post'  enctype="multipart/form-data">
+                                  <label for="exampleInputEmail1">Nama Access Level</label>
+                                  <input type='text'class="form-control"  name='nama_al' id="nama_al" required> <br>
 
-                                    <label for="exampleInputEmail1">Alamat Menu</label> <br>
-                                    <input type='textarea' class="form-control" name='alamat' required><br>
+                                  <label for="exampleInputEmail1">Perusahaan</label>
+                                  <Select class="form-control" name='fk_id_perusahaan' id="fk_id_perusahaan" >
+                                      <?php
+                                        $query = "SELECT * FROM perusahaan where status_perusahaan ='1'";
+                                        $run = mysqli_query($connect, $query);
+                                        while($output = mysqli_fetch_assoc($run)){
+                                            $id = $output['id_perusahaan'];
+                                            $nama = $output['nama_perusahaan'];
+                                      ?>
+                                        <option value=<?php echo $id;?> () > <?php echo $nama; ?> </option>
+                                    <?php
+                                        }
+
+                                        ?>
+                                  </select><br>
 
                                     <label for="exampleInputEmail1">Status</label>
                                     <Select class="form-control" name='status' id="status">

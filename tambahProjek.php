@@ -16,7 +16,7 @@ checkSession();
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Tambah Menu</title>
+    <title>Tambah Projek</title>
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -55,17 +55,14 @@ checkSession();
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Tambah Menu</h1>
+                    <h1 class="h3 mb-2 text-gray-800">Tambah Projek</h1>
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-body">
                             <div class="table-responsive">
-                                <form id="form_send" action='processing/prosesTambahMenu.php' method ='post'  enctype="multipart/form-data">
-                                    <label for="exampleInputEmail1">Nama Menu</label>
-                                    <input type='text'class="form-control" name='nama' required> <br>
-
-                                    <label for="exampleInputEmail1">Alamat Menu</label> <br>
-                                    <input type='textarea' class="form-control" name='alamat' required><br>
+                                <form id="form_send" action='processing/prosesTambahProjek.php' method ='post'  enctype="multipart/form-data">
+                                    <label for="exampleInputEmail1">Nama Projek</label>
+                                    <input type='text'class="form-control" name='nama_projek' id="nama_projek" required> <br>
 
                                     <label for="exampleInputEmail1">Status</label>
                                     <Select class="form-control" name='status' id="status">
