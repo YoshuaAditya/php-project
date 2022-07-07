@@ -56,9 +56,7 @@ if($_GET['action'] == "kategori"){
                 "<button type='submit' id='buttonEdit' onClick='Edit(this)' data-toggle='modal' data-target='#edit' class='btn btn-primary btn-flat btn_edit'
                 data-id_category='".$r['id_category']."'
                 data-nama_category='".$r['nama_category']."'
-                data-status_category='".$r['status_category']."'> edit</button>
-                <button type='submit' id='buttonDelete' onClick='Delete(this)' data-toggle='modal' data-target='#delete' class='btn btn-danger btn-flat btn_edit'
-                data-id='".$r['id_category']."'> delete</button>";
+                data-status_category='".$r['status_category']."'> edit</button>";
                 $data[] = $nestedData;
 
             }

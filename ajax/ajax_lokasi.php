@@ -57,9 +57,7 @@ if($_GET['action'] == "lokasi"){
                 "<button type='submit' id='buttonEdit' onClick='Edit(this)' data-toggle='modal' data-target='#edit' class='btn btn-primary btn-flat btn_edit'
                 data-id='".$r['id_lokasi']."'
                 data-nama_lokasi='".$r['nama_lokasi']."'
-                data-status='".$r['status_lokasi']."'> edit</button>
-                <button type='submit' id='buttonDelete' onClick='Delete(this)' data-toggle='modal' data-target='#delete' class='btn btn-danger btn-flat btn_edit'
-                data-id='".$r['id_lokasi']."'> delete</button>";
+                data-status='".$r['status_lokasi']."'> edit</button>";
                 $data[] = $nestedData;
 
             }

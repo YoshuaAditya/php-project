@@ -63,9 +63,7 @@ if($_GET['action'] == "user"){
                 data-id='".$r['id_user']."'
                 data-username='".$r['username']."'
                 data-fk_id_al='".$r['fk_id_al']."'
-                data-status='".$r['status_user']."'> edit</button>
-                <button type='submit' id='buttonDelete' onClick='Delete(this)' data-toggle='modal' data-target='#delete' class='btn btn-danger btn-flat btn_edit'
-                data-id='".$r['id_user']."'> delete</button>";
+                data-status='".$r['status_user']."'> edit</button>";
                 $data[] = $nestedData;
 
             }

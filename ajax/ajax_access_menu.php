@@ -75,9 +75,7 @@ if($_GET['action'] == "accessMenu"){
                 data-fk_id_category='".$r['fk_id_category']."'
                 data-fk_id_menu='".$r['fk_id_menu']."'
                 data-fk_id_al='".$r['fk_id_al']."'
-                data-status='".$r['status_access_menu']."'> edit</button>
-                <button type='submit' id='buttonDelete' onClick='Delete(this)' data-toggle='modal' data-target='#delete' class='btn btn-danger btn-flat btn_edit'
-                data-id='".$r['id_access_menu']."'> delete</button>";
+                data-status='".$r['status_access_menu']."'> edit</button>";
                 $data[] = $nestedData;
 
             }

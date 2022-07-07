@@ -207,9 +207,6 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
       </div>
     </div>
   </div>
-  <?php
-       include("deleteModal.php");
-  ?>
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
@@ -264,13 +261,6 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
             $("#fk_id_menu").val(fk_id_menu);
             $("#fk_id_al").val(fk_id_al);
             $("#status").val(status_access_menu);
-    }
-    function Delete(btn){
-        $("#delete").modal('show');
-            var id = $(btn).data('id');
-            $("#id_delete").val(id);
-            var form_send_delete=document.getElementById('form_send_delete');
-            form_send_delete.action="processing/prosesDeleteAccessMenu.php";
     }
 
 

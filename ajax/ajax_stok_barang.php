@@ -42,7 +42,9 @@ if($_GET['action'] == "stokBarang"){
             OFFSET $start");
 
 
-           $querycount = $mysqli->query("SELECT count(id_stock_barang) as jumlah FROM stock_barang WHERE nama_barang LIKE '%$search%'");
+           $querycount = $mysqli->query("SELECT count(id_stock_barang) as jumlah,fk_id_lokasi,nama_lokasi FROM stock_barang
+           inner join lokasi on lokasi.id_lokasi = stock_barang.fk_id_lokasi WHERE nama_barang LIKE '%$search%'
+           or nama_lokasi LIKE '%$search%'");
          $datacount = $querycount->fetch_array();
            $totalFiltered = $datacount['jumlah'];
         }
@@ -65,9 +67,7 @@ if($_GET['action'] == "stokBarang"){
                 data-fk_id_lokasi='".$r['fk_id_lokasi']."'
                 data-nama_barang='".$r['nama_barang']."'
                 data-stock='".$r['stock']."'
-                data-status='".$r['status_barang']."'> edit</button>
-                <button type='submit' id='buttonDelete' onClick='Delete(this)' data-toggle='modal' data-target='#delete' class='btn btn-danger btn-flat btn_edit'
-                data-id='".$r['id_stock_barang']."'> delete</button>";
+                data-status='".$r['status_barang']."'> edit</button>";
                 $data[] = $nestedData;
 
             }

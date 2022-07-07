@@ -59,9 +59,7 @@ if($_GET['action'] == "menu"){
                 data-id_menu='".$r['id_menu']."'
                 data-nama_menu='".$r['nama_menu']."'
                 data-alamat_menu='".$r['alamat_menu']."'
-                data-status_menu='".$r['status_menu']."'> edit</button>
-                <button type='submit' id='buttonDelete' onClick='Delete(this)' data-toggle='modal' data-target='#delete' class='btn btn-danger btn-flat btn_edit'
-                data-id='".$r['id_menu']."'> delete</button>";
+                data-status_menu='".$r['status_menu']."'> edit</button>";
                 $data[] = $nestedData;
 
             }

@@ -17,7 +17,7 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Data Stok Barang</title>
+    <title>Data Stock Barang</title>
 
     <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -56,7 +56,7 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                 <div class="container-fluid">
                 <a href="tambahStokBarang.php"> <button style="float:right; background-color:#4295f5; color:white" class="btn btn-user">Tambah Data</button></a>
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Data Stok Barang</h1>
+                    <h1 class="h3 mb-2 text-gray-800">Data Stock Barang</h1>
                     <?php
                         if (empty($_GET['alert'])) {
                             echo "";
@@ -179,9 +179,6 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
       </div>
     </div>
   </div>
-  <?php
-      include("deleteModal.php");
-  ?>
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
@@ -236,13 +233,6 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
             $("#nama_barang").val(nama_barang);
             $("#stock").val(stock);
             $("#status").val(status_barang);
-    }
-    function Delete(btn){
-        $("#delete").modal('show');
-            var id = $(btn).data('id');
-            $("#id_delete").val(id);
-            var form_send_delete=document.getElementById('form_send_delete');
-            form_send_delete.action="processing/prosesDeleteStokBarang.php";
     }
 
 
