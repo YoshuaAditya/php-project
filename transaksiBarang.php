@@ -143,7 +143,7 @@ if ($transaksi == "1"){
                                             }
                                           }
                                           else{
-                                            $query = "SELECT id_lokasi,nama_lokasi FROM lokasi where status_lokasi ='1'";
+                                            $query = "SELECT id_lokasi,nama_lokasi FROM lokasi where status_lokasi ='1' AND  nama_lokasi !='CV KCI'";
                                             $run = mysqli_query($connect, $query);
                                             while($output = mysqli_fetch_assoc($run)){
                                                 $id = $output['id_lokasi'];
