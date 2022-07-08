@@ -76,8 +76,20 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                                             <th style="width:200px">Keterangan</th>
                                         </tr>
                                     </thead>
-
-
+                                    <tfoot>
+                                       <tr>
+                                         <td></td>
+                                         <th>Barang</th>
+                                         <th>Perusahaan</th>
+                                         <th>Lokasi</th>
+                                         <th>Tanggal</th>
+                                         <th>Pengeluaran</th>
+                                         <th>Pemasukan</th>
+                                         <th>Stock Sebelum</th>
+                                         <td></td>
+                                         <th>Keterangan</th>
+                                       </tr>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>
@@ -130,9 +142,13 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
 
 
 <script>
-    $(function(){
-
-        $('#user').DataTable({
+    $('#user tfoot th').each(function () {
+        var title = $(this).text();
+        $(this).html('<input type="text" name="'+title+'" placeholder="Search ' + title + '" />');
+    });
+    $(document).ready(function(){
+        var table=$('#user').DataTable({
+            "dom": 'lrtp',
             "processing": true,
             "serverSide": true,
             "ajax":{
@@ -151,7 +167,20 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                 { "data": "stock_sebelumnya"},
                 { "data": "stock_akhir"},
                 { "data": "keterangan_transaksi"},
-            ]
+              ],
+              "initComplete": function () {
+              // Apply the search
+              this.api()
+                  .columns()
+                  .every(function () {
+                      var that = this;
+                      $('input', this.footer()).on('keyup change clear', function () {
+                          if (that.search() !== this.value) {
+                              that.search(this.value).draw();
+                          }
+                      });
+                  });
+              }
         });
     });
 

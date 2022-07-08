@@ -100,8 +100,17 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-
-
+                                    <tfoot>
+                                       <tr>
+                                         <td></td>
+                                         <th>Lokasi</th>
+                                         <th>Perusahaan</th>
+                                         <th>Barang</th>
+                                         <th>Stock</th>
+                                         <td></td>
+                                         <td></td>
+                                       </tr>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>
@@ -217,9 +226,13 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
 
 
 <script>
-    $(function(){
-
-        $('#user').DataTable({
+    $('#user tfoot th').each(function () {
+        var title = $(this).text();
+        $(this).html('<input type="text" name="'+title+'" placeholder="Search ' + title + '" />');
+    });
+    $(document).ready(function(){
+        var table=$('#user').DataTable({
+            "dom": 'lrtp',
             "processing": true,
             "serverSide": true,
             "ajax":{
@@ -235,7 +248,20 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                 { "data": "stock" },
                 { "data": "status_barang" },
                 { "data": "aksi"},
-            ]
+              ],
+              "initComplete": function () {
+              // Apply the search
+              this.api()
+                  .columns()
+                  .every(function () {
+                      var that = this;
+                      $('input', this.footer()).on('keyup change clear', function () {
+                          if (that.search() !== this.value) {
+                              that.search(this.value).draw();
+                          }
+                      });
+                  });
+              }
         });
     });
 

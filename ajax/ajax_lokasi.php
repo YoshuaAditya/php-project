@@ -14,7 +14,6 @@ if($_GET['action'] == "lokasi"){
       $datacount = $querycount->fetch_array();
 
         $totalData = $datacount['jumlah'];
-
         $totalFiltered = $totalData;
 
         $limit = $_POST['length'];
@@ -22,32 +21,19 @@ if($_GET['action'] == "lokasi"){
         $order = $columns[$_POST['order']['0']['column']];
         $dir = $_POST['order']['0']['dir'];
 
-        if(empty($_POST['search']['value']))
-        {
-
-        $query = $mysqli->query("SELECT * FROM lokasi order by $order $dir
-                                                LIMIT $limit
-                                                OFFSET $start");
+        $where = "";
+        if(!empty($_POST['columns']['1']['search']['value'])){
+          $where = " WHERE nama_lokasi LIKE '%".$_POST['columns'][1]['search']['value']."%' ";
         }
-        else {
-            $search = $_POST['search']['value'];
-            $query = $mysqli->query("SELECT id_lokasi, nama_lokasi, status_lokasi FROM lokasi
-            WHERE nama_lokasi LIKE '%$search%'
-            order by $order $dir
-            LIMIT $limit
-            OFFSET $start");
 
-
-           $querycount = $mysqli->query("SELECT count(id_lokasi) as jumlah FROM lokasi WHERE nama_lokasi LIKE '%$search%'");
-         $datacount = $querycount->fetch_array();
-           $totalFiltered = $datacount['jumlah'];
-        }
+        $query = $mysqli->query("SELECT id_lokasi, nama_lokasi, status_lokasi FROM lokasi ".$where."
+          order by $order $dir
+          LIMIT $limit
+          OFFSET $start");
 
         $data = array();
         if(!empty($query))
         {
-
-
             while ($r = $query->fetch_array())
             {
                 $nestedData['id_lokasi'] =  $r['id_lokasi'];

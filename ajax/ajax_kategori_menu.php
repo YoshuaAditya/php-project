@@ -14,7 +14,6 @@ if($_GET['action'] == "kategori"){
       $datacount = $querycount->fetch_array();
 
         $totalData = $datacount['jumlah'];
-
         $totalFiltered = $totalData;
 
         $limit = $_POST['length'];
@@ -22,25 +21,15 @@ if($_GET['action'] == "kategori"){
         $order = $columns[$_POST['order']['0']['column']];
         $dir = $_POST['order']['0']['dir'];
 
-        if(empty($_POST['search']['value']))
-        {
-         $query = $mysqli->query("SELECT *  FROM kategori_menu order by $order $dir
-                                                      LIMIT $limit
-                                                      OFFSET $start");
+        $where="";
+        if(!empty($_POST['columns']['1']['search']['value'])){
+          $where = " where nama_category LIKE '%".$_POST['columns'][1]['search']['value']."%' ";
         }
-        else {
-            $search = $_POST['search']['value'];
-            $query = $mysqli->query("SELECT id_category,nama_category,status_category FROM kategori_menu WHERE nama_category LIKE '%$search%'
 
-                                                         order by $order $dir
-                                                         LIMIT $limit
-                                                         OFFSET $start");
-
-
-           $querycount = $mysqli->query("SELECT count(id_category) as jumlah FROM kategori_menu WHERE nama_category LIKE '%$search%' ");
-         $datacount = $querycount->fetch_array();
-           $totalFiltered = $datacount['jumlah'];
-        }
+        $query = $mysqli->query("SELECT id_category,nama_category,status_category FROM kategori_menu ".$where."
+          order by $order $dir
+          LIMIT $limit
+          OFFSET $start");
 
         $data = array();
         if(!empty($query))

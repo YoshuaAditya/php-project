@@ -98,8 +98,15 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-
-
+                                    <tfoot>
+                                       <tr>
+                                         <td></td>
+                                         <th>Menu</th>
+                                         <th>Alamat Menu</th>
+                                         <td></td>
+                                         <td></td>
+                                       </tr>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>
@@ -181,9 +188,13 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
 
 
 <script>
-    $(function(){
-
-        $('#user').DataTable({
+    $('#user tfoot th').each(function () {
+        var title = $(this).text();
+        $(this).html('<input type="text" name="'+title+'" placeholder="Search ' + title + '" />');
+    });
+    $(document).ready(function(){
+        var table=$('#user').DataTable({
+            "dom": 'lrtp',
             "processing": true,
             "serverSide": true,
             "ajax":{
@@ -197,7 +208,20 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                 { "data": "alamat_menu" },
                 { "data": "status_menu" },
                 { "data": "aksi"},
-            ]
+            ],
+            "initComplete": function () {
+            // Apply the search
+            this.api()
+                .columns()
+                .every(function () {
+                    var that = this;
+                    $('input', this.footer()).on('keyup change clear', function () {
+                        if (that.search() !== this.value) {
+                            that.search(this.value).draw();
+                        }
+                    });
+                });
+            }
         });
     });
 
@@ -214,9 +238,6 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
             $("#alamat_menu").val(alamat_menu);
             $("#status_menu").val(status_menu);
     }
-
-
-
 
 
 

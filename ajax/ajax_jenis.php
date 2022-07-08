@@ -14,7 +14,6 @@ if($_GET['action'] == "jenis"){
       $datacount = $querycount->fetch_array();
 
         $totalData = $datacount['jumlah'];
-
         $totalFiltered = $totalData;
 
         $limit = $_POST['length'];
@@ -22,32 +21,22 @@ if($_GET['action'] == "jenis"){
         $order = $columns[$_POST['order']['0']['column']];
         $dir = $_POST['order']['0']['dir'];
 
-        if(empty($_POST['search']['value']))
-        {
-
-        $query = $mysqli->query("SELECT * FROM jenis_transaksi order by $order $dir
-                                                LIMIT $limit
-                                                OFFSET $start");
+        $where ="";$where1="";
+        if(!empty($_POST['columns']['1']['search']['value'])){
+          $where1 = " AND nama_jenis  LIKE '%".$_POST['columns'][1]['search']['value']."%' ";
         }
-        else {
-            $search = $_POST['search']['value'];
-            $query = $mysqli->query("SELECT id_jenis, nama_jenis, status_jenis FROM jenis_transaksi
-            WHERE nama_jenis LIKE '%$search%'
-            order by $order $dir
-            LIMIT $limit
-            OFFSET $start");
 
-
-           $querycount = $mysqli->query("SELECT count(id_jenis) as jumlah FROM jenis_transaksi WHERE nama_jenis LIKE '%$search%'");
-         $datacount = $querycount->fetch_array();
-           $totalFiltered = $datacount['jumlah'];
+        if($where1){
+          $where = " where 1=1 ";
         }
+        $query = $mysqli->query("SELECT id_jenis, nama_jenis, status_jenis FROM jenis_transaksi ".$where.$where1."
+          order by $order $dir
+          LIMIT $limit
+          OFFSET $start");
 
         $data = array();
         if(!empty($query))
         {
-
-
             while ($r = $query->fetch_array())
             {
                 $nestedData['id_jenis'] =  $r['id_jenis'];

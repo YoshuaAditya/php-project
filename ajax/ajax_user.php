@@ -17,7 +17,6 @@ if($_GET['action'] == "user"){
       $datacount = $querycount->fetch_array();
 
         $totalData = $datacount['jumlah'];
-
         $totalFiltered = $totalData;
 
         $limit = $_POST['length'];
@@ -25,26 +24,23 @@ if($_GET['action'] == "user"){
         $order = $columns[$_POST['order']['0']['column']];
         $dir = $_POST['order']['0']['dir'];
 
-        if(empty($_POST['search']['value']))
-        {
-         $query = $mysqli->query("SELECT id_user,username, fk_id_al, status_user, id_al, nama_al FROM user
-           inner join access_level on access_level.id_al = user.fk_id_al order by $order $dir
-                                                      LIMIT $limit
-                                                      OFFSET $start");
-        }
-        else {
-            $search = $_POST['search']['value'];
-            $query = $mysqli->query("SELECT id_user,username, fk_id_al, status_user, id_al, nama_al FROM user
-              inner join access_level on access_level.id_al = user.fk_id_al WHERE username LIKE '%$search%'
-                                                         order by $order $dir
-                                                         LIMIT $limit
-                                                         OFFSET $start");
 
-
-           $querycount = $mysqli->query("SELECT count(id_user) as jumlah FROM user WHERE username LIKE '%$search%'");
-         $datacount = $querycount->fetch_array();
-           $totalFiltered = $datacount['jumlah'];
+        $where = "";$where1="";$where2="";
+        if(!empty($_POST['columns']['1']['search']['value'])){
+          $where1 = " AND username LIKE '%".$_POST['columns'][1]['search']['value']."%' ";
         }
+        if(!empty($_POST['columns']['2']['search']['value'])){
+          $where2 = " AND nama_al LIKE '%".$_POST['columns'][2]['search']['value']."%' ";
+        }
+
+        if($where1||$where2){
+          $where = " where 1=1 ";
+        }
+        $query = $mysqli->query("SELECT id_user,username, fk_id_al, status_user, id_al, nama_al FROM user
+          inner join access_level on access_level.id_al = user.fk_id_al ".$where.$where1.$where2."
+          order by $order $dir
+          LIMIT $limit
+          OFFSET $start");
 
         $data = array();
         if(!empty($query))

@@ -15,7 +15,6 @@ if($_GET['action'] == "accessLevel"){
       $datacount = $querycount->fetch_array();
 
         $totalData = $datacount['jumlah'];
-
         $totalFiltered = $totalData;
 
         $limit = $_POST['length'];
@@ -23,29 +22,22 @@ if($_GET['action'] == "accessLevel"){
         $order = $columns[$_POST['order']['0']['column']];
         $dir = $_POST['order']['0']['dir'];
 
-        if(empty($_POST['search']['value']))
-        {
+        $where ="";$where1="";$where2="";$where3="";
+        if(!empty($_POST['columns']['1']['search']['value'])){
+          $where1 = " AND nama_al LIKE '%".$_POST['columns'][1]['search']['value']."%' ";
+        }
+        if(!empty($_POST['columns']['2']['search']['value'])){
+          $where2 = " AND nama_perusahaan LIKE '%".$_POST['columns'][2]['search']['value']."%' ";
+        }
 
+        if($where1||$where2||$where3){
+          $where = " where 1=1 ";
+        }
         $query = $mysqli->query("SELECT id_al, nama_al,fk_id_perusahaan, status_al, nama_perusahaan FROM access_level
-        inner join perusahaan on perusahaan.id_perusahaan = access_level.fk_id_perusahaan order by $order $dir
-                                                LIMIT $limit
-                                                OFFSET $start");
-        }
-        else {
-            $search = $_POST['search']['value'];
-            $query = $mysqli->query("SELECT id_al, nama_al,fk_id_perusahaan, status_al, nama_perusahaan FROM access_level
-            inner join perusahaan on perusahaan.id_perusahaan = access_level.fk_id_perusahaan
-            WHERE nama_al LIKE '%$search%'
-            order by $order $dir
-            LIMIT $limit
-            OFFSET $start");
-
-
-           $querycount = $mysqli->query("SELECT count(id_al) as jumlah FROM access_level
-           WHERE nama_al LIKE '%$search%'");
-         $datacount = $querycount->fetch_array();
-           $totalFiltered = $datacount['jumlah'];
-        }
+         inner join perusahaan on perusahaan.id_perusahaan = access_level.fk_id_perusahaan ".$where.$where1.$where2."
+          order by $order $dir
+          LIMIT $limit
+          OFFSET $start");
 
         $data = array();
         if(!empty($query))

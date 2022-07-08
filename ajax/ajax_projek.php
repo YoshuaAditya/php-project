@@ -14,7 +14,6 @@ if($_GET['action'] == "projek"){
       $datacount = $querycount->fetch_array();
 
         $totalData = $datacount['jumlah'];
-
         $totalFiltered = $totalData;
 
         $limit = $_POST['length'];
@@ -22,32 +21,19 @@ if($_GET['action'] == "projek"){
         $order = $columns[$_POST['order']['0']['column']];
         $dir = $_POST['order']['0']['dir'];
 
-        if(empty($_POST['search']['value']))
-        {
-
-        $query = $mysqli->query("SELECT * FROM projek order by $order $dir
-                                                LIMIT $limit
-                                                OFFSET $start");
+        $where="";
+        if(!empty($_POST['columns']['1']['search']['value'])){
+          $where = " WHERE nama_projek LIKE '%".$_POST['columns'][1]['search']['value']."%' ";
         }
-        else {
-            $search = $_POST['search']['value'];
-            $query = $mysqli->query("SELECT id_projek, nama_projek, status_projek FROM projek
-            WHERE nama_projek LIKE '%$search%'
-            order by $order $dir
-            LIMIT $limit
-            OFFSET $start");
 
-
-           $querycount = $mysqli->query("SELECT count(id_projek) as jumlah FROM projek WHERE nama_projek LIKE '%$search%'");
-         $datacount = $querycount->fetch_array();
-           $totalFiltered = $datacount['jumlah'];
-        }
+        $query = $mysqli->query("SELECT id_projek, nama_projek, status_projek FROM projek ".$where."
+          order by $order $dir
+          LIMIT $limit
+          OFFSET $start");
 
         $data = array();
         if(!empty($query))
         {
-
-
             while ($r = $query->fetch_array())
             {
                 $nestedData['id_projek'] =  $r['id_projek'];

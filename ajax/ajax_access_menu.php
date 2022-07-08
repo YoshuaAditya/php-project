@@ -18,14 +18,14 @@ if($_GET['action'] == "accessMenu"){
       $querycount = $mysqli->query("SELECT count(id_access_menu) as jumlah FROM access_menu");
       $datacount = $querycount->fetch_array();
       $totalData = $datacount['jumlah'];
+      $totalFiltered = $totalData;
 
         $limit = $_POST['length'];
         $start = $_POST['start'];
         $order = $columns[$_POST['order']['0']['column']];
         $dir = $_POST['order']['0']['dir'];
 
-
-        $where1="";$where2="";$where3="";
+        $where ="";$where1="";$where2="";$where3="";
         if(!empty($_POST['columns']['1']['search']['value'])){
           $where1 = " AND nama_menu LIKE '%".$_POST['columns'][1]['search']['value']."%' ";
         }
@@ -36,16 +36,13 @@ if($_GET['action'] == "accessMenu"){
           $where3 = " AND nama_al LIKE '%".$_POST['columns'][3]['search']['value']."%' ";
         }
 
-        if(!$where1||!$where2||$where3){
-          $where = "";
-        }
-        else{
+        if($where1||$where2||$where3){
           $where = " where 1=1 ";
         }
         $query = $mysqli->query("SELECT id_access_menu, fk_id_category,fk_id_menu,fk_id_al, status_access_menu,nama_menu,nama_category,nama_al FROM access_menu
          inner join access_level on access_level.id_al = access_menu.fk_id_al
          inner join kategori_menu on kategori_menu.id_category = access_menu.fk_id_category
-         inner join menu on menu.id_menu = access_menu.fk_id_menu ".$where." ".$where1." ".$where2." ".$where3."
+         inner join menu on menu.id_menu = access_menu.fk_id_menu ".$where.$where1.$where2.$where3."
           order by $order $dir
           LIMIT $limit
           OFFSET $start");
@@ -78,7 +75,7 @@ if($_GET['action'] == "accessMenu"){
         $json_data = array(
                     "draw"            => intval($_POST['draw']),
                     "recordsTotal"    => intval($totalData),
-                    "recordsFiltered" => intval($totalData),
+                    "recordsFiltered" => intval($totalFiltered),
                     "data"            => $data
                     );
 

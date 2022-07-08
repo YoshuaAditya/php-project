@@ -17,7 +17,6 @@ if($_GET['action'] == "stokBarang"){
       $datacount = $querycount->fetch_array();
 
         $totalData = $datacount['jumlah'];
-
         $totalFiltered = $totalData;
 
         $limit = $_POST['length'];
@@ -25,33 +24,29 @@ if($_GET['action'] == "stokBarang"){
         $order = $columns[$_POST['order']['0']['column']];
         $dir = $_POST['order']['0']['dir'];
 
-        if(empty($_POST['search']['value']))
-        {
+        $where = "";$where1="";$where2="";$where3="";$where4="";
+        if(!empty($_POST['columns']['1']['search']['value'])){
+          $where1 = " AND nama_lokasi LIKE '%".$_POST['columns'][1]['search']['value']."%' ";
+        }
+        if(!empty($_POST['columns']['2']['search']['value'])){
+          $where2 = " AND nama_perusahaan LIKE '%".$_POST['columns'][2]['search']['value']."%' ";
+        }
+        if(!empty($_POST['columns']['3']['search']['value'])){
+          $where3 = " AND nama_barang LIKE '%".$_POST['columns'][3]['search']['value']."%' ";
+        }
+        if(!empty($_POST['columns']['4']['search']['value'])){
+          $where4 = " AND stock LIKE '%".$_POST['columns'][4]['search']['value']."%' ";
+        }
 
+        if($where1||$where2||$where3||$where4){
+          $where = " where 1=1 ";
+        }
         $query = $mysqli->query("SELECT id_stock_barang, fk_id_lokasi, fk_id_perusahaan, nama_barang, stock, status_barang, nama_lokasi, nama_perusahaan FROM stock_barang
-         inner join lokasi on lokasi.id_lokasi = stock_barang.fk_id_lokasi
-         inner join perusahaan on perusahaan.id_perusahaan = stock_barang.fk_id_perusahaan order by $order $dir
-                                                      LIMIT $limit
-                                                      OFFSET $start");
-        }
-        else {
-            $search = $_POST['search']['value'];
-            $query = $mysqli->query("SELECT id_stock_barang, fk_id_lokasi, fk_id_perusahaan, nama_barang, stock, status_barang, nama_lokasi, nama_perusahaan FROM stock_barang
-            inner join lokasi on lokasi.id_lokasi = stock_barang.fk_id_lokasi
-            inner join perusahaan on perusahaan.id_perusahaan = stock_barang.fk_id_perusahaan WHERE nama_barang LIKE '%$search%'
-            or nama_lokasi LIKE '%$search%' or nama_perusahaan LIKE '%$search%'
-            order by $order $dir
-            LIMIT $limit
-            OFFSET $start");
-
-
-           $querycount = $mysqli->query("SELECT count(id_stock_barang) as jumlah,fk_id_lokasi,fk_id_perusahaan,nama_lokasi,nama_perusahaan FROM stock_barang
-           inner join lokasi on lokasi.id_lokasi = stock_barang.fk_id_lokasi
-           inner join perusahaan on perusahaan.id_perusahaan = stock_barang.fk_id_perusahaan WHERE nama_barang LIKE '%$search%'
-           or nama_lokasi LIKE '%$search%' or nama_perusahaan LIKE '%$search%'");
-         $datacount = $querycount->fetch_array();
-           $totalFiltered = $datacount['jumlah'];
-        }
+        inner join lokasi on lokasi.id_lokasi = stock_barang.fk_id_lokasi
+        inner join perusahaan on perusahaan.id_perusahaan = stock_barang.fk_id_perusahaan ".$where.$where1.$where2.$where3.$where4."
+          order by $order $dir
+          LIMIT $limit
+          OFFSET $start");
 
         $data = array();
         if(!empty($query))

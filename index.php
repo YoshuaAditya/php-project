@@ -58,7 +58,7 @@ checkSession();
                             <div class="card-body" >
                                 <div class="table-responsive">
 
-                                  <label for="exampleInputEmail1">Saldo: </label>
+                                  <label for="exampleInputEmail1">Saldo Perusahaan: </label>
                                   <p/>
                                   <?php
                                   if($_SESSION['akses']==5){

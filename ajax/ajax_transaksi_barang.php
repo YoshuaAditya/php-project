@@ -34,7 +34,6 @@ if($_GET['action'] == "transaksi"){
       $datacount = $querycount->fetch_array();
 
         $totalData = $datacount['jumlah'];
-
         $totalFiltered = $totalData;
 
         $limit = $_POST['length'];
@@ -42,38 +41,43 @@ if($_GET['action'] == "transaksi"){
         $order = $columns[$_POST['order']['0']['column']];
         $dir = $_POST['order']['0']['dir'];
 
-        if(empty($_POST['search']['value']))
-        {
-
-         $query = $mysqli->query("SELECT id_transaksi_bbm, fk_id_stock_barang, tanggal_transaksi, pengeluaran_stock,
-          pemasukan_stock, stock_sebelumnya, keterangan_transaksi, nama_barang, nama_perusahaan, nama_lokasi from transaksi_bbm
-                                    inner join stock_barang on stock_barang.id_stock_barang = transaksi_bbm.fk_id_stock_barang
-                                    inner join perusahaan on perusahaan.id_perusahaan = stock_barang.fk_id_perusahaan
-                                    inner join lokasi on lokasi.id_lokasi = transaksi_bbm.fk_id_lokasi ".$condition." order by $order $dir
-                                                      LIMIT $limit
-                                                      OFFSET $start");
+        $where = "";$where1="";$where2="";$where3="";$where4="";$where5="";$where6="";$where7="";$where9="";
+        if(!empty($_POST['columns']['1']['search']['value'])){
+          $where1 = " AND nama_barang LIKE '%".$_POST['columns'][1]['search']['value']."%' ";
         }
-        else {
-            $search = $_POST['search']['value'];
-            $query = $mysqli->query("SELECT id_transaksi_bbm, fk_id_stock_barang, tanggal_transaksi, pengeluaran_stock,
-             pemasukan_stock, stock_sebelumnya, keterangan_transaksi, nama_barang, nama_perusahaan, nama_lokasi from transaksi_bbm
-                                       inner join stock_barang on stock_barang.id_stock_barang = transaksi_bbm.fk_id_stock_barang
-                                       inner join perusahaan on perusahaan.id_perusahaan = stock_barang.fk_id_perusahaan
-                                       inner join lokasi on lokasi.id_lokasi = transaksi_bbm.fk_id_lokasi WHERE ".$conditionAddition." (nama_barang LIKE '%$search%'
-                                                         or nama_lokasi LIKE '%$search%' or nama_perusahaan LIKE '%$search%')
-                                                         order by $order $dir
-                                                         LIMIT $limit
-                                                         OFFSET $start");
-
-
-           $querycount = $mysqli->query("SELECT count(id_transaksi_bbm) as jumlah, nama_barang, nama_lokasi, nama_perusahaan FROM transaksi_bbm
-           inner join stock_barang on stock_barang.id_stock_barang = transaksi_bbm.fk_id_stock_barang
-           inner join perusahaan on perusahaan.id_perusahaan = stock_barang.fk_id_perusahaan
-           inner join lokasi on lokasi.id_lokasi = transaksi_bbm.fk_id_lokasi WHERE ".$conditionAddition." (nama_barang LIKE '%$search%'
-                             or nama_lokasi LIKE '%$search%' or nama_perusahaan LIKE '%$search%')");
-         $datacount = $querycount->fetch_array();
-           $totalFiltered = $datacount['jumlah'];
+        if(!empty($_POST['columns']['2']['search']['value'])){
+          $where2 = " AND nama_perusahaan LIKE '%".$_POST['columns'][2]['search']['value']."%' ";
         }
+        if(!empty($_POST['columns']['3']['search']['value'])){
+          $where3 = " AND nama_lokasi LIKE '%".$_POST['columns'][3]['search']['value']."%' ";
+        }
+        if(!empty($_POST['columns']['4']['search']['value'])){
+          $where4 = " AND tanggal_transaksi LIKE '%".$_POST['columns'][4]['search']['value']."%' ";
+        }
+        if(!empty($_POST['columns']['5']['search']['value'])){
+          $where5 = " AND pengeluaran_stock LIKE '%".$_POST['columns'][5]['search']['value']."%' ";
+        }
+        if(!empty($_POST['columns']['6']['search']['value'])){
+          $where6 = " AND pemasukan_stock LIKE '%".$_POST['columns'][6]['search']['value']."%' ";
+        }
+        if(!empty($_POST['columns']['7']['search']['value'])){
+          $where7 = " AND stock_sebelumnya LIKE '%".$_POST['columns'][7]['search']['value']."%' ";
+        }
+        if(!empty($_POST['columns']['9']['search']['value'])){
+          $where9 = " AND keterangan_transaksi LIKE '%".$_POST['columns'][9]['search']['value']."%' ";
+        }
+
+        if($where1||$where2||$where3||$where4||$where5||$where6||$where7||$where9){
+          $where = " where 1=1 ";
+        }
+        $query = $mysqli->query("SELECT id_transaksi_bbm, fk_id_stock_barang, tanggal_transaksi, pengeluaran_stock,
+         pemasukan_stock, stock_sebelumnya, keterangan_transaksi, nama_barang, nama_perusahaan, nama_lokasi from transaksi_bbm
+                                   inner join stock_barang on stock_barang.id_stock_barang = transaksi_bbm.fk_id_stock_barang
+                                   inner join perusahaan on perusahaan.id_perusahaan = stock_barang.fk_id_perusahaan
+                                   inner join lokasi on lokasi.id_lokasi = transaksi_bbm.fk_id_lokasi ".$where.$where1.$where2.$where3.$where4.$where5.$where6.$where7.$where9."
+          order by $order $dir
+          LIMIT $limit
+          OFFSET $start");
 
         $data = array();
         if(!empty($query))

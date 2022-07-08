@@ -94,7 +94,7 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                                             <th>ID</th>
                                             <th>Nama Menu</th>
                                             <th>Nama Kategori</th>
-                                            <th>Nama Akses Level</th>
+                                            <th>Nama Access Level</th>
                                             <th>Status Akses Menu</th>
                                             <th>Action</th>
                                         </tr>
@@ -104,8 +104,8 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                                          <td></td>
                                          <th>Menu</th>
                                          <th>Kategori</th>
-                                         <th>Akses Level</th>
-                                         <th>Status</th>
+                                         <th>Access Level</th>
+                                         <td></td>
                                          <td></td>
                                        </tr>
                                     </tfoot>
@@ -269,7 +269,7 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                         }
                     });
                 });
-            },
+            }
         });
     });
     function Edit(btn){
