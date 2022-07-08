@@ -67,7 +67,7 @@ checkSession();
                                   <label for="exampleInputEmail1">Perusahaan</label>
                                   <Select class="form-control" name='fk_id_perusahaan' id="fk_id_perusahaan" >
                                       <?php
-                                        $query = "SELECT * FROM perusahaan where status_perusahaan ='1'";
+                                        $query = "SELECT * FROM perusahaan where status_perusahaan ='1' AND nama_perusahaan != 'ALL PERUSAHAAN'";
                                         $run = mysqli_query($connect, $query);
                                         while($output = mysqli_fetch_assoc($run)){
                                             $id = $output['id_perusahaan'];
