@@ -99,8 +99,16 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-
-
+                                    <tfoot>
+                                       <tr>
+                                         <td></td>
+                                         <th>Menu</th>
+                                         <th>Kategori</th>
+                                         <th>Akses Level</th>
+                                         <th>Status</th>
+                                         <td></td>
+                                       </tr>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>
@@ -227,9 +235,13 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
 
 
 <script>
-    $(function(){
-
-        $('#user').DataTable({
+    $('#user tfoot th').each(function () {
+        var title = $(this).text();
+        $(this).html('<input type="text" name="'+title+'" placeholder="Search ' + title + '" />');
+    });
+    $(document).ready(function(){
+        var table=$('#user').DataTable({
+            "dom": 'lrtp',
             "processing": true,
             "serverSide": true,
             "ajax":{
@@ -244,10 +256,22 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                 { "data": "nama_al" },
                 { "data": "status_access_menu" },
                 { "data": "aksi"},
-            ]
+            ],
+            "initComplete": function () {
+            // Apply the search
+            this.api()
+                .columns()
+                .every(function () {
+                    var that = this;
+                    $('input', this.footer()).on('keyup change clear', function () {
+                        if (that.search() !== this.value) {
+                            that.search(this.value).draw();
+                        }
+                    });
+                });
+            },
         });
     });
-
     function Edit(btn){
         $("#edit").modal('show');
             var id = $(btn).data('id');
@@ -262,10 +286,6 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
             $("#fk_id_al").val(fk_id_al);
             $("#status").val(status_access_menu);
     }
-
-
-
-
 
 </script>
 </body>
