@@ -68,7 +68,11 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                                             <th style="width:200px">Perusahaan</th>
                                             <th style="width:200px">Jenis Transaksi</th>
                                             <th style="width:200px">Nama Barang</th>
-                                            <th style="width:200px">Nama Proyek</th>
+                                            <?php
+                                                if($_SESSION['akses']== 1 || $_SESSION['akses']== 5 ){
+                                                   echo  '<th style="width:200px">Nama Proyek</th>';
+                                                }
+                                            ?>
                                             <th style="width:200px">Kuantitas</th>
                                             <th style="width:200px">Pengeluaran</th>
                                             <th style="width:200px">Pemasukan</th>
@@ -84,7 +88,11 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                                          <th>Perusahaan</th>
                                          <th>Jenis Transaksi</th>
                                          <th>Barang</th>
-                                         <th>Proyek</th>
+                                         <?php
+                                                if($_SESSION['akses']== 1 || $_SESSION['akses']== 5 ){
+                                                   echo  '<th">Nama Proyek</th>';
+                                                }
+                                            ?>
                                          <td></td>
                                          <th>Pengeluaran</th>
                                          <th>Pemasukan</th>
@@ -165,7 +173,12 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                 { "data": "nama_perusahaan" },
                 { "data": "nama_jenis" },
                 { "data": "nama_transaksi" },
-                { "data": "nama_projek"},
+                <?php
+                if($_SESSION['akses'] == 1 && $_SESSION['akses'] == 5){
+                   echo '{ "data": "nama_projek"},';
+                }
+                ?>
+                
                 { "data": "qty" },
                 { "data": "pengeluaran" },
                 { "data": "pemasukan" },

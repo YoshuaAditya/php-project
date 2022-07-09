@@ -9,7 +9,7 @@ if($_SESSION['akses'] == '5'){
 }else{
     $perusahaan = getIdPerusahaan($_SESSION['akses'],$connect);
     $condition = "where fk_id_perusahaan = '".$perusahaan."' ";
-    $conditionAddition = "fk_id_perusahaan = '".$perusahaan."' AND ";
+    $conditionAddition = "AND fk_id_perusahaan = '".$perusahaan."' ";
 }
 
 if($_GET['action'] == "transaksi"){
@@ -79,7 +79,7 @@ if($_GET['action'] == "transaksi"){
           saldo_before_transaction, tanggal_transaksi, keterangan_transaksi from transaksi
           inner join perusahaan on perusahaan.id_perusahaan = transaksi.fk_id_perusahaan
           inner join projek on projek.id_projek = transaksi.nama_proyek
-          inner join jenis_transaksi on jenis_transaksi.id_jenis = transaksi.fk_id_jenis_transaksi ".$conditionAddition.$where.$where1.$where2.$where3.$where4.$where6.$where7.$where8.$where10.$where11."
+          inner join jenis_transaksi on jenis_transaksi.id_jenis = transaksi.fk_id_jenis_transaksi ".$where.$conditionAddition.$where1.$where2.$where3.$where4.$where6.$where7.$where8.$where10.$where11."
             order by $order $dir
             LIMIT $limit
             OFFSET $start");
@@ -87,7 +87,7 @@ if($_GET['action'] == "transaksi"){
           $query = $mysqli->query("SELECT id_transaksi,fk_id_perusahaan, nama_perusahaan,fk_id_jenis_transaksi, nama_jenis, nama_transaksi, nama_proyek, nama_proyek as nama_projek, qty, satuan, pemasukan, pengeluaran,
           saldo_before_transaction, tanggal_transaksi, keterangan_transaksi from transaksi
           inner join perusahaan on perusahaan.id_perusahaan = transaksi.fk_id_perusahaan
-          inner join jenis_transaksi on jenis_transaksi.id_jenis = transaksi.fk_id_jenis_transaksi ".$conditionAddition.$where.$where1.$where2.$where3.$where4.$where6.$where7.$where8.$where10.$where11."
+          inner join jenis_transaksi on jenis_transaksi.id_jenis = transaksi.fk_id_jenis_transaksi ".$where.$conditionAddition.$where1.$where2.$where3.$where4.$where6.$where7.$where8.$where10.$where11."
             order by $order $dir
             LIMIT $limit
             OFFSET $start");
