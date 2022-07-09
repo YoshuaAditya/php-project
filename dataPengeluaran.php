@@ -165,7 +165,7 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                 { "data": "nama_perusahaan" },
                 { "data": "nama_jenis" },
                 { "data": "nama_transaksi" },
-                { "data": "nama_proyek"},
+                { "data": "nama_projek"},
                 { "data": "qty" },
                 { "data": "pengeluaran" },
                 { "data": "pemasukan" },

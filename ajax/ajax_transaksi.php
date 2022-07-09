@@ -20,7 +20,7 @@ if($_GET['action'] == "transaksi"){
                         1  => 'nama_perusahaan',
                         2  => 'nama_jenis',
                         3  => 'nama_transaksi',
-                        4  => 'nama_proyek',
+                        4  => 'nama_projek',
                         5  => 'qty',
                         6  => 'satuan',
                         7  => 'pemasukan',
@@ -52,8 +52,8 @@ if($_GET['action'] == "transaksi"){
         if(!empty($_POST['columns']['3']['search']['value'])){
           $where3 = " AND nama_transaksi LIKE '%".$_POST['columns'][3]['search']['value']."%' ";
         }
-        if(!empty($_POST['columns']['4']['search']['value'])){
-          $where4 = " AND nama_proyek LIKE '%".$_POST['columns'][4]['search']['value']."%' ";
+        if(!empty($_POST['columns']['4']['search']['value']) && $_SESSION['akses']== 1 || $_SESSION['akses']== 5){
+          $where4 = " AND nama_projek LIKE '%".$_POST['columns'][4]['search']['value']."%' ";
         }
         if(!empty($_POST['columns']['6']['search']['value'])){
           $where6 = " AND pengeluaran LIKE '%".$_POST['columns'][6]['search']['value']."%' ";
@@ -74,13 +74,25 @@ if($_GET['action'] == "transaksi"){
         if($where1||$where2||$where3||$where4||$where6||$where7||$where8||$where10||$where11){
           $where = " where 1=1 ";
         }
-        $query = $mysqli->query("SELECT id_transaksi, nama_perusahaan, nama_jenis, nama_transaksi, nama_proyek, qty, satuan, pemasukan, pengeluaran,
-        saldo_before_transaction, tanggal_transaksi, keterangan_transaksi from transaksi
-        inner join perusahaan on perusahaan.id_perusahaan = transaksi.fk_id_perusahaan
-        inner join jenis_transaksi on jenis_transaksi.id_jenis = transaksi.fk_id_jenis_transaksi ".$where.$where1.$where2.$where3.$where4.$where6.$where7.$where8.$where10.$where11."
-          order by $order $dir
-          LIMIT $limit
-          OFFSET $start");
+        if($_SESSION['akses']== 1 || $_SESSION['akses']== 5 ){
+          $query = $mysqli->query("SELECT id_transaksi,fk_id_perusahaan, nama_perusahaan,fk_id_jenis_transaksi, nama_jenis, nama_transaksi, nama_proyek, projek.nama_projek as nama_projek, qty, satuan, pemasukan, pengeluaran,
+          saldo_before_transaction, tanggal_transaksi, keterangan_transaksi from transaksi
+          inner join perusahaan on perusahaan.id_perusahaan = transaksi.fk_id_perusahaan
+          inner join projek on projek.id_projek = transaksi.nama_proyek
+          inner join jenis_transaksi on jenis_transaksi.id_jenis = transaksi.fk_id_jenis_transaksi ".$conditionAddition.$where.$where1.$where2.$where3.$where4.$where6.$where7.$where8.$where10.$where11."
+            order by $order $dir
+            LIMIT $limit
+            OFFSET $start");
+        }else{
+          $query = $mysqli->query("SELECT id_transaksi,fk_id_perusahaan, nama_perusahaan,fk_id_jenis_transaksi, nama_jenis, nama_transaksi, nama_proyek, nama_proyek as nama_projek, qty, satuan, pemasukan, pengeluaran,
+          saldo_before_transaction, tanggal_transaksi, keterangan_transaksi from transaksi
+          inner join perusahaan on perusahaan.id_perusahaan = transaksi.fk_id_perusahaan
+          inner join jenis_transaksi on jenis_transaksi.id_jenis = transaksi.fk_id_jenis_transaksi ".$conditionAddition.$where.$where1.$where2.$where3.$where4.$where6.$where7.$where8.$where10.$where11."
+            order by $order $dir
+            LIMIT $limit
+            OFFSET $start");
+        }
+        
 
         $data = array();
         if(!empty($query))
@@ -93,7 +105,7 @@ if($_GET['action'] == "transaksi"){
                 $nestedData['nama_perusahaan'] = $r['nama_perusahaan'];
                 $nestedData['nama_jenis'] = $r['nama_jenis'];
                 $nestedData['nama_transaksi'] = $r['nama_transaksi'];
-                $nestedData['nama_proyek'] = $r['nama_proyek'];
+                $nestedData['nama_projek'] = $r['nama_projek'] == ""? "":$r['nama_projek'];
                 $nestedData['qty'] = $r['qty']." ".$r['satuan'];
                 $nestedData['pengeluaran'] = rupiah($r['pengeluaran']);
                 $nestedData['pemasukan'] = rupiah($r['pemasukan']);
@@ -101,6 +113,8 @@ if($_GET['action'] == "transaksi"){
                 $nestedData['saldo_akhir'] = $r['pengeluaran']==null? rupiah($r['saldo_before_transaction']+$r['pemasukan']) : rupiah($r['saldo_before_transaction']-$r['pengeluaran']);
                 $nestedData['tanggal_transaksi'] = $newDate ;
                 $nestedData['keterangan_transaksi'] = $r['keterangan_transaksi'];
+                $nestedData['action'] = "<button type='submit' id='buttonEdit' onClick='Edit(this)' data-toggle='modal' data-target='#edit' class='btn btn-primary btn-flat btn_edit'
+               > edit</button>";
 
 
                 $data[] = $nestedData;
