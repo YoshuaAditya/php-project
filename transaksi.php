@@ -121,9 +121,11 @@ if ($transaksi == "1"){
 
                                             ?>
                                     </select><br>
-
-                                    <label for="exampleInputEmail1">Nama Projek</label> <br>
-                                    <Select class="form-control" name='projek' required>
+                                <?php
+                                    if($_GET['prs'] == 1){
+                                        ?>
+                                         <label for="exampleInputEmail1">Nama Projek</label> <br>
+                                    <Select class="form-control" name='proyek' required>
                                         <?php
                                             $query = "SELECT * FROM projek where status_projek ='1'";
                                             $run = mysqli_query($connect, $query);
@@ -138,6 +140,9 @@ if ($transaksi == "1"){
 
                                             ?>
                                     </select><br>
+                                    <?php
+                                    }
+                                   ?>
 
                                     <!-- template form -->
                                     <?php

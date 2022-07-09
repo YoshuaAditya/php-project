@@ -22,7 +22,7 @@ if(!empty($_POST["jenis_transaksi"])){
 if(!empty($_POST["nama"])){
    $nama_barang = $_POST['nama'];
 }
-if(!empty($_POST["proyek"])){
+if(!empty($_POST["proyek"]) && $prs == 1){
    $nama_proyek = $_POST['proyek'];
 }else{
    $nama_proyek = "";
