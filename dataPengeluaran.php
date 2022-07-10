@@ -68,11 +68,7 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                                             <th style="width:200px">Perusahaan</th>
                                             <th style="width:200px">Jenis Transaksi</th>
                                             <th style="width:200px">Nama Barang</th>
-                                            <?php
-                                                if($_SESSION['akses']== 1 || $_SESSION['akses']== 5 ){
-                                                   echo  '<th style="width:200px">Nama Proyek</th>';
-                                                }
-                                            ?>
+                                            <th style="width:200px">Nama Projek</th>;
                                             <th style="width:200px">Kuantitas</th>
                                             <th style="width:200px">Pengeluaran</th>
                                             <th style="width:200px">Pemasukan</th>
@@ -80,6 +76,7 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                                             <th style="width:200px">Saldo Akhir</th>
                                             <th style="width:200px">Tanggal Transaksi</th>
                                             <th style="width:200px">Keterangan</th>
+                                            <th style="width:200px">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -88,18 +85,15 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                                          <th>Perusahaan</th>
                                          <th>Jenis Transaksi</th>
                                          <th>Barang</th>
-                                         <?php
-                                                if($_SESSION['akses']== 1 || $_SESSION['akses']== 5 ){
-                                                   echo  '<th">Nama Proyek</th>';
-                                                }
-                                            ?>
-                                         <td></td>
+                                         <th>Nama Projek</th>
+                                         <th>Kuantitas</th>
                                          <th>Pengeluaran</th>
                                          <th>Pemasukan</th>
                                          <th>Saldo Sebelum</th>
                                          <td></td>
                                          <th>Tanggal</th>
                                          <th>Keterangan</th>
+                                         <td></td>
                                        </tr>
                                     </tfoot>
                                 </table>
@@ -173,12 +167,7 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                 { "data": "nama_perusahaan" },
                 { "data": "nama_jenis" },
                 { "data": "nama_transaksi" },
-                <?php
-                if($_SESSION['akses'] == 1 && $_SESSION['akses'] == 5){
-                   echo '{ "data": "nama_projek"},';
-                }
-                ?>
-                
+                { "data": "nama_projek"},
                 { "data": "qty" },
                 { "data": "pengeluaran" },
                 { "data": "pemasukan" },
@@ -186,6 +175,7 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                 { "data": "saldo_akhir"},
                 { "data": "tanggal_transaksi" },
                 { "data": "keterangan_transaksi"},
+                { "data": "action"},
               ],
               "initComplete": function () {
               // Apply the search
@@ -199,7 +189,10 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                           }
                       });
                   });
-              }
+              var akses= <?php echo $_SESSION['akses'];?>;
+              if(akses!=5||akses!=1)table.column(4).visible(!table.column(4).visible());
+              if(akses>5)table.column(12).visible(!table.column(12).visible());
+            }
         });
     });
 

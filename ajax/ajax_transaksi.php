@@ -74,25 +74,15 @@ if($_GET['action'] == "transaksi"){
         if($where1||$where2||$where3||$where4||$where6||$where7||$where8||$where10||$where11){
           $where = " where 1=1 ";
         }
-        if($_SESSION['akses']== 1 || $_SESSION['akses']== 5 ){
-          $query = $mysqli->query("SELECT id_transaksi,fk_id_perusahaan, nama_perusahaan,fk_id_jenis_transaksi, nama_jenis, nama_transaksi, nama_proyek, projek.nama_projek as nama_projek, qty, satuan, pemasukan, pengeluaran,
-          saldo_before_transaction, tanggal_transaksi, keterangan_transaksi from transaksi
-          inner join perusahaan on perusahaan.id_perusahaan = transaksi.fk_id_perusahaan
-          inner join projek on projek.id_projek = transaksi.nama_proyek
-          inner join jenis_transaksi on jenis_transaksi.id_jenis = transaksi.fk_id_jenis_transaksi ".$where.$conditionAddition.$where1.$where2.$where3.$where4.$where6.$where7.$where8.$where10.$where11."
-            order by $order $dir
-            LIMIT $limit
-            OFFSET $start");
-        }else{
-          $query = $mysqli->query("SELECT id_transaksi,fk_id_perusahaan, nama_perusahaan,fk_id_jenis_transaksi, nama_jenis, nama_transaksi, nama_proyek, nama_proyek as nama_projek, qty, satuan, pemasukan, pengeluaran,
-          saldo_before_transaction, tanggal_transaksi, keterangan_transaksi from transaksi
-          inner join perusahaan on perusahaan.id_perusahaan = transaksi.fk_id_perusahaan
-          inner join jenis_transaksi on jenis_transaksi.id_jenis = transaksi.fk_id_jenis_transaksi ".$where.$conditionAddition.$where1.$where2.$where3.$where4.$where6.$where7.$where8.$where10.$where11."
-            order by $order $dir
-            LIMIT $limit
-            OFFSET $start");
-        }
         
+        $query = $mysqli->query("SELECT id_transaksi,fk_id_perusahaan, nama_perusahaan,fk_id_jenis_transaksi, nama_jenis, nama_transaksi, fk_id_projek, nama_projek, qty, satuan, pemasukan, pengeluaran,
+        saldo_before_transaction, tanggal_transaksi, keterangan_transaksi from transaksi
+        inner join perusahaan on perusahaan.id_perusahaan = transaksi.fk_id_perusahaan
+        inner join projek on projek.id_projek = transaksi.fk_id_projek
+        inner join jenis_transaksi on jenis_transaksi.id_jenis = transaksi.fk_id_jenis_transaksi ".$where.$conditionAddition.$where1.$where2.$where3.$where4.$where6.$where7.$where8.$where10.$where11."
+          order by $order $dir
+          LIMIT $limit
+          OFFSET $start");
 
         $data = array();
         if(!empty($query))
@@ -105,7 +95,7 @@ if($_GET['action'] == "transaksi"){
                 $nestedData['nama_perusahaan'] = $r['nama_perusahaan'];
                 $nestedData['nama_jenis'] = $r['nama_jenis'];
                 $nestedData['nama_transaksi'] = $r['nama_transaksi'];
-                $nestedData['nama_projek'] = $r['nama_projek'] == ""? "":$r['nama_projek'];
+                $nestedData['nama_projek'] = $r['nama_projek'];
                 $nestedData['qty'] = $r['qty']." ".$r['satuan'];
                 $nestedData['pengeluaran'] = rupiah($r['pengeluaran']);
                 $nestedData['pemasukan'] = rupiah($r['pemasukan']);
