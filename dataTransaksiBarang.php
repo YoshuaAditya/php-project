@@ -260,6 +260,8 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                           }
                       });
                   });
+              var akses= <?php echo $_SESSION['akses'];?>;
+              if(akses>5)table.column(10).visible(!table.column(10).visible());
               }
         });
     });

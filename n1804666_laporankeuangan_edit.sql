@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 08, 2022 at 04:35 PM
+-- Generation Time: Jul 10, 2022 at 09:35 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.0.19
 
@@ -299,7 +299,7 @@ CREATE TABLE `projek` (
 --
 
 INSERT INTO `projek` (`id_projek`, `nama_projek`, `status_projek`) VALUES
-(1, 'Projek Tol ABC', 1),
+(1, 'Non-Projek', 1),
 (2, 'Projek Penggalian', 1),
 (3, 'Projek Sumber Daya BBM', 1);
 
@@ -361,7 +361,7 @@ CREATE TABLE `transaksi` (
   `fk_id_saldo` int(11) NOT NULL,
   `fk_id_jenis_transaksi` int(11) NOT NULL,
   `nama_transaksi` varchar(30) NOT NULL,
-  `nama_proyek` varchar(50) DEFAULT NULL,
+  `fk_id_projek` int(11) NOT NULL,
   `qty` int(11) NOT NULL,
   `satuan` varchar(20) DEFAULT NULL,
   `pemasukan` bigint(20) DEFAULT NULL,
