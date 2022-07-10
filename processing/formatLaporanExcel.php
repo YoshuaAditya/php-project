@@ -64,6 +64,7 @@ if(!isset($_GET['bulanAkhir'])){
             <th>Tanggal </th>
             <th>Qty</th>
             <th>Nama Pengeluaran/Pemasukan</th>
+            <th>Projek</th>
             <th>Satuan</th>
             <th>Harga</th>
             <th>Pengeluaran</th>
@@ -72,7 +73,8 @@ if(!isset($_GET['bulanAkhir'])){
             <th>Keterangan</th>
 		</tr>
       <?php
-        $query = "select tanggal_transaksi, qty, satuan, nama_transaksi, pemasukan, pengeluaran, saldo_before_transaction, keterangan_transaksi from transaksi ";
+        $query = "select tanggal_transaksi, qty, satuan, nama_transaksi, pemasukan, pengeluaran, saldo_before_transaction, keterangan_transaksi, nama_projek from transaksi ";
+        $query .= "inner join projek on projek.id_projek = transaksi.fk_id_projek ";
         $query .= "WHERE fk_id_perusahaan='".$perusahaan."' AND tanggal_transaksi BETWEEN '".$awal."' AND '".$akhir."' ORDER BY tanggal_transaksi ASC";
         $previousDate="";
         $run = mysqli_query($connect, $query);
@@ -88,6 +90,7 @@ if(!isset($_GET['bulanAkhir'])){
             }
             echo "<td>".$o['qty']."</td>";
             echo "<td>".$o['nama_transaksi']."</td>";
+            echo "<td>".$o['nama_projek']."</td>";
             echo "<td>".$o['satuan']."</td>";
             echo "<td>".rupiah($harga)."</td>";
             if($o['pengeluaran'] == NULL){

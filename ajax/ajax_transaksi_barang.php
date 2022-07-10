@@ -9,7 +9,7 @@ if($_SESSION['akses'] == '5'){
 }else{
     $perusahaan = getIdPerusahaan($_SESSION['akses'],$connect);
     $condition = "WHERE id_perusahaan = '".$perusahaan."' ";
-    $conditionAddition = "id_perusahaan = '".$perusahaan."' AND ";
+    $conditionAddition = " AND id_perusahaan = '".$perusahaan."' ";
 }
 
 if($_GET['action'] == "transaksi"){
@@ -71,10 +71,10 @@ if($_GET['action'] == "transaksi"){
           $where = " where 1=1 ";
         }
         $query = $mysqli->query("SELECT id_transaksi_bbm, fk_id_stock_barang, tanggal_transaksi, pengeluaran_stock,
-         pemasukan_stock, stock_sebelumnya, keterangan_transaksi, nama_barang, nama_perusahaan, nama_lokasi from transaksi_bbm
+         pemasukan_stock, stock_sebelumnya, keterangan_transaksi, nama_barang, nama_perusahaan, nama_lokasi, id_lokasi from transaksi_bbm
                                    inner join stock_barang on stock_barang.id_stock_barang = transaksi_bbm.fk_id_stock_barang
                                    inner join perusahaan on perusahaan.id_perusahaan = stock_barang.fk_id_perusahaan
-                                   inner join lokasi on lokasi.id_lokasi = transaksi_bbm.fk_id_lokasi ".$where.$where1.$where2.$where3.$where4.$where5.$where6.$where7.$where9."
+                                   inner join lokasi on lokasi.id_lokasi = transaksi_bbm.fk_id_lokasi ".$where.$conditionAddition.$where1.$where2.$where3.$where4.$where5.$where6.$where7.$where9."
           order by $order $dir
           LIMIT $limit
           OFFSET $start");
@@ -96,6 +96,10 @@ if($_GET['action'] == "transaksi"){
                 $nestedData['stock_sebelumnya'] = $r['stock_sebelumnya'];
                 $nestedData['stock_akhir'] = $r['pengeluaran_stock']==null? $r['stock_sebelumnya']+$r['pemasukan_stock'] : $r['stock_sebelumnya']-$r['pengeluaran_stock'];
                 $nestedData['keterangan_transaksi'] = $r['keterangan_transaksi'];
+                $nestedData['action'] = "<button type='submit' id='buttonEdit' onClick='Edit(this)' data-toggle='modal' data-target='#edit' class='btn btn-primary btn-flat btn_edit'
+                data-id='".$r['id_transaksi_bbm']."'
+                data-id_lokasi='".$r['id_lokasi']."'
+                data-keterangan_transaksi='".$r['keterangan_transaksi']."'> edit</button>";
 
 
                 $data[] = $nestedData;

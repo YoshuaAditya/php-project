@@ -56,7 +56,33 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                 <div class="container-fluid">
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">Data Transaksi Barang</h1>
+                    <?php
+                        if (empty($_GET['alert'])) {
+                            echo "";
+                        }
 
+                        elseif ($_GET['alert'] == 1) {
+                            echo "<div class='alert alert-danger alert-dismissable'>
+                                    <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                                    <h4>  <i class='icon fa fa-times-circle'></i> Edit Gagal!</h4>
+                                    Ada Data yang Kosong Mohon Mengisi Semua Data!
+                                </div>";
+                        }
+                        elseif ($_GET['alert'] == 2) {
+                            echo "<div class='alert alert-success alert-dismissable'>
+                                    <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                                    <h4>  <i class='icon fa fa-check-circle'></i> Success!</h4>
+                                    Anda Telah Berhasil!
+                                </div>";
+                        }
+                        elseif ($_GET['alert'] == 3) {
+                          echo "<div class='alert alert-danger alert-dismissable'>
+                                  <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                                  <h4>  <i class='icon fas fa-exclamation-triangle'></i> Error!</h4>
+                                  Terjadi kesalahan pada server silahkan mencoba beberapa saat lagi!
+                              </div>";
+                      }
+                    ?>
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-body">
@@ -74,6 +100,7 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                                             <th style="width:200px">Stock Sebelumnya</th>
                                             <th style="width:200px">Stock Akhir</th>
                                             <th style="width:200px">Keterangan</th>
+                                            <th style="width:200px">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
@@ -88,6 +115,7 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                                          <th>Stock Sebelum</th>
                                          <td></td>
                                          <th>Keterangan</th>
+                                         <td></td>
                                        </tr>
                                     </tfoot>
                                 </table>
@@ -123,6 +151,56 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
         include("logoutModal.php");
    ?>
 
+   <div class="modal fade" id="edit" role="dialog">
+       <div class="modal-dialog modal-lg">
+         <div class="modal-content">
+           <div class="modal-header">
+             <button type="button" class="close" data-dismiss="modal">&times;</button>
+           </div>
+           <div class="modal-body">
+           <form id="form_send" action='processing/prosesEditDataTransaksiBarang.php' method ='post'  enctype="multipart/form-data">
+             <input type='hidden' name='id' id="id">
+
+             <label for="exampleInputEmail1">Nama Lokasi</label>
+             <Select class="form-control" name='id_lokasi' id="id_lokasi" >
+                 <?php
+                 if($_SESSION['akses']==4){
+                   $query = "SELECT * FROM lokasi where nama_lokasi ='CV KCI'";
+                   $run = mysqli_query($connect, $query);
+                   while($output = mysqli_fetch_assoc($run)){
+                       $id = $output['id_lokasi'];
+                       $nama = $output['nama_lokasi'];
+
+                 ?>
+                   <option value=<?php echo $id;?> () > <?php echo $nama; ?> </option>
+                 <?php
+                    }
+                 }
+                 else{
+                     $query = "SELECT * FROM lokasi where status_lokasi ='1'";
+                     $run = mysqli_query($connect, $query);
+                     while($output = mysqli_fetch_assoc($run)){
+                         $id = $output['id_lokasi'];
+                         $nama = $output['nama_lokasi'];
+
+                 ?>
+                     <option value=<?php echo $id;?> () > <?php echo $nama; ?> </option>
+                 <?php
+                     }
+                 }
+                 ?>
+             </select> <br>
+
+              <label for="exampleInputEmail1">Keterangan</label> <br>
+              <input type='text'class="form-control"  name='keterangan_transaksi' id="keterangan_transaksi" > <br>
+              <input type='submit' class="btn btn-primary" value='submit'>
+
+             </form>
+           </div>
+         </div>
+       </div>
+     </div>
+
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -139,6 +217,7 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
 
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
+    <script src="js/filterInput.js"></script>
 
 
 <script>
@@ -167,6 +246,7 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                 { "data": "stock_sebelumnya"},
                 { "data": "stock_akhir"},
                 { "data": "keterangan_transaksi"},
+                { "data": "action"}
               ],
               "initComplete": function () {
               // Apply the search
@@ -183,7 +263,16 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
               }
         });
     });
+    function Edit(btn){
+        $("#edit").modal('show');
+        var id = $(btn).data('id');
+        var lokasi = $(btn).data('id_lokasi');
+        var keterangan = $(btn).data('keterangan_transaksi');
 
+        $("#id").val(id);
+        $("#id_lokasi").val(lokasi);
+        $("#keterangan_transaksi").val(keterangan);
+    }
 </script>
 </body>
 
