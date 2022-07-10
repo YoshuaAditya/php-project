@@ -56,6 +56,33 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                 <div class="container-fluid">
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">Data Debit Kredit</h1>
+                    <?php
+                        if (empty($_GET['alert'])) {
+                            echo "";
+                        }
+
+                        elseif ($_GET['alert'] == 1) {
+                            echo "<div class='alert alert-danger alert-dismissable'>
+                                    <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                                    <h4>  <i class='icon fa fa-times-circle'></i> Edit Gagal!</h4>
+                                    Ada Data yang Kosong Mohon Mengisi Semua Data!
+                                </div>";
+                        }
+                        elseif ($_GET['alert'] == 2) {
+                            echo "<div class='alert alert-success alert-dismissable'>
+                                    <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                                    <h4>  <i class='icon fa fa-check-circle'></i> Success!</h4>
+                                    Anda Telah Berhasil!
+                                </div>";
+                        }
+                        elseif ($_GET['alert'] == 3) {
+                          echo "<div class='alert alert-danger alert-dismissable'>
+                                  <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                                  <h4>  <i class='icon fas fa-exclamation-triangle'></i> Error!</h4>
+                                  Terjadi kesalahan pada server silahkan mencoba beberapa saat lagi!
+                              </div>";
+                      }
+                    ?>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
@@ -129,6 +156,69 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
         include("logoutModal.php");
    ?>
 
+   <div class="modal fade" id="edit" role="dialog">
+       <div class="modal-dialog modal-lg">
+         <div class="modal-content">
+           <div class="modal-header">
+             <button type="button" class="close" data-dismiss="modal">&times;</button>
+           </div>
+           <div class="modal-body">
+           <form id="form_send" action='processing/prosesEditDataPengeluaran.php' method ='post'  enctype="multipart/form-data">
+             <input type='hidden' name='id' id="id">
+
+             <label for="exampleInputEmail1">Jenis Transaksi</label>
+             <Select class="form-control" name='nama_jenis' id="nama_jenis" required>
+                 <?php
+                   $query = "SELECT * FROM jenis_transaksi where status_jenis ='1'";
+                   $run = mysqli_query($connect, $query);
+                   while($output = mysqli_fetch_assoc($run)){
+                       $id = $output['id_jenis'];
+                       $nama = $output['nama_jenis'];
+
+                 ?>
+                   <option value=<?php echo $id;?> () > <?php echo $nama; ?> </option>
+               <?php
+                   }
+
+                   ?>
+             </select><br>
+
+             <label for="exampleInputEmail1">Nama Barang</label> <br>
+             <input type='textarea' class="form-control" name='nama_transaksi' id="nama_transaksi" required><br>
+
+             <label for="exampleInputEmail1" id="label_projek" hidden>Nama Projek</label>
+             <Select class="form-control" name='nama_projek' id="nama_projek" required hidden>
+                 <?php
+                   $query = "SELECT * FROM projek where status_projek ='1'";
+                   $run = mysqli_query($connect, $query);
+                   while($output = mysqli_fetch_assoc($run)){
+                       $id = $output['id_projek'];
+                       $nama = $output['nama_projek'];
+
+                 ?>
+                   <option value=<?php echo $id;?> () > <?php echo $nama; ?> </option>
+               <?php
+                   }
+
+                   ?>
+             </select><p id='br_projek' hidden></p>
+
+             <label for="exampleInputEmail1">Kuantitas</label> <br>
+             <input type='text'class="form-control"  name='qty' id="qty" required> <br>
+
+              <label for="exampleInputEmail1">Satuan</label> <br>
+              <input type='text'class="form-control"  name='satuan' id="satuan" required> <br>
+
+              <label for="exampleInputEmail1">Keterangan</label> <br>
+              <input type='text'class="form-control"  name='keterangan_transaksi' id="keterangan_transaksi" > <br>
+              <input type='submit' class="btn btn-primary" value='submit'>
+
+             </form>
+           </div>
+         </div>
+       </div>
+     </div>
+
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -145,8 +235,7 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
 
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
-
-
+    <script src="js/filterInput.js"></script>
 <script>
     $('#user tfoot th').each(function () {
         var title = $(this).text();
@@ -190,12 +279,38 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                       });
                   });
               var akses= <?php echo $_SESSION['akses'];?>;
-              if(akses!=5||akses!=1)table.column(4).visible(!table.column(4).visible());
+              if(!(akses==5||akses==1))table.column(4).visible(!table.column(4).visible());
               if(akses>5)table.column(12).visible(!table.column(12).visible());
             }
         });
     });
+    function Edit(btn){
+        $("#edit").modal('show');
+        var id = $(btn).data('id');
+        var jenis = $(btn).data('nama_jenis');
+        var barang = $(btn).data('nama_transaksi');
+        var projek = $(btn).data('nama_projek');
+        var qty = $(btn).data('qty');
+        var satuan = $(btn).data('satuan');
+        var keterangan = $(btn).data('keterangan_transaksi');
 
+        var akses= <?php echo $_SESSION['akses'];?>;
+        if(akses==5||akses==1){
+          $("#nama_projek").removeAttr('hidden');
+          $("#label_projek").removeAttr('hidden');
+          $("#br_projek").removeAttr('hidden');
+        }
+
+        $("#id").val(id);
+        $("#nama_jenis").val(jenis);
+        $("#nama_transaksi").val(barang);
+        $("#nama_projek").val(projek);
+        $("#qty").val(qty);
+        $("#satuan").val(satuan);
+        $("#keterangan_transaksi").val(keterangan);
+    }
+    setInputFilter(document.getElementById("qty"), function(value) {
+      return /^-?\d*$/.test(value); });
 </script>
 </body>
 

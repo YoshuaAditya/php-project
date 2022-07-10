@@ -74,7 +74,7 @@ if($_GET['action'] == "transaksi"){
         if($where1||$where2||$where3||$where4||$where6||$where7||$where8||$where10||$where11){
           $where = " where 1=1 ";
         }
-        
+
         $query = $mysqli->query("SELECT id_transaksi,fk_id_perusahaan, nama_perusahaan,fk_id_jenis_transaksi, nama_jenis, nama_transaksi, fk_id_projek, nama_projek, qty, satuan, pemasukan, pengeluaran,
         saldo_before_transaction, tanggal_transaksi, keterangan_transaksi from transaksi
         inner join perusahaan on perusahaan.id_perusahaan = transaksi.fk_id_perusahaan
@@ -104,7 +104,13 @@ if($_GET['action'] == "transaksi"){
                 $nestedData['tanggal_transaksi'] = $newDate ;
                 $nestedData['keterangan_transaksi'] = $r['keterangan_transaksi'];
                 $nestedData['action'] = "<button type='submit' id='buttonEdit' onClick='Edit(this)' data-toggle='modal' data-target='#edit' class='btn btn-primary btn-flat btn_edit'
-               > edit</button>";
+                data-id='".$r['id_transaksi']."'
+                data-nama_jenis='".$r['fk_id_jenis_transaksi']."'
+                data-nama_transaksi='".$r['nama_transaksi']."'
+                data-nama_projek='".$r['fk_id_projek']."'
+                data-qty='".$r['qty']."'
+                data-satuan='".$r['satuan']."'
+                data-keterangan_transaksi='".$r['keterangan_transaksi']."'> edit</button>";
 
 
                 $data[] = $nestedData;

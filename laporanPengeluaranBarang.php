@@ -147,7 +147,7 @@ if ($perusahaan == "3"){
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+    <script src="js/jquery-ui.js"></script>
     <script>
     $( function() {
       $( "#awal" ).datepicker({ dateFormat: 'd MM yy', altField: "#bulanAwal", altFormat: "yy-mm-dd"});
