@@ -164,8 +164,8 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
            </div>
            <div class="modal-body">
            <form id="form_send" action='processing/prosesEditDataPengeluaran.php' method ='post'  enctype="multipart/form-data">
-             <input type='hidden' name='id' id="id">
-
+             <input type='hidden' name='id' id="id"><input type='hidden' name='fk_id_perusahaan' id="fk_id_perusahaan">
+             <input type='hidden' name='tanggal' id="tanggal">
              <label for="exampleInputEmail1">Jenis Transaksi</label>
              <Select class="form-control" name='nama_jenis' id="nama_jenis" required>
                  <?php
@@ -203,7 +203,15 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                    ?>
              </select><p id='br_projek' hidden></p>
 
-             <label for="exampleInputEmail1">Kuantitas</label> <br>
+             <label for="exampleInputEmail1" name='pengeluaran'>Pengeluaran</label> <br name='pengeluaran'>
+             <input type='text'class="form-control"  name='pengeluaran' id="pengeluaran"> <br name='pengeluaran'>
+             <input type='hidden' name='previousPengeluaran' id="previousPengeluaran">
+
+             <label for="exampleInputEmail1" name='pemasukan'>Pemasukan</label> <br name='pemasukan'>
+             <input type='text'class="form-control"  name='pemasukan' id="pemasukan"> <br name='pemasukan'>
+             <input type='hidden' name='previousPemasukan' id="previousPemasukan">
+
+             <br><label for="exampleInputEmail1">Kuantitas</label> <br>
              <input type='text'class="form-control"  name='qty' id="qty" required> <br>
 
               <label for="exampleInputEmail1">Satuan</label> <br>
@@ -287,9 +295,13 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
     function Edit(btn){
         $("#edit").modal('show');
         var id = $(btn).data('id');
+        var fk_id_perusahaan = $(btn).data('fk_id_perusahaan');
         var jenis = $(btn).data('nama_jenis');
         var barang = $(btn).data('nama_transaksi');
         var projek = $(btn).data('nama_projek');
+        var pengeluaran = $(btn).data('pengeluaran');
+        var pemasukan = $(btn).data('pemasukan');
+        var tanggal = $(btn).data('tanggal_transaksi');
         var qty = $(btn).data('qty');
         var satuan = $(btn).data('satuan');
         var keterangan = $(btn).data('keterangan_transaksi');
@@ -301,15 +313,48 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
           $("#br_projek").removeAttr('hidden');
         }
 
+        if(!pengeluaran){
+          var elements = document.getElementsByName('pengeluaran');
+          for (var i = 0; i<elements.length;i++) {
+            elements[i].style.display='none';
+          }
+          elements = document.getElementsByName('pemasukan');
+          for (var i = 0; i<elements.length;i++) {
+            elements[i].style.display='block';
+          }
+        }
+        else{
+          var elements = document.getElementsByName('pengeluaran');
+          for (var i = 0; i<elements.length;i++) {
+            elements[i].style.display='block';
+          }
+          elements = document.getElementsByName('pemasukan');
+          for (var i = 0; i<elements.length;i++) {
+            elements[i].style.display='none';
+          }
+        }
+
         $("#id").val(id);
+        $("#fk_id_perusahaan").val(fk_id_perusahaan);
         $("#nama_jenis").val(jenis);
         $("#nama_transaksi").val(barang);
         $("#nama_projek").val(projek);
+        $("#pengeluaran").val(pengeluaran);
+        $("#previousPengeluaran").val(pengeluaran);
+        $("#pemasukan").val(pemasukan);
+        $("#previousPemasukan").val(pemasukan);
+        $("#tanggal").val(tanggal);
         $("#qty").val(qty);
         $("#satuan").val(satuan);
         $("#keterangan_transaksi").val(keterangan);
     }
     setInputFilter(document.getElementById("qty"), function(value) {
+      return /^-?\d*$/.test(value); });
+
+    setInputFilter(document.getElementById("pengeluaran"), function(value) {
+      return /^-?\d*$/.test(value); });
+
+    setInputFilter(document.getElementById("pemasukan"), function(value) {
       return /^-?\d*$/.test(value); });
 </script>
 </body>

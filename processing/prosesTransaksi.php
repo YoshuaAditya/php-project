@@ -5,7 +5,7 @@ include("fungsi.php");
 date_default_timezone_set("Asia/Jakarta");
 //ini berfungsi untuk membedakan mana transaksi pengeluaran (1) dan pemasukan (2)
 $transaksi = $_GET['trx'];
-echo $id = "TR".date("dmYHis");
+echo $alt_id = "TR".date("dmYHis");
 //ini untuk mengambil data  perusahaan yang input
 $prs = $_GET['prs'];
 if($_SESSION['akses'] == 5){
@@ -57,8 +57,8 @@ elseif($uang <= 0){
 else{
 if($transaksi == "1"){
     // --------------------------------------------------- Ini untuk transaksi 1 Pengeluaran ----------------------------------------------------------------
-    $query = "INSERT INTO transaksi(id_transaksi, fk_id_perusahaan, fk_id_saldo, fk_id_jenis_transaksi, nama_transaksi, fk_id_projek, qty, satuan, pengeluaran, saldo_before_transaction, tanggal_transaksi, keterangan_transaksi, status_transaksi)";
-    $query .= "VALUES('".$id."', '".$perusahaan."', '".$saldo."', '".$jenis."','".$nama_barang."','".$id_proyek."','".$qty."','".$satuan."', '".$uang."','".$jumlahSaldo."',NOW(),'".$keterangan."','1')";
+    $query = "INSERT INTO transaksi(alt_id_transaksi, fk_id_perusahaan, fk_id_saldo, fk_id_jenis_transaksi, nama_transaksi, fk_id_projek, qty, satuan, pengeluaran, saldo_before_transaction, tanggal_transaksi, keterangan_transaksi, status_transaksi)";
+    $query .= "VALUES('".$alt_id."', '".$perusahaan."', '".$saldo."', '".$jenis."','".$nama_barang."','".$id_proyek."','".$qty."','".$satuan."', '".$uang."','".$jumlahSaldo."',NOW(),'".$keterangan."','1')";
 
     $run = mysqli_query($connect, $query);
     if ($run){
@@ -76,8 +76,8 @@ if($transaksi == "1"){
     }
 }elseif($transaksi == "2"){
    // --------------------------------------------------- Ini untuk transaksi 2 Pemasukan ----------------------------------------------------------------
-   $query = "INSERT INTO transaksi(id_transaksi, fk_id_perusahaan, fk_id_saldo, fk_id_jenis_transaksi, nama_transaksi, fk_id_projek, qty, satuan, pemasukan, saldo_before_transaction, tanggal_transaksi, keterangan_transaksi, status_transaksi)";
-   $query .= "VALUES('".$id."', '".$perusahaan."', '".$saldo."', '".$jenis."','".$nama_barang."','".$id_proyek."','".$qty."','".$satuan."', '".$uang."','".$jumlahSaldo."',NOW(),'".$keterangan."','1')";
+   $query = "INSERT INTO transaksi(alt_id_transaksi, fk_id_perusahaan, fk_id_saldo, fk_id_jenis_transaksi, nama_transaksi, fk_id_projek, qty, satuan, pemasukan, saldo_before_transaction, tanggal_transaksi, keterangan_transaksi, status_transaksi)";
+   $query .= "VALUES('".$alt_id."', '".$perusahaan."', '".$saldo."', '".$jenis."','".$nama_barang."','".$id_proyek."','".$qty."','".$satuan."', '".$uang."','".$jumlahSaldo."',NOW(),'".$keterangan."','1')";
 
    $run = mysqli_query($connect, $query);
    if ($run){

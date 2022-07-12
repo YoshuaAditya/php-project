@@ -101,6 +101,7 @@ if($_GET['action'] == "transaksi"){
                 $newDate =  date("d-M-Y", strtotime($r['tanggal_transaksi']));
                 $todayDate =  date_create()->format('d-M-Y');
                 $nestedData['id_transaksi'] =  $r['id_transaksi'];
+                $nestedData['fk_id_perusahaan'] = $r['fk_id_perusahaan'];
                 $nestedData['nama_perusahaan'] = $r['nama_perusahaan'];
                 $nestedData['nama_jenis'] = $r['nama_jenis'];
                 $nestedData['nama_transaksi'] = $r['nama_transaksi'];
@@ -115,9 +116,13 @@ if($_GET['action'] == "transaksi"){
                 if($nestedData['tanggal_transaksi'] === $todayDate){
                   $nestedData['action'] = "<button type='submit' id='buttonEdit' onClick='Edit(this)' data-toggle='modal' data-target='#edit' class='btn btn-primary btn-flat btn_edit'
                   data-id='".$r['id_transaksi']."'
+                  data-fk_id_perusahaan='".$r['fk_id_perusahaan']."'
                   data-nama_jenis='".$r['fk_id_jenis_transaksi']."'
                   data-nama_transaksi='".$r['nama_transaksi']."'
                   data-nama_projek='".$r['fk_id_projek']."'
+                  data-pengeluaran='".$r['pengeluaran']."'
+                  data-pemasukan='".$r['pemasukan']."'
+                  data-tanggal_transaksi='".$r['tanggal_transaksi']."'
                   data-qty='".$r['qty']."'
                   data-satuan='".$r['satuan']."'
                   data-keterangan_transaksi='".$r['keterangan_transaksi']."'> edit</button>";
