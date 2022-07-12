@@ -227,7 +227,7 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
     });
     $(document).ready(function(){
         var table=$('#user').DataTable({
-            "dom": 'lrtp',
+            "dom": 'lrtip',
             "processing": true,
             "serverSide": true,
             "ajax":{

@@ -39,6 +39,10 @@ if($_GET['action'] == "menu"){
           LIMIT $limit
           OFFSET $start");
 
+        $querycount = $mysqli->query("SELECT count(*) as jumlah FROM menu ".$where.$where1.$where2);
+        $datacount = $querycount->fetch_array();
+        $totalFiltered = $datacount['jumlah'];
+
         $data = array();
         if(!empty($query))
         {

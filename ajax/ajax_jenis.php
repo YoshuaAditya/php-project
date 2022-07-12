@@ -34,6 +34,10 @@ if($_GET['action'] == "jenis"){
           LIMIT $limit
           OFFSET $start");
 
+        $querycount = $mysqli->query("SELECT count(*) as jumlah FROM jenis_transaksi ".$where.$where1);
+        $datacount = $querycount->fetch_array();
+        $totalFiltered = $datacount['jumlah'];
+
         $data = array();
         if(!empty($query))
         {

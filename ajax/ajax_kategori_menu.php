@@ -31,6 +31,10 @@ if($_GET['action'] == "kategori"){
           LIMIT $limit
           OFFSET $start");
 
+        $querycount = $mysqli->query("SELECT count(*) as jumlah FROM kategori_menu ".$where);
+        $datacount = $querycount->fetch_array();
+        $totalFiltered = $datacount['jumlah'];
+
         $data = array();
         if(!empty($query))
         {

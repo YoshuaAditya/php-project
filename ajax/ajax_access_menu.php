@@ -47,6 +47,13 @@ if($_GET['action'] == "accessMenu"){
           LIMIT $limit
           OFFSET $start");
 
+        $querycount = $mysqli->query("SELECT count(*) as jumlah FROM access_menu
+         inner join access_level on access_level.id_al = access_menu.fk_id_al
+         inner join kategori_menu on kategori_menu.id_category = access_menu.fk_id_category
+         inner join menu on menu.id_menu = access_menu.fk_id_menu ".$where.$where1.$where2.$where3);
+        $datacount = $querycount->fetch_array();
+        $totalFiltered = $datacount['jumlah'];
+
         $data = array();
         if(!empty($query))
         {

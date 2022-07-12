@@ -48,6 +48,13 @@ if($_GET['action'] == "stokBarang"){
           LIMIT $limit
           OFFSET $start");
 
+        $querycount = $mysqli->query("SELECT count(*) as jumlah from stock_barang
+        inner join lokasi on lokasi.id_lokasi = stock_barang.fk_id_lokasi
+        inner join perusahaan on perusahaan.id_perusahaan = stock_barang.fk_id_perusahaan ".$where.$where1.$where2.$where3.$where4);
+        $datacount = $querycount->fetch_array();
+        $totalFiltered = $datacount['jumlah'];
+
+
         $data = array();
         if(!empty($query))
         {

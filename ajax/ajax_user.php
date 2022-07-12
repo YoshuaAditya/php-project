@@ -42,6 +42,11 @@ if($_GET['action'] == "user"){
           LIMIT $limit
           OFFSET $start");
 
+        $querycount = $mysqli->query("SELECT count(*) as jumlah from user
+          inner join access_level on access_level.id_al = user.fk_id_al ".$where.$where1.$where2);
+        $datacount = $querycount->fetch_array();
+        $totalFiltered = $datacount['jumlah'];
+
         $data = array();
         if(!empty($query))
         {

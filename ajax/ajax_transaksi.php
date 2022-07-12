@@ -84,6 +84,14 @@ if($_GET['action'] == "transaksi"){
           LIMIT $limit
           OFFSET $start");
 
+        $querycount = $mysqli->query("SELECT count(*) as jumlah from transaksi
+        inner join perusahaan on perusahaan.id_perusahaan = transaksi.fk_id_perusahaan
+        inner join projek on projek.id_projek = transaksi.fk_id_projek
+        inner join jenis_transaksi on jenis_transaksi.id_jenis = transaksi.fk_id_jenis_transaksi ".$where.$conditionAddition.$where1.$where2.$where3.$where4.$where6.$where7.$where8.$where10.$where11);
+        $datacount = $querycount->fetch_array();
+        $totalFiltered = $datacount['jumlah'];
+
+
         $data = array();
         if(!empty($query))
         {
@@ -91,6 +99,7 @@ if($_GET['action'] == "transaksi"){
             while ($r = $query->fetch_array())
             {
                 $newDate =  date("d-M-Y", strtotime($r['tanggal_transaksi']));
+                $todayDate =  date_create()->format('d-M-Y');
                 $nestedData['id_transaksi'] =  $r['id_transaksi'];
                 $nestedData['nama_perusahaan'] = $r['nama_perusahaan'];
                 $nestedData['nama_jenis'] = $r['nama_jenis'];
@@ -103,14 +112,19 @@ if($_GET['action'] == "transaksi"){
                 $nestedData['saldo_akhir'] = $r['pengeluaran']==null? rupiah($r['saldo_before_transaction']+$r['pemasukan']) : rupiah($r['saldo_before_transaction']-$r['pengeluaran']);
                 $nestedData['tanggal_transaksi'] = $newDate ;
                 $nestedData['keterangan_transaksi'] = $r['keterangan_transaksi'];
-                $nestedData['action'] = "<button type='submit' id='buttonEdit' onClick='Edit(this)' data-toggle='modal' data-target='#edit' class='btn btn-primary btn-flat btn_edit'
-                data-id='".$r['id_transaksi']."'
-                data-nama_jenis='".$r['fk_id_jenis_transaksi']."'
-                data-nama_transaksi='".$r['nama_transaksi']."'
-                data-nama_projek='".$r['fk_id_projek']."'
-                data-qty='".$r['qty']."'
-                data-satuan='".$r['satuan']."'
-                data-keterangan_transaksi='".$r['keterangan_transaksi']."'> edit</button>";
+                if($nestedData['tanggal_transaksi'] === $todayDate){
+                  $nestedData['action'] = "<button type='submit' id='buttonEdit' onClick='Edit(this)' data-toggle='modal' data-target='#edit' class='btn btn-primary btn-flat btn_edit'
+                  data-id='".$r['id_transaksi']."'
+                  data-nama_jenis='".$r['fk_id_jenis_transaksi']."'
+                  data-nama_transaksi='".$r['nama_transaksi']."'
+                  data-nama_projek='".$r['fk_id_projek']."'
+                  data-qty='".$r['qty']."'
+                  data-satuan='".$r['satuan']."'
+                  data-keterangan_transaksi='".$r['keterangan_transaksi']."'> edit</button>";
+                }
+                else{
+                  $nestedData['action'] ="";
+                }
 
 
                 $data[] = $nestedData;

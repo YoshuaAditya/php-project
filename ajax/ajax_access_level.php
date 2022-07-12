@@ -39,6 +39,11 @@ if($_GET['action'] == "accessLevel"){
           LIMIT $limit
           OFFSET $start");
 
+        $querycount = $mysqli->query("SELECT count(*) as jumlah FROM access_level
+         inner join perusahaan on perusahaan.id_perusahaan = access_level.fk_id_perusahaan ".$where.$where1.$where2);
+        $datacount = $querycount->fetch_array();
+        $totalFiltered = $datacount['jumlah'];
+
         $data = array();
         if(!empty($query))
         {
