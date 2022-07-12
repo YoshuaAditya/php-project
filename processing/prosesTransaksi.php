@@ -67,7 +67,7 @@ if($transaksi == "1"){
           $headerValue="location:../transaksi.php?alert=2&trx=1&prs=".$perusahaan;
           header($headerValue);
          }else{
-            deleteTransasksi($id, $connect);
+            deleteTransasksi($alt_id, $connect);
          }
 
     }else{
@@ -86,7 +86,7 @@ if($transaksi == "1"){
         $headerValue="location:../transaksi.php?alert=2&trx=2&prs=".$perusahaan;
          header($headerValue);
       }else{
-         deleteTransasksi($id, $connect);
+         deleteTransasksi($alt_id, $connect);
       }
 
    }else{

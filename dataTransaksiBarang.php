@@ -76,12 +76,26 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                                 </div>";
                         }
                         elseif ($_GET['alert'] == 3) {
+                            echo "<div class='alert alert-danger alert-dismissable'>
+                                    <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                                    <h4>  <i class='icon fas fa-exclamation-triangle'></i> Error! Data tidak ditemukan.</h4>
+                                    Tidak ada data stok barang pada lokasi di database. Mohon kontak super admin untuk menambahkan stok dan lokasi tersebut.
+                                </div>";
+                        }
+                        elseif ($_GET['alert'] == 4) {
+                            echo "<div class='alert alert-danger alert-dismissable'>
+                                    <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                                    <h4>  <i class='icon fas fa-exclamation-triangle'></i> Error! Stok tidak cukup.</h4>
+                                    Pengeluaran barang melebihi stok yang tersedia.
+                                </div>";
+                        }
+                        elseif ($_GET['alert'] == 5) {
                           echo "<div class='alert alert-danger alert-dismissable'>
                                   <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-                                  <h4>  <i class='icon fas fa-exclamation-triangle'></i> Error!</h4>
-                                  Terjadi kesalahan pada server silahkan mencoba beberapa saat lagi!
+                                  <h4>  <i class='icon fas fa-exclamation-triangle'></i> Error! Invalid Quantity.</h4>
+                                  Mohon memasukkan angka positif pada input kuantitas barang.
                               </div>";
-                      }
+                        }
                     ?>
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
@@ -159,7 +173,22 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
            </div>
            <div class="modal-body">
            <form id="form_send" action='processing/prosesEditDataTransaksiBarang.php' method ='post'  enctype="multipart/form-data">
-             <input type='hidden' name='id' id="id">
+             <input type='hidden' name='id' id="id"><input type='hidden' name='fk_id_perusahaan' id="fk_id_perusahaan">
+             <input type='hidden' name='tanggal' id="tanggal"><input type='hidden' name='previousBarang' id="previousBarang">
+             <input type='hidden' name='previousLokasi' id="previousLokasi"><input type='hidden' name='previousStockBarang' id="previousStockBarang">
+             <label for="exampleInputEmail1">Barang</label>
+             <Select class="form-control" name='nama_barang' id="nama_barang" required>
+                 <?php
+                     $prs=getIdPerusahaan($_SESSION['akses'],$connect);
+                     $query = "SELECT DISTINCT nama_barang FROM stock_barang where status_barang ='1' AND fk_id_perusahaan = ".$prs;
+                     $run = mysqli_query($connect, $query);
+                     while($output = mysqli_fetch_assoc($run)){
+                         $nama = $output['nama_barang'];
+                     echo '<option value="'.$nama. '">';echo $nama; ?> </option>
+                 <?php
+                     }
+                     ?>
+             </select><br>
 
              <label for="exampleInputEmail1">Nama Lokasi</label>
              <Select class="form-control" name='id_lokasi' id="id_lokasi" >
@@ -191,7 +220,15 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
                  ?>
              </select> <br>
 
-              <label for="exampleInputEmail1">Keterangan</label> <br>
+             <label for="exampleInputEmail1" name='pengeluaran'>Pengeluaran Stock</label> <br name='pengeluaran'>
+             <input type='text'class="form-control"  name='pengeluaran' id="pengeluaran"> <br name='pengeluaran'>
+             <input type='hidden' name='previousPengeluaran' id="previousPengeluaran">
+
+             <label for="exampleInputEmail1" name='pemasukan'>Pemasukan Stock</label> <br name='pemasukan'>
+             <input type='text'class="form-control"  name='pemasukan' id="pemasukan"> <br name='pemasukan'>
+             <input type='hidden' name='previousPemasukan' id="previousPemasukan">
+
+              <br><label for="exampleInputEmail1">Keterangan</label> <br>
               <input type='text'class="form-control"  name='keterangan_transaksi' id="keterangan_transaksi" > <br>
               <input type='submit' class="btn btn-primary" value='submit'>
 
@@ -268,13 +305,54 @@ checkPage($_SESSION['akses'], basename(__FILE__), $connect);
     function Edit(btn){
         $("#edit").modal('show');
         var id = $(btn).data('id');
+        var fk_id_perusahaan = $(btn).data('fk_id_perusahaan');
+        var fk_id_stock_barang = $(btn).data('fk_id_stock_barang');
+        var previousStockBarang = $(btn).data('stock_sebelumnya');
         var lokasi = $(btn).data('id_lokasi');
+        var tanggal = $(btn).data('tanggal_transaksi');
+        var pengeluaran = $(btn).data('pengeluaran');
+        var pemasukan = $(btn).data('pemasukan');
         var keterangan = $(btn).data('keterangan_transaksi');
 
+        if(!pengeluaran){
+          var elements = document.getElementsByName('pengeluaran');
+          for (var i = 0; i<elements.length;i++) {
+            elements[i].style.display='none';
+          }
+          elements = document.getElementsByName('pemasukan');
+          for (var i = 0; i<elements.length;i++) {
+            elements[i].style.display='block';
+          }
+        }
+        else{
+          var elements = document.getElementsByName('pengeluaran');
+          for (var i = 0; i<elements.length;i++) {
+            elements[i].style.display='block';
+          }
+          elements = document.getElementsByName('pemasukan');
+          for (var i = 0; i<elements.length;i++) {
+            elements[i].style.display='none';
+          }
+        }
+
         $("#id").val(id);
+        $("#fk_id_perusahaan").val(fk_id_perusahaan);
+        $("#previousBarang").val(fk_id_stock_barang);
+        $("#previousStockBarang").val(previousStockBarang);
         $("#id_lokasi").val(lokasi);
+        $("#previousLokasi").val(lokasi);
+        $("#pengeluaran").val(pengeluaran);
+        $("#previousPengeluaran").val(pengeluaran);
+        $("#pemasukan").val(pemasukan);
+        $("#previousPemasukan").val(pemasukan);
+        $("#tanggal").val(tanggal);
         $("#keterangan_transaksi").val(keterangan);
     }
+    setInputFilter(document.getElementById("pengeluaran"), function(value) {
+      return /^-?\d*$/.test(value); });
+
+    setInputFilter(document.getElementById("pemasukan"), function(value) {
+      return /^-?\d*$/.test(value); });
 </script>
 </body>
 

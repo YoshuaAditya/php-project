@@ -27,7 +27,7 @@ $dataStock=getIdStockBarang($id_lokasi,$nama_barang,$prs,$connect);
 $id_stock_barang=$dataStock['id_stock_barang'];
 $stock=$dataStock['stock'];
 
-if($id_stock_barang==0){
+if(!$id_stock_barang){
   header("location:../transaksiBarang.php?alert=3&trx=".$transaksi."&prs=".$prs);
 }
 elseif($qty <= 0){
@@ -41,7 +41,7 @@ if($transaksi == "1"){
       header("location:../transaksiBarang.php?alert=4&trx=1&prs=".$prs);
     }
     else{
-      $query = "INSERT INTO transaksi_bbm(id_transaksi_bbm, fk_id_stock_barang, fk_id_lokasi, tanggal_transaksi, pengeluaran_stock, stock_sebelumnya, status_transaksi, keterangan_transaksi)";
+      $query = "INSERT INTO transaksi_bbm(alt_id_transaksi_bbm, fk_id_stock_barang, fk_id_lokasi, tanggal_transaksi, pengeluaran_stock, stock_sebelumnya, status_transaksi, keterangan_transaksi)";
       $query .= "VALUES('".$id."', '".$id_stock_barang."', '".$id_lokasi."',NOW(),'".$qty."','".$stock."','1','".$keterangan."')";
 
       $run = mysqli_query($connect, $query);
@@ -60,7 +60,7 @@ if($transaksi == "1"){
     }
 }elseif($transaksi == "2"){
    // --------------------------------------------------- Ini untuk transaksi 2 Pemasukan ----------------------------------------------------------------
-   $query = "INSERT INTO transaksi_bbm(id_transaksi_bbm, fk_id_stock_barang, fk_id_lokasi, tanggal_transaksi, pemasukan_stock, stock_sebelumnya, status_transaksi, keterangan_transaksi)";
+   $query = "INSERT INTO transaksi_bbm(alt_id_transaksi_bbm, fk_id_stock_barang, fk_id_lokasi, tanggal_transaksi, pemasukan_stock, stock_sebelumnya, status_transaksi, keterangan_transaksi)";
    $query .= "VALUES('".$id."', '".$id_stock_barang."', '".$id_lokasi."',NOW(),'".$qty."','".$stock."','1','".$keterangan."')";
 
    $run = mysqli_query($connect, $query);

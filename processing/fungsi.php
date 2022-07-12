@@ -62,6 +62,25 @@ function getIdStockBarang($id_lokasi, $nama_barang,$perusahaan, $koneksi){
     $getData = mysqli_fetch_assoc($run);
     return $getData;
 }
+function getLastStockBarang($id,$id_stock_barang, $koneksi){
+  $querycount = "SELECT count(id_transaksi_bbm) as jumlah FROM transaksi_bbm";
+  $run = mysqli_query ($koneksi, $querycount);
+  $datacount = $run->fetch_array();
+  $totalData = $datacount['jumlah'];
+  if($totalData>0){
+    $query = "SELECT stock_sebelumnya,pengeluaran_stock,pemasukan_stock from transaksi_bbm where id_transaksi_bbm < '".$id."' AND fk_id_stock_barang = '".$id_stock_barang."' ORDER BY id_transaksi_bbm DESC LIMIT 1";
+    $run = mysqli_query ($koneksi, $query);
+    $getData = mysqli_fetch_assoc($run);
+    return $getData;
+  }
+  else {
+    $query = "SELECT stock from stock_barang where id_stock_barang = '".$id_stock_barang;
+    $run = mysqli_query ($koneksi, $query);
+    $getData = mysqli_fetch_assoc($run);
+    $getData['stock_sebelumnya'] = $getData['stock'];
+    return $getData;
+  }
+}
 
 function updateSaldo($saldo, $idSaldo, $koneksi){
     $query = "Update saldo SET saldo = '".$saldo."' WHERE id_saldo = '".$idSaldo."'";
@@ -84,7 +103,7 @@ function updateStock($stock, $id_stock_barang, $koneksi){
 }
 
 function deleteTransasksi($id, $koneksi){
-   $query = "DELETE FROM transaksi where id_transaksi = '".$id."'";
+   $query = "DELETE FROM transaksi where alt_id_transaksi = '".$id."'";
     $run = mysqli_query($koneksi, $query);
     if($run){
         return True;
@@ -93,7 +112,7 @@ function deleteTransasksi($id, $koneksi){
     }
 }
 function deleteTransasksiBarang($id, $koneksi){
-   $query = "DELETE FROM transaksi_bbm where id_transaksi_bbm = '".$id."'";
+   $query = "DELETE FROM transaksi_bbm where alt_id_transaksi_bbm = '".$id."'";
     $run = mysqli_query($koneksi, $query);
     if($run){
         return True;
