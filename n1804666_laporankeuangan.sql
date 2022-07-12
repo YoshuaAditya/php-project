@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 10, 2022 at 09:24 AM
+-- Generation Time: Jul 12, 2022 at 05:31 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.0.19
 
@@ -312,7 +312,7 @@ CREATE TABLE `saldo` (
 --
 
 INSERT INTO `saldo` (`id_saldo`, `fk_id_perusahaan`, `saldo`, `status_saldo`) VALUES
-(1, 1, 4721232, '1'),
+(1, 1, 5470000, '1'),
 (2, 2, 7700000, '1'),
 (4, 3, 4800000, '1'),
 (5, 4, 11899911, '1');
@@ -337,14 +337,15 @@ CREATE TABLE `stock_barang` (
 --
 
 INSERT INTO `stock_barang` (`id_stock_barang`, `fk_id_lokasi`, `fk_id_perusahaan`, `nama_barang`, `stock`, `status_barang`) VALUES
-(1, 1, 1, 'Bensin', 1029, 1),
+(1, 1, 1, 'Bensin', 1374, 1),
 (2, 2, 2, 'Bensin', 2000, 1),
-(3, 3, 1, 'Bensin', 0, 1),
+(3, 3, 1, 'Bensin', 234, 1),
 (6, 1, 3, 'Bensin Extra', 123, 1),
 (8, 5, 4, 'Bahan Bakar DT', 1032, 1),
 (9, 5, 4, 'Bahan Bakar AMP', 981, 1),
 (10, 2, 1, 'Mesin', 200, 1),
-(12, 2, 1, 'Bensin', 12, 1);
+(12, 2, 1, 'Bensin', 1, 1),
+(13, 1, 1, 'Mesin', 1135, 1);
 
 -- --------------------------------------------------------
 
@@ -353,7 +354,8 @@ INSERT INTO `stock_barang` (`id_stock_barang`, `fk_id_lokasi`, `fk_id_perusahaan
 --
 
 CREATE TABLE `transaksi` (
-  `id_transaksi` char(20) NOT NULL,
+  `id_transaksi` int(11) NOT NULL,
+  `alt_id_transaksi` char(20) NOT NULL,
   `fk_id_perusahaan` int(11) NOT NULL,
   `fk_id_saldo` int(11) NOT NULL,
   `fk_id_jenis_transaksi` int(11) NOT NULL,
@@ -373,29 +375,33 @@ CREATE TABLE `transaksi` (
 -- Dumping data for table `transaksi`
 --
 
-INSERT INTO `transaksi` (`id_transaksi`, `fk_id_perusahaan`, `fk_id_saldo`, `fk_id_jenis_transaksi`, `nama_transaksi`, `fk_id_projek`, `qty`, `satuan`, `pemasukan`, `pengeluaran`, `saldo_before_transaction`, `tanggal_transaksi`, `keterangan_transaksi`, `status_transaksi`) VALUES
-('TR01062022212548', 2, 2, 2, 'Rokok', 0, 100, 'dus', 6000000, NULL, 9200000, '2022-06-01', '', 1),
-('TR01062022212600', 2, 2, 1, 'Pinjam Uang', 0, 1, 'Lembar', NULL, 500000, 15200000, '2022-06-01', '', 1),
-('TR04072022201723', 4, 5, 1, 'gaji', 0, 100, '-', NULL, 10000, 0, '2022-07-04', '', 1),
-('TR04072022215230', 4, 5, 1, 'gaji', 0, 100, '-', NULL, 13212, -10000, '2022-07-04', '', 1),
-('TR04072022215308', 4, 5, 4, 'Perawatan mesin', 3, 100, 'mesin', 123123123, NULL, -23212, '2022-07-04', 'Me', 1),
-('TR05072022055937', 1, 1, 1, '1', 1, 1, '-', 111111, NULL, 6010123, '2022-07-05', '', 1),
-('TR05072022194830', 4, 5, 2, 'Snack', 0, 100, 'bungkus', NULL, 200000, 123099911, '2022-07-05', 'test', 1),
-('TR05072022202119', 1, 1, 1, 'Minum', 1, 100, 'botol', 500000, NULL, 6121234, '2022-07-05', 'aqua', 1),
-('TR05072022202157', 1, 1, 1, 'Gaji', 2, 1, '-', 1000000, NULL, 6621234, '2022-07-05', '', 1),
-('TR05072022203922', 2, 2, 2, 'a', 0, 1, 'a', 3000000, NULL, 14700000, '2022-07-05', 'a', 1),
-('TR05072022204108', 2, 2, 2, 's', 0, 1, 's', NULL, 10000000, 17700000, '2022-07-05', 's', 1),
-('TR05072022204245', 2, 2, 1, 'd', 0, 2, 'd', 1000000, NULL, 7700000, '2022-07-05', 'd', 1),
-('TR05072022204354', 4, 5, 2, 'f', 0, 1, 'f', NULL, 1000000, 122899911, '2022-07-05', 'f', 1),
-('TR05072022204428', 1, 1, 2, 'q', 0, 3, 'q', NULL, 3000000, 7621234, '2022-07-05', 'q', 1),
-('TR05072022204724', 3, 4, 1, 'w', 1, 1, 'w', 5000000, NULL, 0, '2022-07-05', 'w', 1),
-('TR06072022142011', 4, 5, 2, 'macem2', 0, 1, '-', NULL, 10000000, 121899911, '2022-07-06', 'foya2', 1),
-('TR06072022143735', 4, 5, 2, 'kurang', 0, 1, '-', NULL, 100000000, 111899911, '2022-07-06', 'kurang', 1),
-('TR07072022194351', 1, 1, 1, '', 1, -1, '', NULL, 1, 4621234, '2022-07-07', '', 1),
-('TR07072022194546', 1, 1, 1, '', 1, -1, '', NULL, 1, 4621233, '2022-07-07', '', 1),
-('TR10072022132819', 1, 1, 3, 'Kursi', 3, 10, 'buah', 100000, NULL, 4621232, '2022-07-10', 'rotan', 1),
-('TR10072022132912', 2, 2, 3, 'Meja', 1, 10, 'buah', NULL, 1000000, 8700000, '2022-07-10', 'kaca', 1),
-('TR10072022133307', 3, 4, 3, 'lemari', 1, 1, 'biji', NULL, 200000, 5000000, '2022-07-10', 'LEMARI', 1);
+INSERT INTO `transaksi` (`id_transaksi`, `alt_id_transaksi`, `fk_id_perusahaan`, `fk_id_saldo`, `fk_id_jenis_transaksi`, `nama_transaksi`, `fk_id_projek`, `qty`, `satuan`, `pemasukan`, `pengeluaran`, `saldo_before_transaction`, `tanggal_transaksi`, `keterangan_transaksi`, `status_transaksi`) VALUES
+(1, 'TR01062022212548', 2, 2, 2, 'Rokok', 0, 100, 'dus', 6000000, NULL, 9200000, '2022-06-01', '', 1),
+(2, 'TR01062022212600', 2, 2, 1, 'Pinjam Uang', 0, 1, 'Lembar', NULL, 500000, 15200000, '2022-06-01', '', 1),
+(3, 'TR04072022201723', 4, 5, 1, 'gaji', 0, 100, '-', NULL, 10000, 0, '2022-07-04', '', 1),
+(4, 'TR04072022215230', 4, 5, 1, 'gaji', 0, 100, '-', NULL, 13212, -10000, '2022-07-04', '', 1),
+(5, 'TR04072022215308', 4, 5, 4, 'Perawatan mesin', 3, 100, 'mesin', 123123123, NULL, -23212, '2022-07-04', 'Me', 1),
+(6, 'TR05072022055937', 1, 1, 1, '1', 1, 1, '-', 111111, NULL, 6010123, '2022-07-05', '', 1),
+(7, 'TR05072022194830', 4, 5, 2, 'Snack', 0, 100, 'bungkus', NULL, 200000, 123099911, '2022-07-05', 'test', 1),
+(8, 'TR05072022202119', 1, 1, 1, 'Minum', 1, 100, 'botol', 500000, NULL, 6121234, '2022-07-05', 'aqua', 1),
+(9, 'TR05072022202157', 1, 1, 1, 'Gaji', 2, 1, '-', 1000000, NULL, 6621234, '2022-07-05', '', 1),
+(10, 'TR05072022203922', 2, 2, 2, 'a', 0, 1, 'a', 3000000, NULL, 14700000, '2022-07-05', 'a', 1),
+(11, 'TR05072022204108', 2, 2, 2, 's', 0, 1, 's', NULL, 10000000, 17700000, '2022-07-05', 's', 1),
+(12, 'TR05072022204245', 2, 2, 1, 'd', 0, 2, 'd', 1000000, NULL, 7700000, '2022-07-05', 'd', 1),
+(13, 'TR05072022204354', 4, 5, 2, 'f', 0, 1, 'f', NULL, 1000000, 122899911, '2022-07-05', 'f', 1),
+(14, 'TR05072022204428', 1, 1, 2, 'q', 0, 3, 'q', NULL, 3000000, 7621234, '2022-07-05', 'q', 1),
+(15, 'TR05072022204724', 3, 4, 1, 'w', 1, 1, 'w', 5000000, NULL, 0, '2022-07-05', 'w', 1),
+(16, 'TR06072022142011', 4, 5, 2, 'macem2', 0, 1, '-', NULL, 10000000, 121899911, '2022-07-06', 'foya2', 1),
+(17, 'TR06072022143735', 4, 5, 2, 'kurang', 0, 1, '-', NULL, 100000000, 111899911, '2022-07-06', 'kurang', 1),
+(18, 'TR07072022194351', 1, 1, 1, '', 1, -1, '', NULL, 1, 4621234, '2022-07-07', '', 1),
+(19, 'TR07072022194546', 1, 1, 1, '', 1, -1, '', NULL, 1, 4621233, '2022-07-07', '', 1),
+(20, 'TR10072022132819', 1, 1, 3, 'Kursi', 3, 10, 'buah', 100000, NULL, 4621232, '2022-07-10', 'rotan', 1),
+(21, 'TR10072022132912', 2, 2, 3, 'Meja', 1, 10, 'buah', NULL, 1000000, 8700000, '2022-07-10', 'kaca', 1),
+(22, 'TR10072022133307', 3, 4, 3, 'lemari', 1, 1, 'biji', NULL, 200000, 5000000, '2022-07-10', 'LEMARI', 1),
+(23, 'TR12072022195712', 1, 1, 1, '1', 1, 1, '1', NULL, 621232, 4721232, '2022-07-12', '', 1),
+(24, 'TR12072022195802', 1, 1, 1, '3', 1, 33, '3', 800000, NULL, 4100000, '2022-07-12', '', 1),
+(25, 'TR12072022195812', 1, 1, 1, '1', 1, 1, '1', 600600, NULL, 4900000, '2022-07-12', '', 1),
+(26, 'TR12072022195823', 1, 1, 1, '2', 1, 1, '2', NULL, 30600, 5500600, '2022-07-12', '', 1);
 
 -- --------------------------------------------------------
 
@@ -404,7 +410,8 @@ INSERT INTO `transaksi` (`id_transaksi`, `fk_id_perusahaan`, `fk_id_saldo`, `fk_
 --
 
 CREATE TABLE `transaksi_bbm` (
-  `id_transaksi_bbm` char(20) NOT NULL,
+  `id_transaksi_bbm` int(11) NOT NULL,
+  `alt_id_transaksi_bbm` char(20) NOT NULL,
   `fk_id_stock_barang` int(11) NOT NULL,
   `fk_id_lokasi` int(11) NOT NULL,
   `tanggal_transaksi` date NOT NULL,
@@ -419,21 +426,30 @@ CREATE TABLE `transaksi_bbm` (
 -- Dumping data for table `transaksi_bbm`
 --
 
-INSERT INTO `transaksi_bbm` (`id_transaksi_bbm`, `fk_id_stock_barang`, `fk_id_lokasi`, `tanggal_transaksi`, `pengeluaran_stock`, `pemasukan_stock`, `stock_sebelumnya`, `status_transaksi`, `keterangan_transaksi`) VALUES
-('TRB06072022131132', 1, 2, '2022-07-06', NULL, 20, 1000, 1, 'tester'),
-('TRB06072022131154', 1, 2, '2022-07-06', NULL, 20, 1020, 1, 'testa'),
-('TRB07072022081329', 1, 1, '2022-07-07', 1, NULL, 1040, 1, ''),
-('TRB07072022082005', 9, 5, '2022-07-07', 11, NULL, 1000, 1, 'adsf'),
-('TRB07072022082134', 8, 5, '2022-07-07', NULL, 20, 1000, 1, ''),
-('TRB07072022111226', 1, 1, '2022-07-07', 12, NULL, 1039, 1, ''),
-('TRB07072022111852', 8, 5, '2022-07-07', 123, NULL, 1020, 1, ''),
-('TRB07072022111906', 8, 5, '2022-07-07', NULL, 123, 897, 1, ''),
-('TRB07072022155802', 1, 1, '2022-07-07', NULL, 2, 1027, 1, ''),
-('TRB07072022160033', 8, 5, '2022-07-07', NULL, 12, 1020, 1, 'baru'),
-('TRB07072022160041', 9, 5, '2022-07-07', NULL, 12, 989, 1, 'baru'),
-('TRB07072022160148', 9, 5, '2022-07-07', 20, NULL, 1001, 1, ''),
-('TRB07072022211927', 12, 2, '2022-07-07', 111, NULL, 123, 1, ''),
-('TRB10072022141107', 3, 3, '2022-07-10', 10000, NULL, 10000, 1, 'banyak');
+INSERT INTO `transaksi_bbm` (`id_transaksi_bbm`, `alt_id_transaksi_bbm`, `fk_id_stock_barang`, `fk_id_lokasi`, `tanggal_transaksi`, `pengeluaran_stock`, `pemasukan_stock`, `stock_sebelumnya`, `status_transaksi`, `keterangan_transaksi`) VALUES
+(1, 'TRB06072022131132', 1, 2, '2022-07-06', NULL, 20, 1000, 1, 'tester'),
+(2, 'TRB06072022131154', 1, 2, '2022-07-06', NULL, 20, 1020, 1, 'testa'),
+(3, 'TRB07072022081329', 1, 1, '2022-07-07', 1, NULL, 1040, 1, ''),
+(4, 'TRB07072022082005', 9, 5, '2022-07-07', 11, NULL, 1000, 1, 'adsf'),
+(5, 'TRB07072022082134', 8, 5, '2022-07-07', NULL, 20, 1000, 1, ''),
+(6, 'TRB07072022111226', 1, 1, '2022-07-07', 12, NULL, 1039, 1, ''),
+(7, 'TRB07072022111852', 8, 5, '2022-07-07', 123, NULL, 1020, 1, ''),
+(8, 'TRB07072022111906', 8, 5, '2022-07-07', NULL, 123, 897, 1, ''),
+(9, 'TRB07072022155802', 1, 1, '2022-07-07', NULL, 2, 1027, 1, ''),
+(10, 'TRB07072022160033', 8, 5, '2022-07-07', NULL, 12, 1020, 1, 'baru'),
+(11, 'TRB07072022160041', 9, 5, '2022-07-07', NULL, 12, 989, 1, 'baru'),
+(12, 'TRB07072022160148', 9, 5, '2022-07-07', 20, NULL, 1001, 1, ''),
+(13, 'TRB07072022211927', 12, 2, '2022-07-07', 111, NULL, 123, 1, ''),
+(14, 'TRB10072022141107', 3, 3, '2022-07-10', 10000, NULL, 10000, 1, 'banyak'),
+(15, 'TRB12072022201142', 12, 2, '2022-07-12', 11, NULL, 12, 1, ''),
+(16, 'TRB12072022201150', 13, 1, '2022-07-12', NULL, 333, 211, 1, ''),
+(17, '', 13, 1, '2022-07-12', 11, NULL, 211, 1, ''),
+(18, 'TRB12072022211924', 13, 1, '2022-07-12', NULL, 111, 433, 1, ''),
+(19, 'TRB12072022213045', 13, 1, '2022-07-12', NULL, 12, 544, 1, ''),
+(20, 'TRB12072022213048', 3, 3, '2022-07-12', NULL, 234, 0, 1, ''),
+(21, 'TRB12072022213052', 13, 1, '2022-07-12', NULL, 234, 556, 1, ''),
+(22, 'TRB12072022213054', 1, 1, '2022-07-12', NULL, 345, 1029, 1, ''),
+(23, 'TRB12072022213058', 13, 1, '2022-07-12', NULL, 345, 790, 1, '');
 
 -- --------------------------------------------------------
 
@@ -605,7 +621,19 @@ ALTER TABLE `saldo`
 -- AUTO_INCREMENT for table `stock_barang`
 --
 ALTER TABLE `stock_barang`
-  MODIFY `id_stock_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_stock_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `transaksi`
+--
+ALTER TABLE `transaksi`
+  MODIFY `id_transaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+
+--
+-- AUTO_INCREMENT for table `transaksi_bbm`
+--
+ALTER TABLE `transaksi_bbm`
+  MODIFY `id_transaksi_bbm` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `user`

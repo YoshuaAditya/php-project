@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 10, 2022 at 09:35 AM
+-- Generation Time: Jul 12, 2022 at 05:35 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.0.19
 
@@ -356,7 +356,8 @@ INSERT INTO `stock_barang` (`id_stock_barang`, `fk_id_lokasi`, `fk_id_perusahaan
 --
 
 CREATE TABLE `transaksi` (
-  `id_transaksi` char(20) NOT NULL,
+  `id_transaksi` int(11) NOT NULL,
+  `alt_id_transaksi` char(20) NOT NULL,
   `fk_id_perusahaan` int(11) NOT NULL,
   `fk_id_saldo` int(11) NOT NULL,
   `fk_id_jenis_transaksi` int(11) NOT NULL,
@@ -379,7 +380,8 @@ CREATE TABLE `transaksi` (
 --
 
 CREATE TABLE `transaksi_bbm` (
-  `id_transaksi_bbm` char(20) NOT NULL,
+  `id_transaksi_bbm` int(11) NOT NULL,
+  `alt_id_transaksi_bbm` char(20) NOT NULL,
   `fk_id_stock_barang` int(11) NOT NULL,
   `fk_id_lokasi` int(11) NOT NULL,
   `tanggal_transaksi` date NOT NULL,
@@ -562,6 +564,18 @@ ALTER TABLE `saldo`
 --
 ALTER TABLE `stock_barang`
   MODIFY `id_stock_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `transaksi`
+--
+ALTER TABLE `transaksi`
+  MODIFY `id_transaksi` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `transaksi_bbm`
+--
+ALTER TABLE `transaksi_bbm`
+  MODIFY `id_transaksi_bbm` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `user`
